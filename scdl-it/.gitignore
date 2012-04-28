@@ -1,7 +1,6 @@
-target/
 bin/
 gen/
-.classpath
 .project
 .settings/
-.project
+target/
+.classpath
