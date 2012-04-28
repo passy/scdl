@@ -1,5 +1,7 @@
-package net.rdrei.android.scdl;
+package net.rdrei.android.scdl.ui;
 
+import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 

@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl;
 
+import net.rdrei.android.scdl.ui.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
