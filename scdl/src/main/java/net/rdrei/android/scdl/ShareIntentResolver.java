@@ -1,5 +1,8 @@
 package net.rdrei.android.scdl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.rdrei.android.scdl.api.APIException;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.ResolveEntity;
@@ -18,6 +21,9 @@ public class ShareIntentResolver {
 
 	@Inject
 	private ServiceManager mServiceManager;
+
+	public static final Pattern URL_ID_PATTERN = Pattern
+			.compile("^http://api.soundcloud.com/tracks/(\\d+)\\.json");
 
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
@@ -70,6 +76,24 @@ public class ShareIntentResolver {
 				"Given URL is not a valid soundcloud URL.");
 	}
 
+	/**
+	 * Same as resolve(), but returns the ID only.
+	 * 
+	 * @return ID as a String (even though it's a number, but who knows if that
+	 *         changes)
+	 * @throws ShareIntentResolverException
+	 */
+	public String resolveId() throws ShareIntentResolverException {
+		final String url = resolve();
+		Matcher matcher = URL_ID_PATTERN.matcher(url);
+
+		if (matcher.find()) {
+			return matcher.group(1);
+		}
+
+		throw new ShareIntentResolverException("Could not parse ID from URL.");
+	}
+
 	protected boolean isValidUri(Uri uri) {
 		if (uri == null) {
 			return false;
@@ -98,4 +122,5 @@ public class ShareIntentResolver {
 
 		return entity.getLocation();
 	}
+
 }

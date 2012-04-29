@@ -92,6 +92,20 @@ public class ShareIntentResolverTest {
 				equalTo("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
 	}
 
+	@Test
+	public void testResolveToId() throws ShareIntentResolverException {
+
+		ShadowIntent intent = Robolectric.shadowOf(mIntent);
+		intent.setData(Uri
+				.parse("http://soundcloud.com/dj-newklear/newklear-contaminated-2"));
+
+		final ShareIntentResolver resolver = TestRunner.getInjector()
+				.getInstance(ShareIntentResolver.class);
+
+		final String result = resolver.resolveId();
+		assertThat(result, equalTo("44276907"));
+	}
+
 	@Test(expected = ShareIntentResolverException.class)
 	public void testFailWithNullValue() throws ShareIntentResolverException {
 		final ShareIntentResolver resolver = TestRunner.getInjector()
