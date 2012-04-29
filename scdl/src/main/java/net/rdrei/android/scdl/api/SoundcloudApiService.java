@@ -15,7 +15,7 @@ public class SoundcloudApiService {
 	@Inject
 	private URLWrapperFactory mURLWrapperFactory;
 	
-	private static final String BASE_URL = "https://api.soundcloud.com/";
+	private static final String BASE_URL = "https://api.soundcloud.com";
 	private static final String CONTENT_ENCODING = "UTF-8";
 	
 	private static final String CLIENT_ID_PARAMETER = "client_id";

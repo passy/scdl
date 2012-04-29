@@ -80,6 +80,7 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 	public T execute(int expected) throws APIException {
 		final HttpURLConnection response;
 
+		Ln.d("Executing API request for %s.", this.toString());
 		switch (mMethod) {
 		case GET:
 			response = this.executeGet();
@@ -263,7 +264,7 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 	}
 
 	private void pinSSLConnection(HttpRequest request) {
-		request.applyTrustManager(getPinningTrustManagers());
+		// request.applyTrustManager(getPinningTrustManagers());
 	}
 
 	/**
