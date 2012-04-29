@@ -65,10 +65,16 @@ public class TestRunner extends RobolectricTestRunner {
 
 	public static void overridenInjector(Object instance, AbstractModule module) {
 		final Application app = Robolectric.application;
+		
+		// Allow overriding of integrated classes like Activity
 		Module moduleOverride = Modules.override(
 				RoboGuice.newDefaultRoboModule(app)).with(module);
+		// Also allow overriding custom bindings like URLWrapper
+		moduleOverride = Modules.override(
+				new SCDLModule()).with(moduleOverride);
+		
 		RoboGuice.setBaseApplicationInjector(app, RoboGuice.DEFAULT_STAGE,
-				new SCDLModule(), moduleOverride);
+				moduleOverride);
 
 		final Injector injector = TestRunner.getInjector();
 		injector.injectMembers(instance);

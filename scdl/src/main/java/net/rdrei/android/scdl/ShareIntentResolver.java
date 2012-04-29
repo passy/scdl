@@ -23,12 +23,12 @@ public class ShareIntentResolver {
 		private static final long serialVersionUID = 1L;
 
 		public ShareIntentResolverException(String detailMessage) {
-			super(detailMessage);
+			super(detailMessage, -1);
 		}
 
 		public ShareIntentResolverException(String detailMessage,
 				Throwable throwable) {
-			super(detailMessage, throwable);
+			super(detailMessage, throwable, -1);
 		}
 	}
 
