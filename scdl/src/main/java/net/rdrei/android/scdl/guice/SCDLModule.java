@@ -9,6 +9,7 @@ import net.rdrei.android.scdl.api.URLWrapper;
 import net.rdrei.android.scdl.api.URLWrapperFactory;
 import net.rdrei.android.scdl.api.URLWrapperImpl;
 import net.rdrei.android.scdl.api.entity.ResolveEntity;
+import net.rdrei.android.scdl.api.entity.TrackEntity;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
@@ -43,6 +44,13 @@ public class SCDLModule extends AbstractModule {
 				}, new TypeLiteral<SoundcloudApiQueryImpl<ResolveEntity>>() {
 				}).build(
 				new TypeLiteral<SoundcloudApiQueryFactory<ResolveEntity>>() {
+				}));
+		
+		install(new FactoryModuleBuilder().implement(
+				new TypeLiteral<SoundcloudApiQuery<TrackEntity>>() {
+				}, new TypeLiteral<SoundcloudApiQueryImpl<TrackEntity>>() {
+				}).build(
+				new TypeLiteral<SoundcloudApiQueryFactory<TrackEntity>>() {
 				}));
 	}
 }
