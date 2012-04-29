@@ -1,12 +1,11 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
+import roboguice.activity.RoboActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import roboguice.activity.RoboActivity;
 
 public class SelectTrackActivity extends RoboActivity {
 
