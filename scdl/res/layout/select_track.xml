@@ -8,7 +8,7 @@
     android:orientation="vertical" >
 
     <ImageView
-        android:id="@+id/artwork_image"
+        android:id="@+id/img_artwork"
         android:layout_width="100px"
         android:layout_height="100px"
         android:layout_alignParentLeft="true"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dip"
-        android:layout_toRightOf="@+id/artwork_image"
+        android:layout_toRightOf="@+id/img_artwork"
         android:text="@string/loading_track_title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -32,5 +32,29 @@
         android:layout_height="100px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/btn_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginRight="4dip"
+            android:text="@string/cancel" />
+
+        <Button
+            android:enabled="false"
+            android:id="@+id/btn_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="4dip"
+            android:text="@string/download" />
+    </LinearLayout>
 
 </RelativeLayout>

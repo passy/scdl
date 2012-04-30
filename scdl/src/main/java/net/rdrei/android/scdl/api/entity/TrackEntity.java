@@ -1,7 +1,10 @@
 package net.rdrei.android.scdl.api.entity;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.SerializedName;
 
+import net.rdrei.android.scdl.Config;
 import net.rdrei.android.scdl.api.SoundcloudEntity;
 
 /**
@@ -58,8 +61,21 @@ public class TrackEntity implements SoundcloudEntity {
 		this.downloadable = downloadable;
 	}
 
+	/**
+	 * Get the download URL as string, including client id parameter.
+	 * 
+	 * @return
+	 */
 	public String getDownloadUrl() {
-		return downloadUrl;
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(downloadUrl);
+		buffer.append("?client_id=");
+		buffer.append(Config.API_CONSUMER_KEY);
+		return buffer.toString();
+	}
+	
+	public Uri getDownloadUri() {
+		return Uri.parse(downloadUrl);
 	}
 
 	public void setDownloadUrl(String downloadUrl) {
@@ -76,6 +92,10 @@ public class TrackEntity implements SoundcloudEntity {
 
 	public String getArtworkUrl() {
 		return artworkUrl;
+	}
+	
+	public Uri getArtworkUri() {
+		return Uri.parse(artworkUrl);
 	}
 
 	public void setArtworkUrl(String artworkUrl) {

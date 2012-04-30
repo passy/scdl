@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Soundcloud Downloader</string>
     <string name="loading_track_title">Loading Track …</string>
+    <string name="cancel">Cancel</string>
+    <string name="download">Download</string>
 </resources>
