@@ -43,7 +43,7 @@ public class ShareIntentResolverTest {
 			public ResolveEntity resolve(String string) throws APIException {
 				ResolveEntity entity = new ResolveEntity();
 				entity.setStatus("302 - Found");
-				entity.setLocation("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
+				entity.setLocation("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
 				return entity;
 			}
 		};

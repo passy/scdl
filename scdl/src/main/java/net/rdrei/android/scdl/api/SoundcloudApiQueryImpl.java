@@ -96,6 +96,8 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 			throw new IllegalArgumentException("Method not implemented.");
 		}
 		
+		// Don't follow redirects.
+		connection.setInstanceFollowRedirects(false);
 		setRequestHeaders(connection);
 
 		int code;
@@ -113,6 +115,7 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 		}
 
 		if (code != expected) {
+			connection.disconnect();
 			throw new APIException(String.format(
 					"HTTP request failed with code %d.", code), code);
 		}

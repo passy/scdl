@@ -23,7 +23,7 @@ public class ShareIntentResolver {
 	private ServiceManager mServiceManager;
 
 	public static final Pattern URL_ID_PATTERN = Pattern
-			.compile("^http://api.soundcloud.com/tracks/(\\d+)\\.json");
+			.compile("^https://api.soundcloud.com/tracks/(\\d+)\\.json");
 
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
