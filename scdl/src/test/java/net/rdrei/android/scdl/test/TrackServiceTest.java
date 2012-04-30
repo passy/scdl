@@ -34,6 +34,7 @@ public class TrackServiceTest {
 				mUrlConnectionFactory = new FakeURLConnectionFactoryImpl(
 						"/fixtures/track.json");
 				mUrlConnectionFactory.setResponseCode(200);
+				// Disable this to have a real connection test.
 				bind(URLConnectionFactory.class).toInstance(
 						mUrlConnectionFactory);
 				bind(PinningTrustManager.class).toInstance(

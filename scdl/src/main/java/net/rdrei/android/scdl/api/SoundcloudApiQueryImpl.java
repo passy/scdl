@@ -32,10 +32,14 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
-public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements SoundcloudApiQuery<T> {
+public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
+		SoundcloudApiQuery<T> {
 
 	private static final String NEWLINE_FALLBACK = "\n";
 	private static final String GZIP = "gzip";
+	
+	private static final String ACCEPT_HEADER_KEY = "Accept";
+	private static final String ACCEPT_HEADER_VALUE = "application/json";
 
 	private final HttpMethod mMethod;
 	private final URLWrapper mUrl;
@@ -78,23 +82,25 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 
 	@Override
 	public T execute(int expected) throws APIException {
-		final HttpURLConnection response;
+		final HttpURLConnection connection;
 
 		Ln.d("Executing API request for %s.", this.toString());
 		switch (mMethod) {
 		case GET:
-			response = this.executeGet();
+			connection = this.executeGet();
 			break;
 		case POST:
-			response = this.executePost();
+			connection = this.executePost();
 			break;
 		default:
 			throw new IllegalArgumentException("Method not implemented.");
 		}
+		
+		setRequestHeaders(connection);
 
 		int code;
 		try {
-			code = response.getResponseCode();
+			code = connection.getResponseCode();
 		} catch (IOException e) {
 			// I consider this a bug. A 401 without auth challenge causes
 			// an IOException, while it's perfectly valid in terms of RFC 2616.
@@ -107,12 +113,13 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 		}
 
 		if (code != expected) {
-			throw new APIException("HTTP request failed.", code);
+			throw new APIException(String.format(
+					"HTTP request failed with code %d.", code), code);
 		}
 
 		final InputStream responseStream;
 		try {
-			responseStream = getWrappedResponseStream(response);
+			responseStream = getWrappedResponseStream(connection);
 		} catch (IOException e) {
 			throw new APIException(e, -1);
 		}
@@ -122,6 +129,15 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 
 		return (new Gson()).fromJson(responseStr, entityType);
 	}
+
+	/**
+	 * Sets custom headers required for all requests.
+	 * @param connection
+	 */
+	private void setRequestHeaders(HttpURLConnection connection) {
+		connection.addRequestProperty(ACCEPT_HEADER_KEY, ACCEPT_HEADER_VALUE);
+	}
+	
 
 	/**
 	 * Executes the POST request. Instead of using the bare HttpURLConnection
@@ -264,7 +280,7 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements Sound
 	}
 
 	private void pinSSLConnection(HttpRequest request) {
-		// request.applyTrustManager(getPinningTrustManagers());
+		request.applyTrustManager(getPinningTrustManagers());
 	}
 
 	/**

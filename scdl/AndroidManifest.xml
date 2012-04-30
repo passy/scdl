@@ -3,6 +3,7 @@
     package="net.rdrei.android.scdl"
     android:versionCode="1"
     android:versionName="0.0.1-SNAPSHOT" >
+<uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:icon="@drawable/ic_launcher"
