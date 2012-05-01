@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.Certificate;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
@@ -17,6 +19,7 @@ public class FakeURLConnectionFactoryImpl implements URLConnectionFactory {
 
 	private final String mStreamFixture;
 	private Integer mResponseCode;
+	private final Map<String, String> mHeaderFields;
 	protected URL mUrl;
 
 	/**
@@ -27,6 +30,11 @@ public class FakeURLConnectionFactoryImpl implements URLConnectionFactory {
 	 */
 	public FakeURLConnectionFactoryImpl(String streamFixture) {
 		mStreamFixture = streamFixture;
+		mHeaderFields = new HashMap<String, String>();
+	}
+
+	public FakeURLConnectionFactoryImpl() {
+		this(null);
 	}
 
 	@Override
@@ -38,6 +46,8 @@ public class FakeURLConnectionFactoryImpl implements URLConnectionFactory {
 		if (mResponseCode != null) {
 			connection.setResponseCode(mResponseCode);
 		}
+		
+		connection.setResponseHeaders(mHeaderFields);
 
 		return connection;
 	}
@@ -48,6 +58,10 @@ public class FakeURLConnectionFactoryImpl implements URLConnectionFactory {
 
 	public void setResponseCode(int i) {
 		mResponseCode = i;
+	}
+
+	public void setHeaderField(String key, String value) {
+		mHeaderFields.put(key, value);
 	}
 }
 
@@ -62,11 +76,16 @@ class FakeURLConnection extends HttpsURLConnection {
 	private final String mStreamFixture;
 	private Integer mResponseCode;
 	private final OutputStream mOutputStream;
+	private Map<String, String> mHeaderFields;
 
 	protected FakeURLConnection(URL url, String streamFixture) {
 		super(url);
 		mStreamFixture = streamFixture;
 		mOutputStream = new ByteArrayOutputStream();
+	}
+
+	public void setResponseHeaders(final Map<String, String> headers) {
+		mHeaderFields = headers;
 	}
 
 	@Override
@@ -75,6 +94,15 @@ class FakeURLConnection extends HttpsURLConnection {
 	}
 
 	public InputStream getInputStream() throws IOException {
+		if (mStreamFixture == null) {
+			return new InputStream() {
+				@Override
+				public int read() throws IOException {
+					return 0;
+				}
+			};
+		}
+		
 		// This is were the magic happens.
 		final InputStream stream = this.getClass().getResourceAsStream(
 				mStreamFixture);
@@ -127,6 +155,14 @@ class FakeURLConnection extends HttpsURLConnection {
 	@Override
 	public Certificate[] getLocalCertificates() {
 		return null;
+	}
+
+	@Override
+	public String getHeaderField(String key) {
+		if (mHeaderFields != null) {
+			return mHeaderFields.get(key);
+		}
+		return super.getHeaderField(key);
 	}
 
 	@Override

@@ -73,7 +73,7 @@ public class ShareIntentResolverTest {
 		final String result = resolver.resolve();
 		assertThat(
 				result,
-				equalTo("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
+				equalTo("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class ShareIntentResolverTest {
 
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
 		intent.setData(Uri
-				.parse("http://soundcloud.com/dj-newklear/newklear-contaminated-2"));
+				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
 		final ShareIntentResolver resolver = TestRunner.getInjector()
 				.getInstance(ShareIntentResolver.class);
@@ -89,7 +89,7 @@ public class ShareIntentResolverTest {
 		final String result = resolver.resolve();
 		assertThat(
 				result,
-				equalTo("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
+				equalTo("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class ShareIntentResolverTest {
 
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
 		intent.setData(Uri
-				.parse("http://soundcloud.com/dj-newklear/newklear-contaminated-2"));
+				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
 		final ShareIntentResolver resolver = TestRunner.getInjector()
 				.getInstance(ShareIntentResolver.class);
