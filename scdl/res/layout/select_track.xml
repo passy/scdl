@@ -34,12 +34,11 @@
         android:layout_alignParentTop="true" />
 
     <ScrollView
-        android:layout_marginTop="8dip"
-        android:layout_below="@id/img_artwork"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/img_artwork"
         android:layout_marginBottom="56dip"
-        >
+        android:layout_marginTop="8dip" >
 
         <LinearLayout
             android:id="@+id/detail_container"
@@ -61,9 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
-                android:textStyle="bold"
-                />
-            
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/track_description"
                 android:layout_width="wrap_content"

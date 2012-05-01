@@ -154,8 +154,6 @@ public class SelectTrackActivity extends RoboActivity {
 			super.onSuccess(id);
 
 			Ln.d("Resolved track to id %s. Starting further API calls.", id);
-			// Start both track information retrieval and download URL resolver
-			// tasks.
 			final TrackLoaderTask trackLoaderTask = new TrackLoaderTask(
 					context, id);
 			trackLoaderTask.execute();
