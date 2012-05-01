@@ -1,5 +1,9 @@
 diff --git a/scdl/pom.xml b/scdl/pom.xml
+<<<<<<< HEAD
 index dd059aa..1d4fb00 100644
+=======
+index 937c560..4e0a4e7 100644
+>>>>>>> Integrated ABS
 --- a/scdl/pom.xml
 +++ b/scdl/pom.xml
 @@ -28,16 +28,12 @@
@@ -48,3 +52,15 @@ index dd059aa..1d4fb00 100644
  			<groupId>com.viewpagerindicator</groupId>
  			<artifactId>library</artifactId>
  			<type>apklib</type>
+<<<<<<< HEAD
+=======
++			<exclusions>
++				<exclusion>
++					<artifactId>support-v4</artifactId>
++					<groupId>com.google.android</groupId>
++				</exclusion>
++			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.github.rtyley</groupId>
+>>>>>>> Integrated ABS

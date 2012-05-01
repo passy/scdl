@@ -94,6 +94,11 @@
 				<version>4.0.2</version>
 				<type>apklib</type>
 			</dependency>
+			<dependency>
+				<groupId>com.github.rtyley</groupId>
+				<artifactId>roboguice-sherlock</artifactId>
+				<version>1.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

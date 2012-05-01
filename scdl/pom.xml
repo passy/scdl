@@ -89,6 +89,10 @@
 			<artifactId>library</artifactId>
 			<type>apklib</type>
 		</dependency>
+		<dependency>
+			<groupId>com.github.rtyley</groupId>
+			<artifactId>roboguice-sherlock</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

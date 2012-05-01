@@ -14,10 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.app.AlertDialog.Builder;
 
-import com.google.inject.Inject;
-import com.viewpagerindicator.CirclePageIndicator;
+import com.actionbarsherlock.app.SherlockActivity;
 
-public class MainActivity extends RoboFragmentActivity implements
+public class MainActivity extends RoboSherlockFragmentActivity implements
 		OnDemoActionListener {
 
 	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
