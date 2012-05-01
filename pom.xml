@@ -82,6 +82,12 @@
 				<version>2.2.3</version>
 				<type>apklib</type>
 			</dependency>
+			<dependency>
+				<groupId>com.wazabe.holoeverywhere</groupId>
+				<artifactId>library</artifactId>
+				<version>1.0.0</version>
+				<type>apklib</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
