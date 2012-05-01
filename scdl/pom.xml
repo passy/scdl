@@ -84,6 +84,11 @@
 			<artifactId>library</artifactId>
 			<type>apklib</type>
 		</dependency>
+		<dependency>
+			<groupId>com.actionbarsherlock</groupId>
+			<artifactId>library</artifactId>
+			<type>apklib</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

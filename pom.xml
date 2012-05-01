@@ -88,6 +88,12 @@
 				<version>1.0.0</version>
 				<type>apklib</type>
 			</dependency>
+			<dependency>
+				<groupId>com.actionbarsherlock</groupId>
+				<artifactId>library</artifactId>
+				<version>4.0.2</version>
+				<type>apklib</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
