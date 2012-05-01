@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl.api;
 
+import net.rdrei.android.scdl.api.service.DownloadService;
 import net.rdrei.android.scdl.api.service.ResolveService;
 import net.rdrei.android.scdl.api.service.TrackService;
 import roboguice.RoboGuice;
@@ -40,6 +41,11 @@ public class ServiceManager {
 		ResolveService service = mInjector.getInstance(ResolveService.class);
 		setupService(service);
 		return service;
-		
+	}
+
+	public DownloadService downloadService() {
+		DownloadService service = mInjector.getInstance(DownloadService.class);
+		setupService(service);
+		return service;
 	}
 }

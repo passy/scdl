@@ -6,6 +6,7 @@ import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ShareIntentResolver;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
+import net.rdrei.android.scdl.api.service.DownloadService;
 import net.rdrei.android.scdl.api.service.TrackService;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -16,6 +17,7 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +29,17 @@ import com.google.inject.Inject;
 
 public class SelectTrackActivity extends RoboActivity {
 
-	@InjectView(R.id.title)
+	@InjectView(R.id.track_title)
 	private TextView mTitleView;
+	
+	@InjectView(R.id.track_description)
+	private TextView mDescriptionView;
+	
+	@InjectView(R.id.detail_container)
+	private View mDetailContainerView;
+	
+	@InjectView(R.id.track_unavailable)
+	private View mTrackUnavailableView;
 
 	@InjectView(R.id.progress_bar)
 	private View mProgressBarView;
@@ -50,7 +61,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 		setContentView(R.layout.select_track);
 
-		final TrackLoaderTask task = new TrackLoaderTask(this);
+		final TrackResolverTask task = new TrackResolverTask(this);
 		task.execute();
 
 		bindButtons();
@@ -61,12 +72,10 @@ public class SelectTrackActivity extends RoboActivity {
 
 			@Override
 			public void onClick(View v) {
-				try {
-					downloadTrack();
-				} catch (Exception e) {
-					Ln.e(e);
-					throw new IllegalStateException(e);
-				}
+				DownloadTask task = new DownloadTask(SelectTrackActivity.this,
+						String.valueOf(mTrack.getId()));
+				task.execute();
+				mDownloadButton.setEnabled(false);
 			}
 
 		});
@@ -81,18 +90,13 @@ public class SelectTrackActivity extends RoboActivity {
 		});
 	}
 
-	protected void downloadTrack() throws Exception {
-		if (mTrack == null) {
-			throw new NullPointerException("Tried downloading track that "
-					+ "wasn't resolved, yet!");
-		}
-
+	protected void downloadTrack(final Uri uri) throws Exception {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-				Ln.d("Starting download of %s.", mTrack.getDownloadUrl());
-				Request request = new Request(mTrack.getDownloadUri());
+				Ln.d("Starting download of %s.", uri.toString());
+				Request request = new Request(uri);
 				request.setTitle(mTrack.getTitle());
 
 				downloadManager.enqueue(request);
@@ -103,31 +107,75 @@ public class SelectTrackActivity extends RoboActivity {
 	}
 
 	protected void updateTrackDisplay() {
+		if (mTrack == null) {
+			return;
+		}
+		
 		mTitleView.setText(mTrack.getTitle());
+		mDescriptionView.setText(mTrack.getDescription());
 		mProgressBarView.setVisibility(View.GONE);
-		mDownloadButton.setEnabled(true);
-
+		mDetailContainerView.setVisibility(View.VISIBLE);
+		if (!mTrack.isDownloadable()) {
+			mTrackUnavailableView.setVisibility(View.VISIBLE);
+			
+		}
+		
 		ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
 				mTrack.getArtworkUrl());
 		artworkLoaderTask.execute();
+		mDownloadButton.setEnabled(mTrack.isDownloadable());
 	}
 
-	public class TrackLoaderTask extends RoboAsyncTask<TrackEntity> {
+	/**
+	 * Resolves a track to its id.
+	 * 
+	 * TODO: Errors in here must be tracked and should end the current activity
+	 * (either error activity or just popup dialog).
+	 * 
+	 * @author pascal
+	 * 
+	 */
+	public class TrackResolverTask extends RoboAsyncTask<String> {
+
+		protected TrackResolverTask(Context context) {
+			super(context);
+		}
 
 		@Inject
 		private ShareIntentResolver mShareIntentResolver;
 
+		@Override
+		public String call() throws Exception {
+			return mShareIntentResolver.resolveId();
+		}
+
+		@Override
+		protected void onSuccess(String id) throws Exception {
+			super.onSuccess(id);
+
+			Ln.d("Resolved track to id %s. Starting further API calls.", id);
+			// Start both track information retrieval and download URL resolver
+			// tasks.
+			final TrackLoaderTask trackLoaderTask = new TrackLoaderTask(
+					context, id);
+			trackLoaderTask.execute();
+		}
+	}
+
+	public class TrackLoaderTask extends RoboAsyncTask<TrackEntity> {
 		@Inject
 		private ServiceManager mServiceManager;
 
-		protected TrackLoaderTask(Context context) {
+		private String mId;
+
+		protected TrackLoaderTask(Context context, String id) {
 			super(context);
+			mId = id;
 		}
 
 		@Override
 		protected void onException(Exception e) throws RuntimeException {
 			super.onException(e);
-			Ln.e(e);
 			Ln.e("Error during resolving track: %s", e.toString());
 
 			Toast.makeText(getContext(), "ERROR: " + e.toString(),
@@ -143,9 +191,8 @@ public class SelectTrackActivity extends RoboActivity {
 
 		@Override
 		public TrackEntity call() throws Exception {
-			String id = mShareIntentResolver.resolveId();
 			TrackService trackService = mServiceManager.trackService();
-			return trackService.getTrack(id);
+			return trackService.getTrack(mId);
 		}
 	}
 
@@ -161,7 +208,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 		@Override
 		public Drawable call() throws Exception {
-			URL artworkURL = new URL(mUrlStr);
+			final URL artworkURL = new URL(mUrlStr);
 			return Drawable.createFromStream(artworkURL.openStream(), null);
 		}
 
@@ -170,6 +217,32 @@ public class SelectTrackActivity extends RoboActivity {
 			super.onSuccess(t);
 
 			mArtworkImageView.setImageDrawable(t);
+		}
+	}
+
+	private class DownloadTask extends RoboAsyncTask<Uri> {
+		@Inject
+		private ServiceManager mServiceManager;
+
+		private String mId;
+
+		protected DownloadTask(Context context, String id) {
+			super(context);
+			mId = id;
+		}
+
+		@Override
+		public Uri call() throws Exception {
+			final DownloadService service = mServiceManager.downloadService();
+			return service.resolveUri(mId);
+		}
+
+		@Override
+		protected void onSuccess(Uri t) throws Exception {
+			super.onSuccess(t);
+
+			Ln.d("Resolved download URL: %s", t);
+			downloadTrack(t);
 		}
 	}
 }

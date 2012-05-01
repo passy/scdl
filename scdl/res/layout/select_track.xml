@@ -16,7 +16,7 @@
         android:src="@drawable/soundcloud_logo_100" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/track_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -33,6 +33,44 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
+    <ScrollView
+        android:layout_marginTop="8dip"
+        android:layout_below="@id/img_artwork"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dip"
+        >
+
+        <LinearLayout
+            android:id="@+id/detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/track_unavailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sorry, but this song is not available for download."
+                android:textColor="#f00"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textStyle="bold"
+                />
+            
+            <TextView
+                android:id="@+id/track_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/btn_container"
         android:layout_width="match_parent"
@@ -43,17 +81,17 @@
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:layout_marginRight="4dip"
+            android:layout_weight="0.5"
             android:text="@string/cancel" />
 
         <Button
-            android:enabled="false"
             android:id="@+id/btn_download"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:layout_marginLeft="4dip"
+            android:layout_weight="0.5"
+            android:enabled="false"
             android:text="@string/download" />
     </LinearLayout>
 
