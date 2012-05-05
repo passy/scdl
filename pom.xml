@@ -71,6 +71,17 @@
 				<artifactId>guice-assistedinject</artifactId>
 				<version>3.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>support-v4</artifactId>
+				<version>r7</version>
+			</dependency>
+			<dependency>
+				<groupId>com.viewpagerindicator</groupId>
+				<artifactId>library</artifactId>
+				<version>2.2.3</version>
+				<type>apklib</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
