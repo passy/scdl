@@ -4,4 +4,10 @@
     <string name="loading_track_title">Loading Track …</string>
     <string name="cancel">Cancel</string>
     <string name="download">Download</string>
+    <string name="demo_welcome">Learn how to use Soundcloud Downloader in n simple steps.</string>
+    <string name="start">Start</string>
+    <string name="next">Next</string>
+    <string name="dialog_install_soundcloud">You don\'t have the Soundcloud app installed, which is required for this app to run. Do you want to install it from Google Play now?</string>
+    <string name="dialog_yes">Sure thing</string>
+    <string name="dialog_no">No way</string>
 </resources>
