@@ -36,7 +36,6 @@ public class SCDLApplication extends Application {
 		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
 				.detectLeakedSqlLiteObjects()
 				// Only on 11+
-				.detectLeakedClosableObjects().penaltyLog().penaltyDeath()
-				.build());
+				.detectLeakedClosableObjects().penaltyLog().build());
 	}
 }

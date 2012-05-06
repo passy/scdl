@@ -76,6 +76,11 @@
 			<artifactId>library</artifactId>
 			<type>apklib</type>
 		</dependency>
+		<dependency>
+			<groupId>com.google.ads</groupId>
+			<artifactId>admob</artifactId>
+			<version>6.0.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
