@@ -93,6 +93,6 @@ public class MainActivity extends RoboFragmentActivity implements
 									int which) {
 								dialog.cancel();
 							}
-						});
+						}).show();
 	}
 }

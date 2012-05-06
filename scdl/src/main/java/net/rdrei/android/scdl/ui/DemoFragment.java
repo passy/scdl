@@ -4,7 +4,6 @@ import net.rdrei.android.scdl.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,19 @@ public class DemoFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return inflater.inflate(getLayoutId(), container, false);
+		View view = inflater.inflate(getLayoutId(), container, false);
+		
+		final View nextButton = view.findViewById(R.id.btn_next);
+		if (nextButton != null) {
+			bindNextButton(nextButton);
+		}
+
+		final View startButton = view.findViewById(R.id.btn_start);
+		if (startButton != null) {
+			bindStartButton(startButton);
+		}
+		
+		return view;
 	}
 
 	@Override
@@ -56,20 +67,14 @@ public class DemoFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * Fix for bug described here:
+	 * http://stackoverflow.com/questions/8748064/starting-activity-from-fragment-causes-nullpointerexception
+	 */
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-		final FragmentActivity activity = getActivity();
-		final View nextButton = activity.findViewById(R.id.btn_next);
-		if (nextButton != null) {
-			bindNextButton(nextButton);
-		}
-
-		final View startButton = activity.findViewById(R.id.btn_start);
-		if (startButton != null) {
-			bindStartButton(startButton);
-		}
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		setUserVisibleHint(true);
 	}
 
 	private void bindStartButton(View startButton) {

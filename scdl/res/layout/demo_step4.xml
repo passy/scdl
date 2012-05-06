@@ -11,7 +11,7 @@
         android:layout_height="240dip"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/demo_screen1" />
+        android:src="@drawable/demo_screen4" />
 
     <TextView
         android:id="@+id/textView1"
@@ -20,7 +20,7 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dip"
-        android:text="@string/demo_step1_title"
+        android:text="@string/demo_step4_title"
         android:textStyle="bold" />
 
     <TextView
@@ -30,10 +30,10 @@
         android:layout_below="@+id/textView1"
         android:layout_marginTop="8dip"
         android:gravity="center"
-        android:text="@string/demo_step1_text" />
+        android:text="@string/demo_step4_text" />
 
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
@@ -41,6 +41,6 @@
         android:layout_marginTop="8dp"
         android:paddingLeft="24dip"
         android:paddingRight="24dip"
-        android:text="@string/next" />
+        android:text="@string/start" />
 
 </RelativeLayout>

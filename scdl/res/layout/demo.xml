@@ -17,6 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dip" 
+        android:gravity="center"
         scdl:radius="8dip"
         scdl:pageColor="#FFDDDDDD"
         scdl:fillColor="#FFFFFFFF"

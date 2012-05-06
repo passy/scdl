@@ -4,10 +4,18 @@
     <string name="loading_track_title">Loading Track …</string>
     <string name="cancel">Cancel</string>
     <string name="download">Download</string>
-    <string name="demo_welcome">Learn how to use Soundcloud Downloader in n simple steps.</string>
+    <string name="demo_welcome">Learn how to use Soundcloud Downloader in 4 simple steps.</string>
     <string name="start">Start</string>
     <string name="next">Next</string>
     <string name="dialog_install_soundcloud">You don\'t have the Soundcloud app installed, which is required for this app to run. Do you want to install it from Google Play now?</string>
     <string name="dialog_yes">Sure thing</string>
     <string name="dialog_no">No way</string>
+    <string name="demo_step1_title">Select Track</string>
+    <string name="demo_step1_text">Open the Soundcloud app and search for the desired track.</string>
+    <string name="demo_step2_title">Share Track</string>
+    <string name="demo_step2_text">Choose the share menu action.</string>
+    <string name="demo_step3_title">Select Soundcloud Downloader</string>
+    <string name="demo_step3_text">Select Soundcloud Downloader from the menu.</string>
+    <string name="demo_step4_title">Enjoy</string>
+    <string name="demo_step4_text">Verify your choice and download the track to your phone.</string>
 </resources>
