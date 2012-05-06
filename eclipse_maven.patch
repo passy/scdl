@@ -1,12 +1,8 @@
 diff --git a/scdl/pom.xml b/scdl/pom.xml
-<<<<<<< HEAD
-index dd059aa..1d4fb00 100644
-=======
-index 937c560..4e0a4e7 100644
->>>>>>> Integrated ABS
+index a0a10aa..71fb93e 100644
 --- a/scdl/pom.xml
 +++ b/scdl/pom.xml
-@@ -28,16 +28,12 @@
+@@ -31,16 +31,12 @@
  		<dependency>
  			<groupId>org.roboguice</groupId>
  			<artifactId>roboguice</artifactId>
@@ -29,7 +25,7 @@ index 937c560..4e0a4e7 100644
  		</dependency>
  		<dependency>
  			<groupId>com.google.code.gson</groupId>
-@@ -56,22 +52,6 @@
+@@ -59,22 +55,6 @@
  			</exclusions>
  		</dependency>
  		<dependency>
@@ -52,8 +48,10 @@ index 937c560..4e0a4e7 100644
  			<groupId>com.viewpagerindicator</groupId>
  			<artifactId>library</artifactId>
  			<type>apklib</type>
-<<<<<<< HEAD
-=======
+@@ -88,6 +68,12 @@
+ 			<groupId>com.actionbarsherlock</groupId>
+ 			<artifactId>library</artifactId>
+ 			<type>apklib</type>
 +			<exclusions>
 +				<exclusion>
 +					<artifactId>support-v4</artifactId>
@@ -63,4 +61,3 @@ index 937c560..4e0a4e7 100644
  		</dependency>
  		<dependency>
  			<groupId>com.github.rtyley</groupId>
->>>>>>> Integrated ABS
