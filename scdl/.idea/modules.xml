@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../Android-DirectoryChooser/library/directory-chooser.iml" filepath="$PROJECT_DIR$/../../Android-DirectoryChooser/library/directory-chooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/actionbarsherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Android-DirectoryChooser-v11/library/directory-chooser-v11.iml" filepath="$PROJECT_DIR$/../../Android-DirectoryChooser-v11/library/directory-chooser-v11.iml" />
       <module fileurl="file://$PROJECT_DIR$/scdl.iml" filepath="$PROJECT_DIR$/scdl.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/viewpagerindicator.iml" filepath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/viewpagerindicator.iml" />
     </modules>

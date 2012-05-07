@@ -4,7 +4,6 @@ import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.util.Ln;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -13,8 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.MenuItem;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.android.vending.billing.IabException;
 import com.android.vending.billing.IabHelper;
 import com.android.vending.billing.IabHelper.OnIabPurchaseFinishedListener;
@@ -23,6 +22,7 @@ import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
 import com.android.vending.billing.IabResult;
 import com.android.vending.billing.Inventory;
 import com.android.vending.billing.Purchase;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
@@ -37,7 +37,7 @@ import com.squareup.otto.Subscribe;
  *
  * @author pascal
  */
-public class BuyAdFreeActivity extends RoboFragmentActivity implements
+public class BuyAdFreeActivity extends RoboSherlockFragmentActivity implements
 		OnIabSetupFinishedListener, QueryInventoryFinishedListener,
 		OnIabPurchaseFinishedListener {
 
@@ -63,9 +63,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Inject
 	private ApplicationPreferences mPreferences;
-
-	@Inject
-	private ActionBar mActionBar;
 
 	@Inject
 	private Tracker mTracker;
@@ -94,7 +91,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.buy_ad_free);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mIabHelper.startSetup(this);
 
 		mBought = PaymentStatus.UNKNOWN;

@@ -35,11 +35,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="directory-chooser" />
-    <orderEntry type="module" module-name="viewpagerindicator" />
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" scope="TEST" name="libs1" level="project" />
+    <orderEntry type="module" module-name="viewpagerindicator" />
+    <orderEntry type="module" module-name="directory-chooser-v11" />
+    <orderEntry type="module" module-name="actionbarsherlock" />
   </component>
 </module>
 

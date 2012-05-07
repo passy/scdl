@@ -2,7 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
+    <mapping directory="$PROJECT_DIR$/../../ActionBarSherlock" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../Android-DirectoryChooser" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Android-DirectoryChooser-v11" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../Android-ViewPagerIndicator" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
