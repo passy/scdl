@@ -1,17 +1,17 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
 import com.google.inject.Inject;
 
-public class TrackErrorActivity extends RoboActivity {
-
+public class TrackErrorActivity extends RoboSherlockActivity {
+	
 	public static enum ErrorCode {
 		UNSUPPORTED_URL, NO_WRITE_PERMISSION, UNKNOWN_ERROR, NO_MARKET, NOT_FOUND, NETWORK_ERROR
 	}

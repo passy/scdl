@@ -2,6 +2,7 @@ package net.rdrei.android.scdl2;
 
 import net.robotmedia.billing.BillingController;
 import roboguice.util.Ln;
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
@@ -38,6 +39,7 @@ public class SCDLApplication extends Application {
 		return (applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void enableStrictMode() {
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 				.detectAll().penaltyLog().build());
