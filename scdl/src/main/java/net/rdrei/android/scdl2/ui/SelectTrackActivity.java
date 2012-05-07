@@ -14,7 +14,6 @@ import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.ContextScope;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -35,12 +34,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SelectTrackActivity extends RoboFragmentActivity {
+public class SelectTrackActivity extends RoboSherlockFragmentActivity {
 
 	private static final String STATE_TRACK = "scdl:TRACK";
 	private static final String ANALYTICS_TAG = "SELECT_TRACK";

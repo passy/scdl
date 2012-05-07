@@ -11,8 +11,8 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <uses-sdk
-        android:maxSdkVersion="17"
-        android:minSdkVersion="14"
+        android:maxSdkVersion="13"
+        android:minSdkVersion="10"
         android:targetSdkVersion="17" />
 
     <application
@@ -20,7 +20,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/Holo.Theme.Sherlock.Light" >
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >

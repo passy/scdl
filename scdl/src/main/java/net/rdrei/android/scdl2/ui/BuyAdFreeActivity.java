@@ -5,16 +5,15 @@ import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
 import net.robotmedia.billing.BillingRequest.ResponseCode;
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.util.Ln;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.MenuItem;
 
+import com.actionbarsherlock.view.MenuItem;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
@@ -27,7 +26,7 @@ import com.google.inject.Inject;
  * 
  * @author pascal
  */
-public class BuyAdFreeActivity extends RoboFragmentActivity implements
+public class BuyAdFreeActivity extends RoboSherlockFragmentActivity implements
 		BuyAdFreeFragmentContract {
 
 	private static final String ANALYTICS_TAG = "BUY_ADFREE";
@@ -37,9 +36,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Inject
 	private ApplicationPreferences mPreferences;
-
-	@Inject
-	private ActionBar mActionBar;
 
 	@Inject
 	private DelayedMessageQueue mMessageQueue;
@@ -55,7 +51,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.buy_ad_free);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {
 			loadFragments();
