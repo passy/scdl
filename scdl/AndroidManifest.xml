@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.rdrei.android.scdl2"
     android:installLocation="auto"
-    android:versionCode="46"
+    android:versionCode="45"
     android:versionName="1.7.1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,15 +15,16 @@
         android:required="false" />
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
+        android:maxSdkVersion="13"
+        android:minSdkVersion="10"
+        android:targetSdkVersion="17" />
 
     <application
         android:name="SCDLApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/Theme.Sherlock.Light" >
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >
