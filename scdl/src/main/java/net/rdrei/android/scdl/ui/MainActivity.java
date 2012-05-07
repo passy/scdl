@@ -2,10 +2,11 @@ package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ui.TrackErrorActivity.ErrorCode;
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
+import sheetrock.panda.changelog.ChangeLog;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,13 +15,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.app.AlertDialog.Builder;
 
-import sheetrock.panda.changelog.ChangeLog;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class MainActivity extends RoboFragmentActivity implements
+public class MainActivity extends RoboSherlockFragmentActivity implements
 		DemoFragment.DemoActionListenerContract {
 
 	private static final String SOUNDCLOUD_PACKAGE = "com.soundcloud.android";
