@@ -4,10 +4,12 @@ import java.net.URL;
 
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ShareIntentResolver;
+import net.rdrei.android.scdl.ShareIntentResolver.UnsupportedUrlException;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
 import net.rdrei.android.scdl.api.service.DownloadService;
 import net.rdrei.android.scdl.api.service.TrackService;
+import net.rdrei.android.scdl.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -16,6 +18,7 @@ import roboguice.util.SafeAsyncTask;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,13 +34,13 @@ public class SelectTrackActivity extends RoboActivity {
 
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;
-	
+
 	@InjectView(R.id.track_description)
 	private TextView mDescriptionView;
-	
+
 	@InjectView(R.id.detail_container)
 	private View mDetailContainerView;
-	
+
 	@InjectView(R.id.track_unavailable)
 	private View mTrackUnavailableView;
 
@@ -58,7 +61,7 @@ public class SelectTrackActivity extends RoboActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.select_track);
 
 		final TrackResolverTask task = new TrackResolverTask(this);
@@ -90,6 +93,19 @@ public class SelectTrackActivity extends RoboActivity {
 		});
 	}
 
+	/**
+	 * Show error activity with the given error code and exit the current
+	 * activity.
+	 * 
+	 * @param errorCode
+	 */
+	protected void startErrorActivity(TrackErrorActivity.ErrorCode errorCode) {
+		Intent intent = new Intent(this, TrackErrorActivity.class);
+		intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
+		startActivity(intent);
+		finish();
+	}
+
 	protected void downloadTrack(final Uri uri) throws Exception {
 		new Thread(new Runnable() {
 			@Override
@@ -110,16 +126,16 @@ public class SelectTrackActivity extends RoboActivity {
 		if (mTrack == null) {
 			return;
 		}
-		
+
 		mTitleView.setText(mTrack.getTitle());
 		mDescriptionView.setText(mTrack.getDescription());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
 		if (!mTrack.isDownloadable()) {
 			mTrackUnavailableView.setVisibility(View.VISIBLE);
-			
+
 		}
-		
+
 		ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
 				mTrack.getArtworkUrl());
 		artworkLoaderTask.execute();
@@ -147,6 +163,15 @@ public class SelectTrackActivity extends RoboActivity {
 		@Override
 		public String call() throws Exception {
 			return mShareIntentResolver.resolveId();
+		}
+
+		@Override
+		protected void onException(Exception e) throws RuntimeException {
+			super.onException(e);
+
+			if (e instanceof UnsupportedUrlException) {
+				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
+			}
 		}
 
 		@Override

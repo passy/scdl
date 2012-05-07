@@ -18,4 +18,7 @@
     <string name="demo_step3_text">Select Soundcloud Downloader from the menu.</string>
     <string name="demo_step4_title">Enjoy</string>
     <string name="demo_step4_text">Verify your choice and download the track to your phone.</string>
+    <string name="track_error_unsupported_url">Sorry, this type of URL is not supported.</string>
+    <string name="track_error_unknown">Unknown error.</string>
+    <string name="track_error">Download Error</string>
 </resources>

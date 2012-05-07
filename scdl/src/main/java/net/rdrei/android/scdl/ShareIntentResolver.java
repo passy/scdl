@@ -38,6 +38,15 @@ public class ShareIntentResolver {
 		}
 	}
 
+	public static class UnsupportedUrlException extends
+			ShareIntentResolverException {
+		public UnsupportedUrlException(String detailMessage) {
+			super(detailMessage);
+		}
+
+		private static final long serialVersionUID = 1L;
+	}
+
 	/**
 	 * Resolves the Intent to a canonical URL for the track or raise a
 	 * {@link ShareIntentResolverException}.
@@ -72,7 +81,7 @@ public class ShareIntentResolver {
 			}
 		}
 
-		throw new ShareIntentResolverException(
+		throw new UnsupportedUrlException(
 				"Given URL is not a valid soundcloud URL.");
 	}
 
