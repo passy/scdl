@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.rdrei.android.scdl2"
-    android:versionCode="8"
-    android:versionName="1.2" >
+    android:versionCode="7"
+    android:versionName="1.2-pre-ics" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <uses-sdk
-        android:maxSdkVersion="16"
-        android:minSdkVersion="14"
+        android:maxSdkVersion="13"
+        android:minSdkVersion="10"
         android:targetSdkVersion="16" />
 
     <application
         android:name="SCDLApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/Theme.HoloEverywhereLight.Sherlock" >
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >
@@ -118,7 +117,11 @@
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.BuyAdFreeActivity" android:label="Remove Ads"></activity>
+
+        <activity
+            android:name=".ui.BuyAdFreeActivity"
+            android:label="Remove Ads" >
+        </activity>
     </application>
 
 </manifest>

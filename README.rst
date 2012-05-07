@@ -2,6 +2,9 @@
 Downloader for SoundCloud
 =========================
 
+**Branch Note:** This branch is a patch-queue on top of master, applying patches
+to work as seemlessly as possible on pre-ICS devices.
+
 App for downloading Soundcloud tracks onto your phone.
 
 State

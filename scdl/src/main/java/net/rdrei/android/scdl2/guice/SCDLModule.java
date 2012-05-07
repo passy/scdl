@@ -17,7 +17,6 @@ import net.rdrei.android.scdl2.ui.DownloadPreferencesDelegateImpl;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
-import android.app.ActionBar;
 import android.app.DownloadManager;
 
 import com.google.inject.AbstractModule;
@@ -31,7 +30,6 @@ public class SCDLModule extends AbstractModule {
 		bind(PinningTrustManager.class).toProvider(
 				PinningTrustManagerProvider.class);
 		bind(DownloadManager.class).toProvider(DownloadManagerProvider.class);
-		bind(ActionBar.class).toProvider(ActionBarProvider.class);
 
 		install(new FactoryModuleBuilder().implement(URLWrapper.class,
 				URLWrapperImpl.class).build(URLWrapperFactory.class));
