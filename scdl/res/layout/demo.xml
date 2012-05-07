@@ -3,6 +3,11 @@
     xmlns:scdl="http://schemas.android.com/apk/res/net.rdrei.android.scdl2"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_margin="16dip"
     android:orientation="vertical" >
 
@@ -25,4 +30,5 @@
         scdl:strokeWidth="2dip"
         />
 
+</LinearLayout>
 </LinearLayout>
