@@ -4,13 +4,14 @@ import net.rdrei.android.scdl2.R;
 import sheetrock.panda.changelog.ChangeLog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-public class CommonMenuFragment extends Fragment {
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class CommonMenuFragment extends SherlockFragment {
 	public static CommonMenuFragment newInstance() {
 		CommonMenuFragment fragment = new CommonMenuFragment();
 
