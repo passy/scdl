@@ -17,8 +17,8 @@
           font-size:0.8em;
           margin-bottom:1em;
           text-align:center }
-      div.freetext { color:#000 }
-      div.list     { color:#000 }
+      div.freetext { color:#fff }
+      div.list     { color:#fff }
     </style>
   </head>
   <body>
