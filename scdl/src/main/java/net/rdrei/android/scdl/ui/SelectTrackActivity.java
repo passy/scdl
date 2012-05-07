@@ -12,7 +12,6 @@ import net.rdrei.android.scdl.api.entity.TrackEntity;
 import net.rdrei.android.scdl.api.service.DownloadService;
 import net.rdrei.android.scdl.api.service.TrackService;
 import net.rdrei.android.scdl.ui.TrackErrorActivity.ErrorCode;
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
@@ -28,9 +27,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
 import com.google.inject.Inject;
 
-public class SelectTrackActivity extends RoboActivity {
+public class SelectTrackActivity extends RoboSherlockActivity {
 
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;
