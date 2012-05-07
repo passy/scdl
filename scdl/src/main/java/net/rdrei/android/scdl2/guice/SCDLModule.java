@@ -17,7 +17,6 @@ import net.rdrei.android.scdl2.ui.DownloadPreferencesDelegateImpl;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
-import android.app.ActionBar;
 import android.app.DownloadManager;
 
 import com.android.vending.billing.IabHelper;
@@ -35,7 +34,6 @@ public class SCDLModule extends AbstractModule {
 		bind(PinningTrustManager.class).toProvider(
 				PinningTrustManagerProvider.class);
 		bind(DownloadManager.class).toProvider(DownloadManagerProvider.class);
-		bind(ActionBar.class).toProvider(ActionBarProvider.class);
 		bind(Tracker.class).toProvider(TrackerProvider.class);
 		bind(IabHelper.class).toProvider(IabHelperProvider.class);
 		// Share one instance of the Bus across the application.
