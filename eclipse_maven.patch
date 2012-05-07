@@ -1,5 +1,5 @@
 diff --git a/scdl/pom.xml b/scdl/pom.xml
-index dd059aa..1d4fb00 100644
+index 8c9d966..ae256b0 100644
 --- a/scdl/pom.xml
 +++ b/scdl/pom.xml
 @@ -28,16 +28,12 @@
@@ -48,3 +48,16 @@ index dd059aa..1d4fb00 100644
  			<groupId>com.viewpagerindicator</groupId>
  			<artifactId>library</artifactId>
  			<type>apklib</type>
+@@ -85,6 +65,12 @@
+ 			<groupId>com.actionbarsherlock</groupId>
+ 			<artifactId>library</artifactId>
+ 			<type>apklib</type>
++			<exclusions>
++				<exclusion>
++					<artifactId>support-v4</artifactId>
++					<groupId>com.google.android</groupId>
++				</exclusion>
++			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.github.rtyley</groupId>

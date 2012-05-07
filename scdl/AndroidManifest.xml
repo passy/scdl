@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.rdrei.android.scdl"
-    android:versionCode="7"
-    android:versionName="0.2" >
+    android:versionCode="6"
+    android:versionName="0.2-pre-ics" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk
-        android:maxSdkVersion="15"
-        android:minSdkVersion="14"
+        android:maxSdkVersion="13"
+        android:minSdkVersion="10"
         android:targetSdkVersion="15" />
 
     <application
-        android:name="SCDLApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:label="@string/app_name" android:name="SCDLApplication" android:theme="@style/Theme.HoloEverywhereLight.Sherlock">
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >

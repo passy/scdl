@@ -1,13 +1,14 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class TrackErrorActivity extends RoboActivity {
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
+
+public class TrackErrorActivity extends RoboSherlockActivity {
 	
 	public static enum ErrorCode {
 		UNSUPPORTED_URL,
