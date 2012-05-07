@@ -24,6 +24,9 @@ public class ShareIntentResolver {
 
 	public static final Pattern URL_ID_PATTERN = Pattern
 			.compile("^https://api.soundcloud.com/tracks/(\\d+)\\.json");
+	
+	private static final String[] ALLOWED_HOSTS = { "soundcloud.com", "snd.sc",
+		"m.soundcloud.com" };
 
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
@@ -110,13 +113,12 @@ public class ShareIntentResolver {
 
 		final String scheme = uri.getScheme();
 		final String host = uri.getHost();
-		final String[] allowedHosts = { "soundcloud.com", "snd.sc" };
 
 		if (!scheme.equals("http") && !scheme.equals("https")) {
 			return false;
 		}
 
-		for (String allowedHost : allowedHosts) {
+		for (String allowedHost : ALLOWED_HOSTS) {
 			if (host.equals(allowedHost)) {
 				return true;
 			}
