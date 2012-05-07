@@ -13,6 +13,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.app.NotificationCompat;
 
 import com.google.inject.Inject;
 
@@ -90,7 +91,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		final Intent downloadIntent = new Intent(
 				DownloadManager.ACTION_VIEW_DOWNLOADS);
 
-		final Notification notification = new Notification.Builder(context)
+		final Notification notification = new NotificationCompat.Builder(context)
 				.setAutoCancel(true)
 				.setContentTitle(
 						context.getString(R.string.notification_download_finished))

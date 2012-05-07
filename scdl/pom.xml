@@ -82,6 +82,15 @@
 			<version>6.0.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.actionbarsherlock</groupId>
+			<artifactId>library</artifactId>
+			<type>apklib</type>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rtyley</groupId>
+			<artifactId>roboguice-sherlock</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.bugsense.android</groupId>
 			<artifactId>bugsense-trace</artifactId>
 		</dependency>
