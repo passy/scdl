@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/error_no_iab"
-        android:textColor="@android:color/holo_orange_light"
+        android:textColor="#ff0000"
         android:textStyle="bold" />
 
     <Button
