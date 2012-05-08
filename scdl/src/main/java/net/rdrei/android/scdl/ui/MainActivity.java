@@ -62,6 +62,27 @@ public class MainActivity extends RoboFragmentActivity implements
 		launchSoundcloud();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.preferences) {
+			final Intent intent = new Intent(this,
+					ApplicationPreferencesActivity.class);
+			intent.putExtra(ApplicationPreferencesActivity.EXTRA_SHOW_FRAGMENT,
+					"net.rdrei.android.scdl.ui.DownloadPreferencesFragment");
+			startActivity(intent);
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 	/**
 	 * Show changelog if not displayed before on this version.
 	 */

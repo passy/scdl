@@ -31,4 +31,7 @@
     <string name="changelog_full_title">Change Log</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_ok_button">Cool!</string>
+    <string name="download_preferences_title">Download Preferences</string>
+    <string name="download_preferences_storage_type_title">Store tracks on</string>
+    <string name="preferences">Preferences</string>
 </resources>
