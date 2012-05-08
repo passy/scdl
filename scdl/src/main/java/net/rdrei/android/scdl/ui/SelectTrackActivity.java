@@ -171,6 +171,8 @@ public class SelectTrackActivity extends RoboActivity {
 
 			if (e instanceof UnsupportedUrlException) {
 				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
+			} else {
+				startErrorActivity(ErrorCode.UNKNOWN_ERROR);
 			}
 		}
 
