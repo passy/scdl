@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl.ui;
 
+import java.io.File;
 import java.net.URL;
 
 import net.rdrei.android.scdl.R;
@@ -22,6 +23,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -61,7 +63,7 @@ public class SelectTrackActivity extends RoboActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.select_track);
 
 		final TrackResolverTask task = new TrackResolverTask(this);
@@ -106,14 +108,37 @@ public class SelectTrackActivity extends RoboActivity {
 		finish();
 	}
 
+	/**
+	 * Creates a new download manager request based on the given uri.
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	private DownloadManager.Request createDownloadRequest(final Uri uri) {
+		final Request request = new Request(uri);
+		// Path based on the public Music directory and a - currently -
+		// hard-coded value.
+		final String typePath = new File(Environment.DIRECTORY_MUSIC,
+				"Soundcloud").toString();
+
+		request.setTitle(mTrack.getTitle());
+		request.setDescription(getString(R.string.download_description));
+		request.setDestinationInExternalPublicDir(typePath, uri
+				.getLastPathSegment().toString());
+
+		// We have an audio file, please scan it!
+		request.allowScanningByMediaScanner();
+
+		return request;
+	}
+
 	protected void downloadTrack(final Uri uri) throws Exception {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 				Ln.d("Starting download of %s.", uri.toString());
-				Request request = new Request(uri);
-				request.setTitle(mTrack.getTitle());
+				Request request = createDownloadRequest(uri);
 
 				downloadManager.enqueue(request);
 			}
