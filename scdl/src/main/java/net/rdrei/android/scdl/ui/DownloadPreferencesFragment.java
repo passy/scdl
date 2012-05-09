@@ -4,17 +4,29 @@ import net.rdrei.android.scdl.ApplicationPreferences;
 import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.guice.RoboPreferenceFragment;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 
 import com.google.inject.Inject;
 
-public class DownloadPreferencesFragment extends RoboPreferenceFragment {
+public class DownloadPreferencesFragment extends RoboPreferenceFragment
+		implements OnSharedPreferenceChangeListener {
+
 	@Inject
 	private ApplicationPreferences mAppPreferences;
-	
+
+	@Inject
+	private SharedPreferences mSharedPreferences;
+
+	private ListPreference mTypePreference;
+
+	private EditTextPreference mPathPreference;
+
 	public DownloadPreferencesFragment() {
 		super();
 	}
@@ -24,19 +36,45 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.download_preferences);
+		mTypePreference = (ListPreference) findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
+		mPathPreference = (EditTextPreference) findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
 
 		loadStorageTypeOptions();
 	}
 
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
+		mPathPreference.setSummary(mAppPreferences.getCustomPath());
+		mPathPreference
+				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+		// Trigger manually for initial display.
+		onSharedPreferenceChanged(mSharedPreferences, null);
+	}
+
 	private void loadStorageTypeOptions() {
-		ListPreference typePreference = (ListPreference) findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
-		typePreference.setEntries(new CharSequence[] { getExternalLabel(),
+		mTypePreference.setEntries(new CharSequence[] { getExternalLabel(),
 				getPhoneLabel(), getString(R.string.storage_custom_label) });
-		typePreference.setEntryValues(new String[] {
+		mTypePreference.setEntryValues(new String[] {
 				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
 				StorageType.CUSTOM.toString(), });
 
-		typePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
+		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 	}
 
 	private String getExternalLabel() {

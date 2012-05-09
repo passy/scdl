@@ -3,7 +3,6 @@ package net.rdrei.android.scdl.guice;
 import roboguice.RoboGuice;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.view.View;
 
 /**
  * Careful, this can't inject views, because - at its current state - roboguice

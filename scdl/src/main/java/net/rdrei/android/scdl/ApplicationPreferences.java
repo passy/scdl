@@ -10,10 +10,12 @@ import com.google.inject.Inject;
 public class ApplicationPreferences {
 	public static final String KEY_STORAGE_TYPE = "download_preferences_storage_type";
 
+	public static final String KEY_STORAGE_CUSTOM_PATH = "download_preferences_storage_custom_path";
+
 	public static enum StorageType {
 		EXTERNAL, LOCAL, CUSTOM
 	};
-	
+
 	@Inject
 	private Context mContext;
 
@@ -25,13 +27,10 @@ public class ApplicationPreferences {
 	 * 
 	 * @return
 	 */
-	public String getStorageTypeDisplay() {
-		final StorageType type = StorageType.valueOf(mPreferences.getString(
-				KEY_STORAGE_TYPE, StorageType.EXTERNAL.toString()));
-		
+	public CharSequence getStorageTypeDisplay() {
 		final int resourceId;
-		
-		switch (type) {
+
+		switch (getStorageType()) {
 		case EXTERNAL:
 			resourceId = R.string.storage_sd;
 			break;
@@ -41,7 +40,16 @@ public class ApplicationPreferences {
 		default:
 			resourceId = R.string.sd_custom;
 		}
-		
+
 		return mContext.getString(resourceId);
+	}
+
+	public CharSequence getCustomPath() {
+		return mPreferences.getString(KEY_STORAGE_CUSTOM_PATH, "");
+	}
+
+	public StorageType getStorageType() {
+		return StorageType.valueOf(mPreferences.getString(KEY_STORAGE_TYPE,
+				StorageType.EXTERNAL.toString()));
 	}
 }
