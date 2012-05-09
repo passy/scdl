@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="@string/download_preferences_title" >
         <ListPreference
             android:key="download_preferences_storage_type"
+            android:defaultValue="EXTERNAL"
             android:title="@string/download_preferences_storage_type_title" />
 
         <EditTextPreference

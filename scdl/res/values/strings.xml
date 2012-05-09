@@ -34,4 +34,10 @@
     <string name="download_preferences_title">Download Preferences</string>
     <string name="download_preferences_storage_type_title">Store tracks on</string>
     <string name="preferences">Preferences</string>
+    <string name="storage_sd_label">SD Card (%.2fGB free)</string>
+    <string name="storage_phone_label">Phone (%.2fGB free)</string>
+    <string name="storage_custom_label">Custom Path</string>
+    <string name="storage_sd">SD Card</string>
+    <string name="storage_phone">Phone</string>
+    <string name="sd_custom">Custom Path</string>
 </resources>

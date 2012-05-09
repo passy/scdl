@@ -1,16 +1,20 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.ApplicationPreferences;
+import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl.guice.RoboPreferenceFragment;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 
-public class DownloadPreferencesFragment extends PreferenceFragment {
+import com.google.inject.Inject;
 
+public class DownloadPreferencesFragment extends RoboPreferenceFragment {
+	@Inject
+	private ApplicationPreferences mAppPreferences;
+	
 	public DownloadPreferencesFragment() {
 		super();
 	}
@@ -27,18 +31,22 @@ public class DownloadPreferencesFragment extends PreferenceFragment {
 	private void loadStorageTypeOptions() {
 		ListPreference typePreference = (ListPreference) findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
 		typePreference.setEntries(new CharSequence[] { getExternalLabel(),
-				getPhoneLabel(), "Custom Path" });
-		typePreference.setEntryValues(R.array.storage_types);
+				getPhoneLabel(), getString(R.string.storage_custom_label) });
+		typePreference.setEntryValues(new String[] {
+				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
+				StorageType.CUSTOM.toString(), });
+
+		typePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 	}
 
 	private String getExternalLabel() {
-		return String.format("SD Card (%.2fGB free)", getFreeExternalStorage()
-				/ Math.pow(1024, 3));
+		return String.format(getString(R.string.storage_sd_label),
+				getFreeExternalStorage() / Math.pow(1024, 3));
 	}
 
 	private String getPhoneLabel() {
-		return String.format("Phone (%.2fGB free)", getFreeInternalStorage()
-				/ Math.pow(1024, 3));
+		return String.format(getString(R.string.storage_phone_label),
+				getFreeInternalStorage() / Math.pow(1024, 3));
 	}
 
 	/**

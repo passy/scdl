@@ -40,6 +40,11 @@ public class MainActivity extends RoboFragmentActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// Load default settings once.
+		PreferenceManager.setDefaultValues(this, R.xml.download_preferences,
+				false);
+		
 		setContentView(R.layout.demo);
 
 		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(
