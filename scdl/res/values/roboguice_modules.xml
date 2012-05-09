@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="roboguice_modules">
-        <item >net.rdrei.android.scdl.guice.SCDLModule</item>
-    </string-array>
-    
-</resources>
