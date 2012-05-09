@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         ads:adSize="BANNER"
-        ads:adUnitId="a14fa64451cfd89"
+        ads:adUnitId="@string/admob_unit_id"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR, d951138e7ba75b4" />
 
