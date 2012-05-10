@@ -22,4 +22,6 @@
     <string name="track_error_unknown">Unknown error.</string>
     <string name="track_error">Download Error</string>
     <string name="download_description">From soundcloud.com</string>
+    <string name="notification_download_finished">Download finished</string>
+    <string name="notification_download_finished_ticker">%s was downloaded</string>
 </resources>

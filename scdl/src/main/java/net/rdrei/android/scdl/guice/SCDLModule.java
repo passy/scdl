@@ -16,6 +16,8 @@ import net.rdrei.android.scdl.api.entity.TrackEntity;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
+import android.app.DownloadManager;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -27,6 +29,7 @@ public class SCDLModule extends AbstractModule {
 		bind(URLConnectionFactory.class).to(URLConnectionFactoryImpl.class);
 		bind(PinningTrustManager.class).toProvider(
 				PinningTrustManagerProvider.class);
+		bind(DownloadManager.class).toProvider(DownloadManagerProvider.class);
 
 		install(new FactoryModuleBuilder().implement(URLWrapper.class,
 				URLWrapperImpl.class).build(URLWrapperFactory.class));

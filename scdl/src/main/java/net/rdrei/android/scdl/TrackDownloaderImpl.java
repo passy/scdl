@@ -25,6 +25,9 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 	@Inject
 	private Context mContext;
+	
+	@Inject
+	private DownloadManager mDownloadManager;
 
 	private Uri mUri;
 	private TrackEntity mTrack;
@@ -46,8 +49,6 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				DownloadManager downloadManager = (DownloadManager) mContext
-						.getSystemService(Context.DOWNLOAD_SERVICE);
 				Ln.d("Starting download of %s.", mUri.toString());
 				final Request request;
 				try {
@@ -58,7 +59,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 					throw new IllegalStateException(e);
 				}
 
-				downloadManager.enqueue(request);
+				mDownloadManager.enqueue(request);
 			}
 		}).start();
 	}
