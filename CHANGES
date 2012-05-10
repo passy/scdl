@@ -1,0 +1,10 @@
+===============================
+Soundcloud Downloader Changelog
+===============================
+
+scdl v0.2.1
+===========
+
+    * Downloads are now getting searched by the media scanner.
+    * Downloads are now saved on external storage in the Music/Soundcloud
+      folder.
