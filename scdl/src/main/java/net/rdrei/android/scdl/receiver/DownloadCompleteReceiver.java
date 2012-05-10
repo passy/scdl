@@ -47,6 +47,13 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			mTitle = title;
 		}
 
+		/**
+		 * This is not used right now, but should be to customize the
+		 * notification in case of an error.
+		 * 
+		 * @return
+		 */
+		@SuppressWarnings("unused")
 		public int getStatus() {
 			return mStatus;
 		}
