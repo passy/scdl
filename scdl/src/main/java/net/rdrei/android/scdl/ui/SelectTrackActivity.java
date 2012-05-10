@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -126,8 +127,10 @@ public class SelectTrackActivity extends RoboActivity {
 		request.setDestinationInExternalPublicDir(typePath,
 				mTrack.getDownloadFilename());
 
-		// We have an audio file, please scan it!
-		request.allowScanningByMediaScanner();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// We have an audio file, please scan it!
+			request.allowScanningByMediaScanner();
+		}
 
 		return request;
 	}
