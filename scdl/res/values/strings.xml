@@ -21,4 +21,5 @@
     <string name="track_error_unsupported_url">Sorry, this type of URL is not supported.</string>
     <string name="track_error_unknown">Unknown error.</string>
     <string name="track_error">Download Error</string>
+    <string name="download_description">From soundcloud.com</string>
 </resources>
