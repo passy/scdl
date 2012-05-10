@@ -4,7 +4,9 @@ import java.net.URL;
 
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ShareIntentResolver;
+import net.rdrei.android.scdl.TrackDownloaderFactory;
 import net.rdrei.android.scdl.ShareIntentResolver.UnsupportedUrlException;
+import net.rdrei.android.scdl.TrackDownloader;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
 import net.rdrei.android.scdl.api.service.DownloadService;
@@ -53,6 +55,9 @@ public class SelectTrackActivity extends RoboActivity {
 
 	@InjectView(R.id.img_artwork)
 	private ImageView mArtworkImageView;
+	
+	@Inject
+	private TrackDownloaderFactory mDownloaderFactory;
 
 	private TrackEntity mTrack;
 
@@ -105,6 +110,9 @@ public class SelectTrackActivity extends RoboActivity {
 	}
 
 	protected void downloadTrack(final Uri uri) throws Exception {
+		TrackDownloader downloader = mDownloaderFactory.create(uri, mTrack);
+		downloader.enqueue();
+		
 		Toast.makeText(SelectTrackActivity.this, "Download started.",
 				Toast.LENGTH_SHORT).show();
 	}
