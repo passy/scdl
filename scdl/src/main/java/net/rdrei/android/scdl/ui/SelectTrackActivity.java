@@ -69,7 +69,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 		final TrackResolverTask task = new TrackResolverTask(this);
 		task.execute();
-
+		
 		bindButtons();
 	}
 
@@ -110,6 +110,7 @@ public class SelectTrackActivity extends RoboActivity {
 	}
 
 	protected void downloadTrack(final Uri uri) throws Exception {
+		// Download using TrackDownloader
 		TrackDownloader downloader = mDownloaderFactory.create(uri, mTrack);
 		downloader.enqueue();
 		
