@@ -1,5 +1,8 @@
 package net.rdrei.android.scdl.guice;
 
+import net.rdrei.android.scdl.TrackDownloader;
+import net.rdrei.android.scdl.TrackDownloaderFactory;
+import net.rdrei.android.scdl.TrackDownloaderImpl;
 import net.rdrei.android.scdl.api.SoundcloudApiQuery;
 import net.rdrei.android.scdl.api.SoundcloudApiQueryFactory;
 import net.rdrei.android.scdl.api.SoundcloudApiQueryImpl;
@@ -28,6 +31,9 @@ public class SCDLModule extends AbstractModule {
 		install(new FactoryModuleBuilder().implement(URLWrapper.class,
 				URLWrapperImpl.class).build(URLWrapperFactory.class));
 
+		install(new FactoryModuleBuilder().implement(TrackDownloader.class,
+				TrackDownloaderImpl.class).build(TrackDownloaderFactory.class));
+
 		// Unfortunately, I haven't figured yet how to use generics for the type
 		// specifications here. This is why there needs to be one binding per
 		// type for now.
@@ -45,7 +51,7 @@ public class SCDLModule extends AbstractModule {
 				}).build(
 				new TypeLiteral<SoundcloudApiQueryFactory<ResolveEntity>>() {
 				}));
-		
+
 		install(new FactoryModuleBuilder().implement(
 				new TypeLiteral<SoundcloudApiQuery<TrackEntity>>() {
 				}, new TypeLiteral<SoundcloudApiQueryImpl<TrackEntity>>() {
