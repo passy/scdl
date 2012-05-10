@@ -123,8 +123,8 @@ public class SelectTrackActivity extends RoboActivity {
 
 		request.setTitle(mTrack.getTitle());
 		request.setDescription(getString(R.string.download_description));
-		request.setDestinationInExternalPublicDir(typePath, uri
-				.getLastPathSegment().toString());
+		request.setDestinationInExternalPublicDir(typePath,
+				mTrack.getDownloadFilename());
 
 		// We have an audio file, please scan it!
 		request.allowScanningByMediaScanner();

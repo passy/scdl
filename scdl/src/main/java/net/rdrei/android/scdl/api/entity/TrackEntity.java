@@ -25,9 +25,15 @@ public class TrackEntity implements SoundcloudEntity {
 
 	@SerializedName("download_url")
 	private String downloadUrl;
+
 	@SerializedName("artwork_url")
 	private String artworkUrl;
+
+	@SerializedName("original_format")
+	private String originalFormat;
+
 	private String description;
+	private String permalink;
 
 	public long getId() {
 		return id;
@@ -73,7 +79,7 @@ public class TrackEntity implements SoundcloudEntity {
 		buffer.append(Config.API_CONSUMER_KEY);
 		return buffer.toString();
 	}
-	
+
 	public Uri getDownloadUri() {
 		return Uri.parse(downloadUrl);
 	}
@@ -93,12 +99,39 @@ public class TrackEntity implements SoundcloudEntity {
 	public String getArtworkUrl() {
 		return artworkUrl;
 	}
-	
+
 	public Uri getArtworkUri() {
 		return Uri.parse(artworkUrl);
 	}
 
 	public void setArtworkUrl(String artworkUrl) {
 		this.artworkUrl = artworkUrl;
+	}
+
+	/**
+	 * @return the originalFormat
+	 */
+	public String getOriginalFormat() {
+		return originalFormat;
+	}
+
+	/**
+	 * @param originalFormat
+	 *            the originalFormat to set
+	 */
+	public void setOriginalFormat(String originalFormat) {
+		this.originalFormat = originalFormat;
+	}
+
+	public String getDownloadFilename() {
+		return permalink + "." + originalFormat;
+	}
+
+	public String getPermalink() {
+		return permalink;
+	}
+
+	public void setPermalink(String permalink) {
+		this.permalink = permalink;
 	}
 }
