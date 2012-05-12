@@ -1,5 +1,7 @@
 package net.rdrei.android.scdl;
 
+import com.bugsense.trace.BugSenseHandler;
+
 import roboguice.util.Ln;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
@@ -23,6 +25,8 @@ public class SCDLApplication extends Application {
 				this.enableStrictMode();
 			}
 		}
+		
+		BugSenseHandler.setup(this, getString(R.string.bugsense_id));
 	}
 
 	public boolean isDebuggable() {
