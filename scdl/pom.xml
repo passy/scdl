@@ -81,6 +81,10 @@
 			<artifactId>admob</artifactId>
 			<version>6.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bugsense.android</groupId>
+			<artifactId>bugsense-trace</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
