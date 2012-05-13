@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class MainActivity extends RoboFragmentActivity implements
-		OnDemoActionListener {
+		DemoFragment.DemoActionListenerContract {
 
 	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
 
