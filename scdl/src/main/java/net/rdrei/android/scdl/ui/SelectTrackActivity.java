@@ -79,7 +79,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 			@Override
 			public void onClick(View v) {
-				DownloadTask task = new DownloadTask(SelectTrackActivity.this,
+				final DownloadTask task = new DownloadTask(SelectTrackActivity.this,
 						String.valueOf(mTrack.getId()));
 				task.execute();
 				mDownloadButton.setEnabled(false);
@@ -104,7 +104,7 @@ public class SelectTrackActivity extends RoboActivity {
 	 * @param errorCode
 	 */
 	protected void startErrorActivity(TrackErrorActivity.ErrorCode errorCode) {
-		Intent intent = new Intent(this, TrackErrorActivity.class);
+		final Intent intent = new Intent(this, TrackErrorActivity.class);
 		intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
 		startActivity(intent);
 		finish();
@@ -112,7 +112,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 	protected void downloadTrack(final Uri uri) throws Exception {
 		// Download using TrackDownloader
-		TrackDownloader downloader = mDownloaderFactory.create(uri, mTrack);
+		final TrackDownloader downloader = mDownloaderFactory.create(uri, mTrack);
 		downloader.enqueue();
 		
 		Toast.makeText(SelectTrackActivity.this, "Download started.",
@@ -133,7 +133,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 		}
 
-		ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
+		final ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
 				mTrack.getArtworkUrl());
 		artworkLoaderTask.execute();
 		mDownloadButton.setEnabled(mTrack.isDownloadable());
@@ -189,7 +189,7 @@ public class SelectTrackActivity extends RoboActivity {
 		@Inject
 		private ServiceManager mServiceManager;
 
-		private String mId;
+		private final String mId;
 
 		protected TrackLoaderTask(Context context, String id) {
 			super(context);
@@ -214,14 +214,14 @@ public class SelectTrackActivity extends RoboActivity {
 
 		@Override
 		public TrackEntity call() throws Exception {
-			TrackService trackService = mServiceManager.trackService();
+			final TrackService trackService = mServiceManager.trackService();
 			return trackService.getTrack(mId);
 		}
 	}
 
 	private class ArtworkLoaderTask extends SafeAsyncTask<Drawable> {
 
-		private String mUrlStr;
+		private final String mUrlStr;
 
 		public ArtworkLoaderTask(String url) {
 			super();
@@ -247,7 +247,7 @@ public class SelectTrackActivity extends RoboActivity {
 		@Inject
 		private ServiceManager mServiceManager;
 
-		private String mId;
+		private final String mId;
 
 		protected DownloadTask(Context context, String id) {
 			super(context);

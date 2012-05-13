@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 public class DemoFragment extends
 		ContractFragment<DemoFragment.DemoActionListenerContract> {
 
-	private static String KEY_LAYOUT_ID = "layout_id";
+	private static final String KEY_LAYOUT_ID = "layout_id";
 
 	public static interface DemoActionListenerContract {
 		void onNextPage();
@@ -24,9 +24,9 @@ public class DemoFragment extends
 	}
 
 	public static DemoFragment newInstance(int layoutId) {
-		DemoFragment fragment = new DemoFragment();
+		final DemoFragment fragment = new DemoFragment();
 
-		Bundle bundle = new Bundle();
+		final Bundle bundle = new Bundle();
 		bundle.putInt(KEY_LAYOUT_ID, layoutId);
 		fragment.setArguments(bundle);
 
@@ -44,7 +44,7 @@ public class DemoFragment extends
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(getLayoutId(), container, false);
+		final View view = inflater.inflate(getLayoutId(), container, false);
 
 		final View nextButton = view.findViewById(R.id.btn_next);
 		if (nextButton != null) {

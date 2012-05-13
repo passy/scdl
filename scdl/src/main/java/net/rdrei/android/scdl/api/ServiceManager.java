@@ -32,19 +32,19 @@ public class ServiceManager {
 	}
 	
 	public TrackService trackService() {
-		TrackService service = mInjector.getInstance(TrackService.class);
+		final TrackService service = mInjector.getInstance(TrackService.class);
 		setupService(service);
 		return service;
 	}
 	
 	public ResolveService resolveService() {
-		ResolveService service = mInjector.getInstance(ResolveService.class);
+		final ResolveService service = mInjector.getInstance(ResolveService.class);
 		setupService(service);
 		return service;
 	}
 
 	public DownloadService downloadService() {
-		DownloadService service = mInjector.getInstance(DownloadService.class);
+		final DownloadService service = mInjector.getInstance(DownloadService.class);
 		setupService(service);
 		return service;
 	}

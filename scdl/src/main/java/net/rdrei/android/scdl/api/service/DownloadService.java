@@ -15,7 +15,7 @@ import android.net.Uri;
 
 public class DownloadService extends SoundcloudApiService {
 
-	private final static String RESOURCE_URL = "/tracks/%s/download";
+	private static final String RESOURCE_URL = "/tracks/%s/download";
 
 	/**
 	 * Resolve

@@ -73,7 +73,7 @@ public class TrackEntity implements SoundcloudEntity {
 	 * @return
 	 */
 	public String getDownloadUrl() {
-		StringBuffer buffer = new StringBuffer();
+		final StringBuffer buffer = new StringBuffer();
 		buffer.append(downloadUrl);
 		buffer.append("?client_id=");
 		buffer.append(Config.API_CONSUMER_KEY);
