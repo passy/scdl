@@ -58,9 +58,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 	@Override
 	public void handleReceive(Context context, Intent intent) {
-		long downloadId = intent.getLongExtra(
+		final long downloadId = intent.getLongExtra(
 				DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-		ResolveDownloadTask task = new ResolveDownloadTask(context, downloadId);
+		final ResolveDownloadTask task = new ResolveDownloadTask(context, downloadId);
 		task.execute();
 	}
 
@@ -72,7 +72,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		final Intent downloadIntent = new Intent(
 				DownloadManager.ACTION_VIEW_DOWNLOADS);
 
-		Notification notification = new Notification.Builder(context)
+		final Notification notification = new Notification.Builder(context)
 				.setAutoCancel(true)
 				.setContentTitle(
 						context.getString(R.string.notification_download_finished))

@@ -97,7 +97,7 @@ public class ShareIntentResolver {
 	 */
 	public String resolveId() throws ShareIntentResolverException {
 		final String url = resolve();
-		Matcher matcher = URL_ID_PATTERN.matcher(url);
+		final Matcher matcher = URL_ID_PATTERN.matcher(url);
 
 		if (matcher.find()) {
 			return matcher.group(1);
@@ -128,8 +128,8 @@ public class ShareIntentResolver {
 	}
 
 	protected String resolveUri(Uri uri) throws APIException {
-		ResolveService service = mServiceManager.resolveService();
-		ResolveEntity entity = service.resolve(uri.toString());
+		final ResolveService service = mServiceManager.resolveService();
+		final ResolveEntity entity = service.resolve(uri.toString());
 
 		return entity.getLocation();
 	}

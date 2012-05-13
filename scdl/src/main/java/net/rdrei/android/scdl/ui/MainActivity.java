@@ -37,7 +37,7 @@ public class MainActivity extends RoboFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo);
 
-		DemoFragmentAdapter adapter = new DemoFragmentAdapter(mFragmentManager);
+		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(mFragmentManager);
 		mPager.setAdapter(adapter);
 		mIndicator.setViewPager(mPager);
 	}
@@ -58,7 +58,7 @@ public class MainActivity extends RoboFragmentActivity implements
 	 * Launches the soundcloud app via a launch intent.
 	 */
 	private void launchSoundcloud() {
-		PackageManager packageManager = this.getPackageManager();
+		final PackageManager packageManager = this.getPackageManager();
 		final Intent intent = packageManager
 				.getLaunchIntentForPackage("com.soundcloud.android");
 
@@ -81,7 +81,7 @@ public class MainActivity extends RoboFragmentActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 								
-								Intent intent = new Intent(Intent.ACTION_VIEW,
+								final Intent intent = new Intent(Intent.ACTION_VIEW,
 										Uri .parse(SOUNDCLOUD_MARKET_URI));
 								startActivity(intent);
 							}

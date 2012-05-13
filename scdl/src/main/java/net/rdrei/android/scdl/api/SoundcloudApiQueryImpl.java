@@ -1,3 +1,4 @@
+// $codepro.audit.disable assignmentInCondition
 package net.rdrei.android.scdl.api;
 
 import java.io.BufferedInputStream;

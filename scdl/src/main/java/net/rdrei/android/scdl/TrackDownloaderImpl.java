@@ -29,8 +29,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	@Inject
 	private DownloadManager mDownloadManager;
 
-	private Uri mUri;
-	private TrackEntity mTrack;
+	private final Uri mUri;
+	private final TrackEntity mTrack;
 
 	@Inject
 	public TrackDownloaderImpl(@Assisted Uri mUri, @Assisted TrackEntity mTrack) {
@@ -75,7 +75,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 			return fullPath.mkdirs();
 		}
 
-		return (fullPath.isDirectory() && fullPath.canWrite());
+		return fullPath.isDirectory() && fullPath.canWrite();
 	}
 
 	/**
