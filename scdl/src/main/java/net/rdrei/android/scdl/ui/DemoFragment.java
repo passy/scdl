@@ -1,9 +1,7 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +12,16 @@ import android.view.ViewGroup;
  * @author pascal
  * 
  */
-public class DemoFragment extends Fragment {
+public class DemoFragment extends
+		ContractFragment<DemoFragment.DemoActionListenerContract> {
 
 	private static String KEY_LAYOUT_ID = "layout_id";
-	private OnDemoActionListener mDemoActionListener;
+
+	public static interface DemoActionListenerContract {
+		void onNextPage();
+
+		void onStartSoundcloud();
+	}
 
 	public static DemoFragment newInstance(int layoutId) {
 		DemoFragment fragment = new DemoFragment();
@@ -41,7 +45,7 @@ public class DemoFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(getLayoutId(), container, false);
-		
+
 		final View nextButton = view.findViewById(R.id.btn_next);
 		if (nextButton != null) {
 			bindNextButton(nextButton);
@@ -51,25 +55,14 @@ public class DemoFragment extends Fragment {
 		if (startButton != null) {
 			bindStartButton(startButton);
 		}
-		
+
 		return view;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		try {
-			mDemoActionListener = (OnDemoActionListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnDemoActionListener");
-		}
 	}
 
 	/**
 	 * Fix for bug described here:
-	 * http://stackoverflow.com/questions/8748064/starting-activity-from-fragment-causes-nullpointerexception
+	 * http://stackoverflow.com/questions/8748064/starting
+	 * -activity-from-fragment-causes-nullpointerexception
 	 */
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -82,7 +75,7 @@ public class DemoFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				mDemoActionListener.onStartSoundcloud();
+				getContract().onStartSoundcloud();
 			}
 		});
 	}
@@ -92,7 +85,7 @@ public class DemoFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				mDemoActionListener.onNextPage();
+				getContract().onNextPage();
 			}
 		});
 	}
