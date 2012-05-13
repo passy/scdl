@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.google.inject.Inject;
 
 public class SelectTrackActivity extends RoboActivity {
@@ -168,6 +169,7 @@ public class SelectTrackActivity extends RoboActivity {
 			if (e instanceof UnsupportedUrlException) {
 				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
 			} else {
+				BugSenseHandler.log("Unknown error during track resolution.", e);
 				startErrorActivity(ErrorCode.UNKNOWN_ERROR);
 			}
 		}
