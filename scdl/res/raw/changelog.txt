@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>Changes</title>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    {
+          color:#0099CC;
+          font-size:1.2em;
+          font-weight:bold;
+          margin-top:1em;
+          margin-bottom:0.5em;
+          text-align:center }
+      div.subtitle {
+          color:#33B5E5;
+          font-size:0.8em;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext { color:#000 }
+      div.list     { color:#000 }
+    </style>
+  </head>
+  <body>
+$ 0.2.2
+  % Version 0.2.2
+  _ 2012-05-15
+    * Added <span style="font-family: monospace">android-change-log</span> by Karsten Priegnitz.
+    * Better error reporting and notification if you encounter an error that got fixed with an update.
+    * Smaller app size.
+$ 0.2.1
+  % Version 0.2.1
+  _ 2012-05-10
+    * Display notification after download is finished.
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

@@ -24,4 +24,7 @@
     <string name="download_description">From soundcloud.com</string>
     <string name="notification_download_finished">Download finished</string>
     <string name="notification_download_finished_ticker">%s was downloaded</string>
+    <string name="changelog_full_title">Change Log</string>
+    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_ok_button">Cool!</string>
 </resources>
