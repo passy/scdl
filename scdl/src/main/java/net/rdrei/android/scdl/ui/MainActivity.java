@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.app.AlertDialog.Builder;
 
+import sheetrock.panda.changelog.ChangeLog;
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -40,6 +41,8 @@ public class MainActivity extends RoboFragmentActivity implements
 		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(mFragmentManager);
 		mPager.setAdapter(adapter);
 		mIndicator.setViewPager(mPager);
+
+		showChangelogOnDemand();
 	}
 
 	@Override
@@ -52,6 +55,16 @@ public class MainActivity extends RoboFragmentActivity implements
 	public void onStartSoundcloud() {
 		Ln.d("Next page requested.");
 		launchSoundcloud();
+	}
+
+	/**
+	 * Show changelog if not displayed before on this version.
+	 */
+	private void showChangelogOnDemand() {
+		ChangeLog cl = new ChangeLog(this);
+		if (cl.firstRun()) {
+			cl.getLogDialog().show();
+		}
 	}
 
 	/**
