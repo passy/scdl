@@ -99,6 +99,17 @@
                 android:enabled="false"
                 android:text="@string/download" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/track_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_artwork"
+            android:layout_alignRight="@+id/img_artwork"
+            android:textSize="10sp"
+            android:textColor="#fff"
+            android:background="#66000000" />
+
     </RelativeLayout>
 
     <!-- This is the only place I'm having ads right now, so I hard-code the unit id right here. -->

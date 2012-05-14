@@ -57,6 +57,9 @@ public class SelectTrackActivity extends RoboActivity {
 	@InjectView(R.id.img_artwork)
 	private ImageView mArtworkImageView;
 	
+	@InjectView(R.id.track_length)
+	private TextView mLengthView;
+	
 	@Inject
 	private TrackDownloaderFactory mDownloaderFactory;
 
@@ -126,6 +129,7 @@ public class SelectTrackActivity extends RoboActivity {
 
 		mTitleView.setText(mTrack.getTitle());
 		mDescriptionView.setText(mTrack.getDescription());
+		mLengthView.setText(mTrack.getFormattedDuration());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
 		if (!mTrack.isDownloadable()) {

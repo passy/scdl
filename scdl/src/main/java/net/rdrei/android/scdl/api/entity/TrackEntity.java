@@ -1,5 +1,8 @@
 package net.rdrei.android.scdl.api.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.net.Uri;
 
 import com.google.gson.annotations.SerializedName;
@@ -133,5 +136,12 @@ public class TrackEntity implements SoundcloudEntity {
 
 	public void setPermalink(String permalink) {
 		this.permalink = permalink;
+	}
+
+	public String getFormattedDuration() {
+		final SimpleDateFormat formatter = new SimpleDateFormat("m:ss");
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(getDuration());
+		return formatter.format(calendar.getTime());
 	}
 }
