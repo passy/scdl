@@ -60,6 +60,12 @@ public class SelectTrackActivity extends RoboActivity {
 	@InjectView(R.id.track_length)
 	private TextView mLengthView;
 	
+	@InjectView(R.id.track_artist)
+	private TextView mArtistView;
+	
+	@InjectView(R.id.track_size)
+	private TextView mSizeView;
+	
 	@Inject
 	private TrackDownloaderFactory mDownloaderFactory;
 
@@ -130,6 +136,9 @@ public class SelectTrackActivity extends RoboActivity {
 		mTitleView.setText(mTrack.getTitle());
 		mDescriptionView.setText(mTrack.getDescription());
 		mLengthView.setText(mTrack.getFormattedDuration());
+		mLengthView.setVisibility(View.VISIBLE);
+		mSizeView.setText(mTrack.getFormattedSize());
+		mArtistView.setText(mTrack.getUser().getUsername());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
 		if (!mTrack.isDownloadable()) {

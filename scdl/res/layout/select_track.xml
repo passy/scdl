@@ -6,7 +6,6 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dip"
@@ -28,8 +27,21 @@
             android:layout_marginLeft="8dip"
             android:layout_toRightOf="@+id/img_artwork"
             android:maxLines="3"
+            android:minLines="3"
             android:text="@string/loading_track_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/track_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_artwork"
+            android:layout_alignRight="@+id/img_artwork"
+            android:background="#99000000"
+            android:padding="2dp"
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -42,15 +54,14 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/img_artwork"
+            android:layout_below="@id/track_title"
             android:layout_marginBottom="70dip"
-            android:layout_marginTop="8dip"
-            android:animateLayoutChanges="true" >
+            android:layout_marginTop="8dip" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/detail_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="168dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:visibility="gone" >
@@ -59,21 +70,60 @@
                     android:id="@+id/track_unavailable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:text="Sorry, but this song is not available for download."
                     android:textColor="#f00"
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/track_size_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_unavailable"
+                    android:text="Download Size:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/track_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/track_size_label"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:id="@+id/track_artist_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_size_label"
+                    android:text="Artist:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/track_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/track_artist_label"
+                    android:layout_alignLeft="@+id/track_size" />
+
+                <TextView
+                    android:id="@+id/track_description_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_artist_label"
+                    android:text="Description:"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/track_description"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_description_label" />
+            </RelativeLayout>
         </ScrollView>
 
         <LinearLayout
@@ -99,17 +149,6 @@
                 android:enabled="false"
                 android:text="@string/download" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/track_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_artwork"
-            android:layout_alignRight="@+id/img_artwork"
-            android:textSize="10sp"
-            android:textColor="#fff"
-            android:background="#66000000" />
-
     </RelativeLayout>
 
     <!-- This is the only place I'm having ads right now, so I hard-code the unit id right here. -->

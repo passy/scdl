@@ -19,7 +19,7 @@ import net.rdrei.android.scdl.api.SoundcloudEntity;
  * 
  */
 public class TrackEntity implements SoundcloudEntity {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private long id;
 	private long duration;
@@ -37,6 +37,11 @@ public class TrackEntity implements SoundcloudEntity {
 
 	private String description;
 	private String permalink;
+
+	@SerializedName("original_content_size")
+	private long originalContentSize;
+	
+	private UserEntity user;
 
 	public long getId() {
 		return id;
@@ -143,5 +148,26 @@ public class TrackEntity implements SoundcloudEntity {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(getDuration());
 		return formatter.format(calendar.getTime());
+	}
+
+	public String getFormattedSize() {
+		return String.format("%.1fMB", this.getOriginalContentSize()
+				/ (1024f * 1024f));
+	}
+
+	public long getOriginalContentSize() {
+		return originalContentSize;
+	}
+
+	public void setOriginalContentSize(long originalContentSize) {
+		this.originalContentSize = originalContentSize;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 }
