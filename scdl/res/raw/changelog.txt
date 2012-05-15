@@ -22,12 +22,14 @@
     </style>
   </head>
   <body>
-$ 0.2.2
-  % Version 0.2.2
+$ 0.3.0
+  % Version 0.3.0
   _ 2012-05-15
     * Added <span style="font-family: monospace">android-change-log</span> by Karsten Priegnitz.
     * Better error reporting and notification if you encounter an error that got fixed with an update.
     * Smaller app size.
+    * Proper support for landscape orientation.
+    * Display of file size and artist in download preview.
 $ 0.2.1
   % Version 0.2.1
   _ 2012-05-10
