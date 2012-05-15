@@ -106,6 +106,7 @@
                     android:id="@+id/track_artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:layout_alignBottom="@+id/track_artist_label"
                     android:layout_alignLeft="@+id/track_size" />
 
