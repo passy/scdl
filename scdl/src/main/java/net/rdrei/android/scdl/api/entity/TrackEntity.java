@@ -3,7 +3,11 @@ package net.rdrei.android.scdl.api.entity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import roboguice.util.Ln;
+
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,7 +22,7 @@ import net.rdrei.android.scdl.api.SoundcloudEntity;
  * @author pascal
  * 
  */
-public class TrackEntity implements SoundcloudEntity {
+public class TrackEntity implements SoundcloudEntity, Parcelable {
 	private static final long serialVersionUID = 2L;
 
 	private long id;
@@ -42,6 +46,57 @@ public class TrackEntity implements SoundcloudEntity {
 	private long originalContentSize;
 	
 	private UserEntity user;
+	
+	public TrackEntity() {
+		super();
+	}
+	
+	private TrackEntity(Parcel in) {
+		id = in.readLong();
+		duration = in.readLong();
+		title = in.readString();
+		downloadable = in.readByte() == 1;
+		downloadUrl = in.readString();
+		artworkUrl = in.readString();
+		originalFormat = in.readString();
+		description = in.readString();
+		permalink = in.readString();
+		originalContentSize = in.readLong();
+		user = in.readParcelable(null);
+	}
+
+	public static final Parcelable.Creator<TrackEntity> CREATOR = new Creator<TrackEntity>() {
+		@Override
+		public TrackEntity[] newArray(int size) {
+			return new TrackEntity[size];
+		}
+		
+		@Override
+		public TrackEntity createFromParcel(Parcel source) {
+			Ln.d("Creating new TrackEntity from parcel source.");
+			return new TrackEntity(source);
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
+		dest.writeLong(duration);
+		dest.writeString(title);
+		dest.writeByte((byte) (downloadable ? 1 : 0));
+		dest.writeString(downloadUrl);
+		dest.writeString(artworkUrl);
+		dest.writeString(originalFormat);
+		dest.writeString(description);
+		dest.writeString(permalink);
+		dest.writeLong(originalContentSize);
+		dest.writeParcelable(user, 0);
+	}
 
 	public long getId() {
 		return id;

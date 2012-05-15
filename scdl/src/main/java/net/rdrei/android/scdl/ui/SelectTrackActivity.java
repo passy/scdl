@@ -33,6 +33,8 @@ import com.google.inject.Inject;
 
 public class SelectTrackActivity extends RoboActivity {
 
+	private static final String STATE_TRACK = "TRACK";
+
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;
 
@@ -76,11 +78,32 @@ public class SelectTrackActivity extends RoboActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.select_track);
-
-		final TrackResolverTask task = new TrackResolverTask(this);
-		task.execute();
+		
+		if (savedInstanceState != null) {
+			Ln.d("Loading previous track record.");
+			mTrack = savedInstanceState.getParcelable(STATE_TRACK);
+		}
+		
+		if (mTrack == null) {
+			Ln.d("mTrack is null. Starting resolving task.");
+			final TrackResolverTask task = new TrackResolverTask(this);
+			task.execute();
+		} else {
+			Ln.d("mTrack has been restored. Updating display.");
+			updateTrackDisplay();
+		}
 		
 		bindButtons();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		if (mTrack != null) {
+			Ln.d("Saving instance state for track.");
+			outState.putParcelable(STATE_TRACK, mTrack);
+		}
 	}
 
 	private void bindButtons() {
