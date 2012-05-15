@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dip"
+        android:layout_marginBottom="8dip"
+        android:layout_weight="0.9" >
+
+        <ImageView
+            android:id="@+id/img_artwork"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/soundcloud_logo_100" />
+
+        <TextView
+            android:id="@+id/track_title"
+            android:layout_width="130dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="8dip"
+            android:layout_toRightOf="@+id/img_artwork"
+            android:maxLines="3"
+            android:minLines="3"
+            android:text="@string/loading_track_title"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/track_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_artwork"
+            android:layout_alignRight="@+id/img_artwork"
+            android:background="#99000000"
+            android:padding="2dp"
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/track_title"
+            android:layout_marginLeft="8dip"
+            android:layout_marginBottom="55dip"
+            android:animateLayoutChanges="true" >
+
+            <RelativeLayout
+                android:id="@+id/detail_container"
+                android:layout_width="match_parent"
+                android:layout_height="168dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/track_unavailable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Sorry, but this song is not available for download."
+                    android:textColor="#f00"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/track_size_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_unavailable"
+                    android:text="Download Size:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/track_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/track_size_label"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:id="@+id/track_artist_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_size_label"
+                    android:text="Artist:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/track_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_alignBottom="@+id/track_artist_label"
+                    android:layout_alignLeft="@+id/track_size" />
+
+                <TextView
+                    android:id="@+id/track_description_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_artist_label"
+                    android:text="Description:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/track_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/track_description_label" />
+            </RelativeLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/btn_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dip"
+                android:layout_weight="0.5"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btn_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+                android:layout_weight="0.5"
+                android:enabled="false"
+                android:text="@string/download" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- This is the only place I'm having ads right now, so I hard-code the unit id right here. -->
+
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        ads:adSize="IAB_BANNER"
+        ads:adUnitId="@string/admob_unit_id"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR, d951138e7ba75b4" />
+
+</LinearLayout>
