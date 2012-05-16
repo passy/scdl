@@ -11,6 +11,7 @@ public class TrackErrorActivity extends RoboActivity {
 	
 	public static enum ErrorCode {
 		UNSUPPORTED_URL,
+		NO_WRITE_PERMISSION,
 		UNKNOWN_ERROR
 	}
 	
@@ -37,6 +38,9 @@ public class TrackErrorActivity extends RoboActivity {
 		switch (mErrorCode) {
 		case UNSUPPORTED_URL:
 			errorMessage = R.string.track_error_unsupported_url;
+			break;
+		case NO_WRITE_PERMISSION:
+			errorMessage = R.string.track_error_no_write_permission;
 			break;
 		default:
 			errorMessage = R.string.track_error_unknown;

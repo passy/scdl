@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,16 +60,16 @@ public class SelectTrackActivity extends RoboActivity {
 
 	@InjectView(R.id.img_artwork)
 	private ImageView mArtworkImageView;
-	
+
 	@InjectView(R.id.track_length)
 	private TextView mLengthView;
-	
+
 	@InjectView(R.id.track_artist)
 	private TextView mArtistView;
-	
+
 	@InjectView(R.id.track_size)
 	private TextView mSizeView;
-	
+
 	@Inject
 	private TrackDownloaderFactory mDownloaderFactory;
 
@@ -78,12 +80,12 @@ public class SelectTrackActivity extends RoboActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.select_track);
-		
+
 		if (savedInstanceState != null) {
 			Ln.d("Loading previous track record.");
 			mTrack = savedInstanceState.getParcelable(STATE_TRACK);
 		}
-		
+
 		if (mTrack == null) {
 			Ln.d("mTrack is null. Starting resolving task.");
 			final TrackResolverTask task = new TrackResolverTask(this);
@@ -92,14 +94,14 @@ public class SelectTrackActivity extends RoboActivity {
 			Ln.d("mTrack has been restored. Updating display.");
 			updateTrackDisplay();
 		}
-		
+
 		bindButtons();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		
+
 		if (mTrack != null) {
 			Ln.d("Saving instance state for track.");
 			outState.putParcelable(STATE_TRACK, mTrack);
@@ -111,7 +113,8 @@ public class SelectTrackActivity extends RoboActivity {
 
 			@Override
 			public void onClick(View v) {
-				final DownloadTask task = new DownloadTask(SelectTrackActivity.this,
+				final DownloadTask task = new DownloadTask(
+						SelectTrackActivity.this,
 						String.valueOf(mTrack.getId()));
 				task.execute();
 				mDownloadButton.setEnabled(false);
@@ -144,9 +147,11 @@ public class SelectTrackActivity extends RoboActivity {
 
 	protected void downloadTrack(final Uri uri) throws Exception {
 		// Download using TrackDownloader
-		final TrackDownloader downloader = mDownloaderFactory.create(uri, mTrack);
+		Handler handler = new Handler(new DownloadHandlerCallback());
+		final TrackDownloader downloader = mDownloaderFactory.create(uri,
+				mTrack, handler);
 		downloader.enqueue();
-		
+
 		Toast.makeText(SelectTrackActivity.this, "Download started.",
 				Toast.LENGTH_SHORT).show();
 	}
@@ -205,7 +210,8 @@ public class SelectTrackActivity extends RoboActivity {
 			if (e instanceof UnsupportedUrlException) {
 				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
 			} else {
-				BugSenseHandler.log("Unknown error during track resolution.", e);
+				BugSenseHandler
+						.log("Unknown error during track resolution.", e);
 				startErrorActivity(ErrorCode.UNKNOWN_ERROR);
 			}
 		}
@@ -302,6 +308,26 @@ public class SelectTrackActivity extends RoboActivity {
 
 			Ln.d("Resolved download URL: %s", t);
 			downloadTrack(t);
+		}
+	}
+
+	private class DownloadHandlerCallback implements Handler.Callback {
+
+		@Override
+		public boolean handleMessage(Message msg) {
+			final Intent intent = new Intent(SelectTrackActivity.this,
+					TrackErrorActivity.class);
+			final ErrorCode errorCode;
+
+			if (msg.what == TrackDownloader.MSG_DOWNLOAD_STORAGE_ERROR) {
+				errorCode = ErrorCode.NO_WRITE_PERMISSION;
+			} else {
+				errorCode = ErrorCode.UNKNOWN_ERROR;
+			}
+			
+			intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
+			startActivity(intent);
+			return true;
 		}
 	}
 }

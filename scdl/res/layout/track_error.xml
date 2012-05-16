@@ -32,6 +32,7 @@
             android:shadowColor="#FFFFFFFF"
             android:shadowRadius="1.0"
             android:shadowDy="1.0"
+            android:gravity="center"
             android:text="ERROR_MESSAGE" />
 
     </RelativeLayout>
