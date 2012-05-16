@@ -22,6 +22,12 @@
     </style>
   </head>
   <body>
+$ 0.3.1
+  % Version 0.3.1
+  _ 2012-05-16
+    * Better error handling (you should see "Unknown Error" less often)
+    * Fixed crash when SD card is write-protected.
+    * Fixed crash when no App Market is installed.
 $ 0.3.0
   % Version 0.3.0
   _ 2012-05-15
