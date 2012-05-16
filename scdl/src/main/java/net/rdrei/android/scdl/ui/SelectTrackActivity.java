@@ -5,6 +5,7 @@ import java.net.URL;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ShareIntentResolver;
 import net.rdrei.android.scdl.TrackDownloaderFactory;
+import net.rdrei.android.scdl.ShareIntentResolver.TrackNotFoundException;
 import net.rdrei.android.scdl.ShareIntentResolver.UnsupportedUrlException;
 import net.rdrei.android.scdl.TrackDownloader;
 import net.rdrei.android.scdl.api.ServiceManager;
@@ -209,6 +210,8 @@ public class SelectTrackActivity extends RoboActivity {
 
 			if (e instanceof UnsupportedUrlException) {
 				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
+			} else if (e instanceof TrackNotFoundException) {
+				startErrorActivity(ErrorCode.NOT_FOUND);
 			} else {
 				BugSenseHandler
 						.log("Unknown error during track resolution.", e);

@@ -3,11 +3,12 @@ package net.rdrei.android.scdl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import net.rdrei.android.scdl.api.APIException;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.ResolveEntity;
 import net.rdrei.android.scdl.api.service.ResolveService;
-import roboguice.util.Ln;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,9 +25,9 @@ public class ShareIntentResolver {
 
 	public static final Pattern URL_ID_PATTERN = Pattern
 			.compile("^https://api.soundcloud.com/tracks/(\\d+)\\.json");
-	
+
 	private static final String[] ALLOWED_HOSTS = { "soundcloud.com", "snd.sc",
-		"m.soundcloud.com" };
+			"m.soundcloud.com" };
 
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
@@ -48,6 +49,17 @@ public class ShareIntentResolver {
 		}
 
 		private static final long serialVersionUID = 1L;
+	}
+
+	public static class TrackNotFoundException extends
+			ShareIntentResolverException {
+
+		public TrackNotFoundException(String detailMessage, Throwable throwable) {
+			super(detailMessage, throwable);
+		}
+
+		private static final long serialVersionUID = 1L;
+
 	}
 
 	/**
@@ -78,9 +90,16 @@ public class ShareIntentResolver {
 			try {
 				return resolveUri(uri);
 			} catch (APIException e) {
-				Ln.e(e);
-				throw new ShareIntentResolverException(
-						"Could not resolve URL.", e);
+				final int code = e.getCode();
+
+				if (code == HttpsURLConnection.HTTP_NOT_FOUND) {
+					throw new TrackNotFoundException(String.format(
+							"The given track could not be resolved for URL %s",
+							uri.toString()), e);
+				}
+
+				throw new ShareIntentResolverException(String.format(
+						"Could not resolve URL: %s", uri.toString()), e);
 			}
 		}
 

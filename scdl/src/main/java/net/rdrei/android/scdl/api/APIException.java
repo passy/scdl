@@ -8,7 +8,7 @@ package net.rdrei.android.scdl.api;
 public class APIException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
-	public final int code;
+	private final int code;
 
 	public APIException() {
 		super();
@@ -31,5 +31,9 @@ public class APIException extends Exception {
 	public APIException(Throwable throwable, int code) {
 		super(throwable);
 		this.code = code;
+	}
+
+	public final int getCode() {
+		return code;
 	}
 }
