@@ -1,10 +1,12 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +22,8 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class MainActivity extends RoboFragmentActivity implements
 		DemoFragment.DemoActionListenerContract {
+
+	private static final String SOUNDCLOUD_PACKAGE = "com.soundcloud.android";
 
 	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
 
@@ -38,7 +42,8 @@ public class MainActivity extends RoboFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo);
 
-		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(mFragmentManager);
+		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(
+				mFragmentManager);
 		mPager.setAdapter(adapter);
 		mIndicator.setViewPager(mPager);
 
@@ -73,7 +78,7 @@ public class MainActivity extends RoboFragmentActivity implements
 	private void launchSoundcloud() {
 		final PackageManager packageManager = this.getPackageManager();
 		final Intent intent = packageManager
-				.getLaunchIntentForPackage("com.soundcloud.android");
+				.getLaunchIntentForPackage(SOUNDCLOUD_PACKAGE);
 
 		// Soundcloud is not yet installed.
 		if (intent == null) {
@@ -93,10 +98,8 @@ public class MainActivity extends RoboFragmentActivity implements
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								
-								final Intent intent = new Intent(Intent.ACTION_VIEW,
-										Uri .parse(SOUNDCLOUD_MARKET_URI));
-								startActivity(intent);
+
+								startSoundcloudMarketActivity();
 							}
 						})
 				.setNegativeButton(R.string.dialog_no,
@@ -107,5 +110,23 @@ public class MainActivity extends RoboFragmentActivity implements
 								dialog.cancel();
 							}
 						}).show();
+	}
+
+	/**
+	 * Start the market intent to install Soundcloud.
+	 */
+	private void startSoundcloudMarketActivity() {
+		final Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(SOUNDCLOUD_MARKET_URI));
+		try {
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			final Intent errorIntent = new Intent(this,
+					TrackErrorActivity.class);
+			errorIntent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE,
+					ErrorCode.NO_MARKET);
+			
+			startActivity(errorIntent);
+		}
 	}
 }
