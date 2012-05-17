@@ -53,6 +53,9 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 		uri = in.readString();
 	}
 	
+	public UserEntity() {
+	}
+
 	public static final Parcelable.Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
 		@Override
 		public UserEntity[] newArray(int size) {
