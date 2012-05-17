@@ -62,7 +62,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		description = in.readString();
 		permalink = in.readString();
 		originalContentSize = in.readLong();
-		user = in.readParcelable(null);
+		user = in.readParcelable(UserEntity.class.getClassLoader());
 	}
 
 	public static final Parcelable.Creator<TrackEntity> CREATOR = new Creator<TrackEntity>() {
