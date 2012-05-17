@@ -36,7 +36,7 @@ import com.google.inject.Inject;
 
 public class SelectTrackActivity extends RoboActivity {
 
-	private static final String STATE_TRACK = "TRACK";
+	private static final String STATE_TRACK = "scdl:TRACK";
 
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;
