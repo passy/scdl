@@ -123,4 +123,14 @@ public class ShareIntentResolverTest {
 
 		resolver.resolve();
 	}
+
+	@Test(expected = ShareIntentResolverException.class)
+	public void testFailWithSuperInvalidUrl() throws ShareIntentResolverException {
+		ShadowIntent intent = Robolectric.shadowOf(mIntent);
+		intent.setData(Uri.parse("//nope"));
+		final ShareIntentResolver resolver = TestRunner.getInjector()
+				.getInstance(ShareIntentResolver.class);
+
+		resolver.resolve();
+	}
 }

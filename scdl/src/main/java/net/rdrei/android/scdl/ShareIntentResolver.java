@@ -133,6 +133,11 @@ public class ShareIntentResolver {
 		final String scheme = uri.getScheme();
 		final String host = uri.getHost();
 
+		// Safeguard if we have some seriously weird uri as in BS/33260701.
+		if (scheme == null || host == null) {
+			return false;
+		}
+
 		if (!scheme.equals("http") && !scheme.equals("https")) {
 			return false;
 		}
