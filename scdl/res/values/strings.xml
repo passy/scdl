@@ -23,6 +23,7 @@
     <string name="track_error_no_write_permission">Sorry, but we can\'t write to the external storage.</string>
     <string name="track_error_no_market">There is no Google Play on your device. Please install Soundcloud manually.</string>
     <string name="track_error_not_found">Sorry, the track could not be found. Perhaps it was deleted.</string>
+    <string name="track_error_network">Can\'t connect to Soundcloud. Please check your network connection.</string>
     <string name="track_error">Download Error</string>
     <string name="download_description">From soundcloud.com</string>
     <string name="notification_download_finished">Download finished</string>
