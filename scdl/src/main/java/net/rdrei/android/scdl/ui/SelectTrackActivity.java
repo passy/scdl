@@ -4,10 +4,10 @@ import java.net.URL;
 
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.ShareIntentResolver;
-import net.rdrei.android.scdl.TrackDownloaderFactory;
 import net.rdrei.android.scdl.ShareIntentResolver.TrackNotFoundException;
 import net.rdrei.android.scdl.ShareIntentResolver.UnsupportedUrlException;
 import net.rdrei.android.scdl.TrackDownloader;
+import net.rdrei.android.scdl.TrackDownloaderFactory;
 import net.rdrei.android.scdl.api.ServiceManager;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
 import net.rdrei.android.scdl.api.service.DownloadService;
@@ -31,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.google.inject.Inject;
 
 public class SelectTrackActivity extends RoboActivity {
@@ -213,9 +212,7 @@ public class SelectTrackActivity extends RoboActivity {
 			} else if (e instanceof TrackNotFoundException) {
 				startErrorActivity(ErrorCode.NOT_FOUND);
 			} else {
-				BugSenseHandler
-						.log("Unknown error during track resolution.", e);
-				startErrorActivity(ErrorCode.UNKNOWN_ERROR);
+				startErrorActivity(ErrorCode.NETWORK_ERROR);
 			}
 		}
 

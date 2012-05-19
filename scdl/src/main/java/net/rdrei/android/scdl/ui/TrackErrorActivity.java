@@ -10,7 +10,7 @@ import android.widget.TextView;
 public class TrackErrorActivity extends RoboActivity {
 
 	public static enum ErrorCode {
-		UNSUPPORTED_URL, NO_WRITE_PERMISSION, UNKNOWN_ERROR, NO_MARKET, NOT_FOUND
+		UNSUPPORTED_URL, NO_WRITE_PERMISSION, UNKNOWN_ERROR, NO_MARKET, NOT_FOUND, NETWORK_ERROR
 	}
 
 	public static final String EXTRA_ERROR_CODE = "error_code";
@@ -45,6 +45,9 @@ public class TrackErrorActivity extends RoboActivity {
 			break;
 		case NOT_FOUND:
 			errorMessage = R.string.track_error_not_found;
+			break;
+		case NETWORK_ERROR:
+			errorMessage = R.string.track_error_network;
 			break;
 		default:
 			errorMessage = R.string.track_error_unknown;
