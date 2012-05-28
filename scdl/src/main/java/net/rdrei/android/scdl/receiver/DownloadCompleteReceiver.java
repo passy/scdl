@@ -1,7 +1,7 @@
 package net.rdrei.android.scdl.receiver;
 
-import net.rdrei.android.scdl.MediaScanner;
 import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl.service.MediaScannerService;
 import roboguice.receiver.RoboBroadcastReceiver;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
@@ -29,9 +29,6 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 	@Inject
 	private NotificationManager mNotificationManager;
-
-	@Inject
-	private MediaScanner mMediaScanner;
 
 	/**
 	 * Simple POJO for passing around download information.
@@ -126,50 +123,58 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			query.setFilterById(mDownloadId);
 			final Cursor cursor = mDownloadManager.query(query);
 
-			if (!cursor.moveToFirst()) {
-				// Download could not be found.
-				Ln.d("Could not find download with id %d.", mDownloadId);
-				return null;
+			try {
+				if (!cursor.moveToFirst()) {
+					// Download could not be found.
+					Ln.d("Could not find download with id %d.", mDownloadId);
+					return null;
+				}
+	
+				final int descriptionIndex = cursor
+						.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION);
+	
+				if (!cursor.getString(descriptionIndex).equals(
+						context.getString(R.string.download_description))) {
+					// Download doesn't belong to us. Weird way to check, but way,
+					// way
+					// easier than keeping track of the IDs.
+					Ln.d("Description did not match SCDL default description.");
+					return null;
+				}
+	
+				final int titleIndex = cursor
+						.getColumnIndex(DownloadManager.COLUMN_TITLE);
+				final String title = cursor.getString(titleIndex);
+	
+				final int statusIndex = cursor
+						.getColumnIndex(DownloadManager.COLUMN_STATUS);
+				final int status = cursor.getInt(statusIndex);
+	
+				final int localUriIndex = cursor
+						.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+				final String downloadUri = cursor.getString(localUriIndex);
+	
+				final Download download = new Download();
+				download.setTitle(title);
+				download.setStatus(status);
+				download.setPath(downloadUri);
+	
+				return download;
+			} finally {
+				cursor.close();
 			}
-
-			final int descriptionIndex = cursor
-					.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION);
-
-			if (!cursor.getString(descriptionIndex).equals(
-					context.getString(R.string.download_description))) {
-				// Download doesn't belong to us. Weird way to check, but way,
-				// way
-				// easier than keeping track of the IDs.
-				Ln.d("Description did not match SCDL default description.");
-				return null;
-			}
-
-			final int titleIndex = cursor
-					.getColumnIndex(DownloadManager.COLUMN_TITLE);
-			final String title = cursor.getString(titleIndex);
-
-			final int statusIndex = cursor
-					.getColumnIndex(DownloadManager.COLUMN_STATUS);
-			final int status = cursor.getInt(statusIndex);
-
-			final int localUriIndex = cursor
-					.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
-			final String downloadUri = cursor.getString(localUriIndex);
-
-			final Download download = new Download();
-			download.setTitle(title);
-			download.setStatus(status);
-			download.setPath(downloadUri);
-
-			return download;
 		}
 
 		@Override
 		protected void onSuccess(Download t) throws Exception {
 			super.onSuccess(t);
 
+			final Intent scanIntent = new Intent(context,
+					MediaScannerService.class);
+			scanIntent.putExtra(MediaScannerService.EXTRA_PATH, t.getPath());
+			context.startService(scanIntent);
+
 			showNotification(context, t.getTitle());
-			mMediaScanner.scanFile(t.getPath());
 		}
 
 	}
