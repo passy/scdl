@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 0.3.4
+  % Version 0.3.4
+  _ 2012-05-28
+    * Successful downloads are now instantly added to the music library. (Thanks, Clara!)
 $ 0.3.3
   % Version 0.3.3
   _ 2012-05-19
