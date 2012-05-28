@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl.receiver;
 
+import net.rdrei.android.scdl.MediaScanner;
 import net.rdrei.android.scdl.R;
 import roboguice.receiver.RoboBroadcastReceiver;
 import roboguice.util.Ln;
@@ -29,6 +30,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	@Inject
 	private NotificationManager mNotificationManager;
 
+	@Inject
+	private MediaScanner mMediaScanner;
+
 	/**
 	 * Simple POJO for passing around download information.
 	 * 
@@ -37,6 +41,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	 */
 	private class Download {
 		private String mTitle;
+		private String mPath;
 		private int mStatus;
 
 		public String getTitle() {
@@ -61,13 +66,22 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		public void setStatus(int status) {
 			mStatus = status;
 		}
+
+		public String getPath() {
+			return mPath;
+		}
+
+		public void setPath(String path) {
+			mPath = path;
+		}
 	}
 
 	@Override
 	public void handleReceive(Context context, Intent intent) {
 		final long downloadId = intent.getLongExtra(
 				DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-		final ResolveDownloadTask task = new ResolveDownloadTask(context, downloadId);
+		final ResolveDownloadTask task = new ResolveDownloadTask(context,
+				downloadId);
 		task.execute();
 	}
 
@@ -138,9 +152,14 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 					.getColumnIndex(DownloadManager.COLUMN_STATUS);
 			final int status = cursor.getInt(statusIndex);
 
+			final int localUriIndex = cursor
+					.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+			final String downloadUri = cursor.getString(localUriIndex);
+
 			final Download download = new Download();
 			download.setTitle(title);
 			download.setStatus(status);
+			download.setPath(downloadUri);
 
 			return download;
 		}
@@ -150,6 +169,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			super.onSuccess(t);
 
 			showNotification(context, t.getTitle());
+			mMediaScanner.scanFile(t.getPath());
 		}
 
 	}
