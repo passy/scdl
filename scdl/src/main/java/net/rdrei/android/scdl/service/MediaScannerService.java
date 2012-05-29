@@ -36,6 +36,11 @@ public class MediaScannerService extends Service implements MediaScannerConnecti
 	
 	@Override
 	public void onStart(Intent intent, int startId) {
+		if (intent == null) {
+			stopSelf();
+			return;
+		}
+		
 		mPath = intent.getStringExtra(EXTRA_PATH);
 		mScannerConnection.connect();
 	}

@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 0.3.5
+  % Version 0.3.5
+  _ 2012-05-29
+    * Hotfix.
 $ 0.3.4
   % Version 0.3.4
   _ 2012-05-28
