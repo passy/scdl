@@ -22,7 +22,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.google.android</groupId>
+			<groupId>android</groupId>
 			<artifactId>android</artifactId>
 		</dependency>
 		<dependency>
@@ -77,9 +77,9 @@
 			<type>apklib</type>
 		</dependency>
 		<dependency>
-			<groupId>com.google.ads</groupId>
+			<groupId>com.google.android.admob</groupId>
 			<artifactId>admob</artifactId>
-			<version>6.0.0</version>
+			<version>6.0.1-r6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.bugsense.android</groupId>

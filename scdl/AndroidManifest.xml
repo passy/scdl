@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
-        android:maxSdkVersion="15"
+        android:maxSdkVersion="16"
         android:minSdkVersion="14"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="16" />
 
     <application
         android:name="SCDLApplication"
@@ -90,7 +90,8 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-        <service android:name=".service.MediaScannerService"></service>
+
+        <service android:name=".service.MediaScannerService" />
     </application>
 
 </manifest>
