@@ -90,6 +90,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		final Intent downloadIntent = new Intent(
 				DownloadManager.ACTION_VIEW_DOWNLOADS);
 
+		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
 				.setAutoCancel(true)
 				.setContentTitle(
