@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <ImageView
@@ -32,7 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TextView1"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/ImageView1"
         android:gravity="center"
         android:text="@string/demo_welcome" />
