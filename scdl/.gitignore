@@ -6,3 +6,5 @@ gen/
 .settings/
 .project
 tmp/
+libs/
+test/

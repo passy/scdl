@@ -111,6 +111,10 @@
 
     <target name="-pre-build" depends="resolve" />
     <target name="resolve" description="--> retrieve dependencies with ivy">
-        <ivy:retrieve />
+        <ivy:retrieve conf="compile" />
+    </target>
+    
+    <target name="resolve-test" description="--> retrieve test dependencies with ivy">
+        <ivy:retrieve conf="test" pattern="test/${ivy.retrieve.pattern}" />
     </target>
 </project>
