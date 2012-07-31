@@ -9,7 +9,6 @@ import net.rdrei.android.scdl.ui.ApplicationPreferencesActivity;
 import net.rdrei.android.scdl.ui.MainActivity;
 import net.rdrei.android.scdl.ui.SelectTrackActivity;
 
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

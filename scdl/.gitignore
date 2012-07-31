@@ -7,4 +7,4 @@ gen/
 .project
 tmp/
 libs/
-test/
+./test/
