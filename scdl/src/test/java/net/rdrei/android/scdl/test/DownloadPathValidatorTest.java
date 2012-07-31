@@ -31,7 +31,14 @@ public class DownloadPathValidatorTest {
 	public void testInsecurePath() throws DownloadPathValidationException {
 		thrown.expect(DownloadPathValidationException.class);
 		thrown.expect(hasErrorCode(ErrorCode.INSECURE_PATH));
-		
+
 		mValidator.validateCustomPathOrThrow("/data/data/");
+	}
+
+	@Test
+	public void testInaccessiblePath() throws DownloadPathValidationException {
+		thrown.expect(DownloadPathValidationException.class);
+		thrown.expect(hasErrorCode(ErrorCode.PERMISSION_DENIED));
+		mValidator.validateCustomPathOrThrow("/mnt/doesnotexist");
 	}
 }
