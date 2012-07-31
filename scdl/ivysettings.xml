@@ -1,0 +1,17 @@
+<ivysettings>
+    <resolvers>
+        <ibiblio name="maven2" m2compatible="true" />
+
+        <filesystem name="local" m2compatible="true">
+            <ivy pattern="${user.home}/.m2/repository/[organization]/[module]/[revision]/[artifact].[ext]" />
+            <artifact pattern="${user.home}/.m2/repository/[organization]/[module]/[revision]/[module]-[revision].jar" />
+        </filesystem>
+
+        <chain name="chained" returnFirst="true">
+            <resolver ref="local" />
+            <resolver ref="maven2" />
+        </chain>
+    </resolvers>
+
+    <settings defaultResolver="chained" />
+</ivysettings>
