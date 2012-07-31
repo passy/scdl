@@ -2,8 +2,13 @@ package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.ApplicationPreferences;
 import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
+import net.rdrei.android.scdl.DownloadPathValidator;
+import net.rdrei.android.scdl.DownloadPathValidator.DownloadPathValidationException;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.guice.RoboPreferenceFragment;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -11,6 +16,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 
 import com.google.inject.Inject;
 
@@ -27,6 +33,9 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 
 	private EditTextPreference mPathPreference;
 
+	@Inject
+	private CustomPathChangeValidator mCustomPathValidator;
+
 	public DownloadPreferencesFragment() {
 		super();
 	}
@@ -38,6 +47,9 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 		addPreferencesFromResource(R.xml.download_preferences);
 		mTypePreference = (ListPreference) findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
 		mPathPreference = (EditTextPreference) findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
+		// Enable "enter" to submit.
+		mPathPreference.getEditText().setSingleLine(true);
+		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
 
 		loadStorageTypeOptions();
 	}
@@ -102,5 +114,48 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 	public static long getFreeInternalStorage() {
 		StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
 		return statFs.getAvailableBlocks() * statFs.getBlockSize();
+	}
+
+	private static class CustomPathChangeValidator implements
+			Preference.OnPreferenceChangeListener {
+
+		@Inject
+		private DownloadPathValidator mValidator;
+
+		@Override
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			try {
+				mValidator.validateCustomPathOrThrow((String) newValue);
+			} catch (DownloadPathValidationException e) {
+				int errorMsgId;
+
+				switch (e.getErrorCode()) {
+				case INSECURE_PATH:
+					errorMsgId = R.string.custom_path_error_insecure_path;
+					break;
+				case NOT_A_DIRECTORY:
+					errorMsgId = R.string.custom_path_error_not_a_directory;
+					break;
+				case PERMISSION_DENIED:
+					errorMsgId = R.string.custom_path_error_permission_denied;
+					break;
+				default:
+					errorMsgId = R.string.custom_path_error_unknown;
+					break;
+				}
+
+				showErrorDialog(preference.getContext(), errorMsgId);
+				return false;
+			}
+
+			return true;
+		}
+
+		public void showErrorDialog(Context context, int errorMsgId) {
+			final Builder builder = new AlertDialog.Builder(context);
+			builder.setMessage(errorMsgId)
+					.setTitle(R.string.custom_path_error_title)
+					.setIcon(android.R.drawable.ic_dialog_alert).show();
+		}
 	}
 }
