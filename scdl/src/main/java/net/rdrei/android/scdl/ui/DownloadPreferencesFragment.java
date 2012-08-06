@@ -17,21 +17,25 @@ import android.os.StatFs;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.google.inject.Inject;
 
 public class DownloadPreferencesFragment extends RoboPreferenceFragment
 		implements OnSharedPreferenceChangeListener {
 
+	private static final String DEFAULT_CUSTOM_PATH = "/mnt/sdcard/SoundcloudDownloader/";
+
+	private ListPreference mTypePreference;
+
+	private EditTextPreference mPathPreference;
+
 	@Inject
 	private ApplicationPreferences mAppPreferences;
 
 	@Inject
 	private SharedPreferences mSharedPreferences;
-
-	private ListPreference mTypePreference;
-
-	private EditTextPreference mPathPreference;
 
 	@Inject
 	private CustomPathChangeValidator mCustomPathValidator;
@@ -48,7 +52,10 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 		mTypePreference = (ListPreference) findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
 		mPathPreference = (EditTextPreference) findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
 		// Enable "enter" to submit.
-		mPathPreference.getEditText().setSingleLine(true);
+		final EditText pathEditText = mPathPreference.getEditText();
+		pathEditText.setSingleLine(true);
+		pathEditText.setHint(DEFAULT_CUSTOM_PATH);
+		pathEditText.setInputType(EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
 
 		loadStorageTypeOptions();
@@ -81,10 +88,10 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 
 	private void loadStorageTypeOptions() {
 		mTypePreference.setEntries(new CharSequence[] { getExternalLabel(),
-				getPhoneLabel(), getString(R.string.storage_custom_label) });
-		mTypePreference.setEntryValues(new String[] {
-				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
-				StorageType.CUSTOM.toString(), });
+				getString(R.string.storage_custom_label) });
+		mTypePreference
+				.setEntryValues(new String[] { StorageType.EXTERNAL.toString(),
+						StorageType.CUSTOM.toString(), });
 
 		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 	}
@@ -94,6 +101,7 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 				getFreeExternalStorage() / Math.pow(1024, 3));
 	}
 
+	@SuppressWarnings("unused")
 	private String getPhoneLabel() {
 		return String.format(getString(R.string.storage_phone_label),
 				getFreeInternalStorage() / Math.pow(1024, 3));

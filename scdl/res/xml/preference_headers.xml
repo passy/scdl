@@ -5,7 +5,9 @@
         android:fragment="net.rdrei.android.scdl.ui.ApplicationPreferenceFragment"
         android:summary="Manage download options"
         android:title="Download" >
-        <extra android:name="resource" android:value="download_preferences" />
+        <extra
+            android:name="resource"
+            android:value="download_preferences" />
     </header>
 
 </preference-headers>

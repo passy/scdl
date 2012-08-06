@@ -24,9 +24,9 @@ public class SCDLApplication extends Application {
 			if (Build.VERSION.SDK_INT > 11) {
 				this.enableStrictMode();
 			}
+		} else {
+			BugSenseHandler.setup(this, getString(R.string.bugsense_id));
 		}
-		
-		BugSenseHandler.setup(this, getString(R.string.bugsense_id));
 	}
 
 	public boolean isDebuggable() {

@@ -33,6 +33,9 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	@Inject
 	private DownloadManager mDownloadManager;
 
+	@Inject
+	private ApplicationPreferences mPreferences;
+
 	private final Uri mUri;
 	private final TrackEntity mTrack;
 	private final Handler mHandler;
@@ -82,21 +85,24 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	private DownloadManager.Request createDownloadRequest(final Uri uri)
 			throws IOException {
 		final Request request = new Request(uri);
-		// Path based on the public Music directory and a - currently -
-		// hard-coded value.
-		final File typePath = new File(Environment.DIRECTORY_MUSIC,
-				"Soundcloud");
+		final File typePath = mPreferences.getStorageDirectory();
 
+		// The preferences panel already tries to create the path, but it could
+		// have been removed in the meantime, so we rather double-check.
 		if (!checkAndCreateTypePath(typePath)) {
 			throw new IOException(String.format(
 					"Can't open directory %s to write.", typePath.toString()));
 		}
+		
 
+		Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
+				mTrack.getDownloadFilename());
+		
+		Ln.d("Local destination URI: %s", destinationUri.toString());
 		request.setTitle(mTrack.getTitle());
 		request.setDescription(mContext
 				.getString(R.string.download_description));
-		request.setDestinationInExternalPublicDir(typePath.toString(),
-				mTrack.getDownloadFilename());
+		request.setDestinationUri(destinationUri);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// We have an audio file, please scan it!
