@@ -96,6 +96,7 @@ public class SelectTrackActivity extends RoboActivity {
 		}
 
 		bindButtons();
+		// CommonMenuFragment.injectMenu(this);
 	}
 
 	@Override
