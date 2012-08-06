@@ -76,7 +76,7 @@ public class SelectTrackActivity extends RoboActivity {
 	private TrackEntity mTrack;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.select_track);

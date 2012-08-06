@@ -17,9 +17,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -32,13 +29,13 @@ public class MainActivity extends RoboFragmentActivity implements
 	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
 
 	@Inject
-	FragmentManager mFragmentManager;
+	private FragmentManager mFragmentManager;
 
 	@InjectView(R.id.pager)
-	ViewPager mPager;
+	private ViewPager mPager;
 
 	@InjectView(R.id.indicator)
-	CirclePageIndicator mIndicator;
+	private CirclePageIndicator mIndicator;
 
 	/** Called when the activity is first created. */
 	@Override
