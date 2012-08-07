@@ -41,11 +41,11 @@ public class MainActivity extends RoboFragmentActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// Load default settings once.
 		PreferenceManager.setDefaultValues(this, R.xml.download_preferences,
 				false);
-		
+
 		setContentView(R.layout.demo);
 
 		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(
@@ -54,7 +54,13 @@ public class MainActivity extends RoboFragmentActivity implements
 		mIndicator.setViewPager(mPager);
 
 		showChangelogOnDemand();
-		CommonMenuFragment.injectMenu(this);
+
+		// Only attach if this is a fresh activity (eg. not on a screen rotated
+		// onCreate call
+
+		if (savedInstanceState == null) {
+			CommonMenuFragment.injectMenu(this);
+		}
 	}
 
 	@Override
@@ -132,7 +138,7 @@ public class MainActivity extends RoboFragmentActivity implements
 					TrackErrorActivity.class);
 			errorIntent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE,
 					ErrorCode.NO_MARKET);
-			
+
 			startActivity(errorIntent);
 		}
 	}

@@ -96,7 +96,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		bindButtons();
-		CommonMenuFragment.injectMenu(this);
+		if (savedInstanceState == null) {
+			CommonMenuFragment.injectMenu(this);
+		}
 	}
 
 	@Override
