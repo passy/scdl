@@ -1,5 +1,8 @@
 package net.rdrei.android.scdl.receiver;
 
+import java.io.File;
+
+import net.rdrei.android.scdl.Config;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.service.MediaScannerService;
 import roboguice.receiver.RoboBroadcastReceiver;
@@ -130,36 +133,37 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 					Ln.d("Could not find download with id %d.", mDownloadId);
 					return null;
 				}
-	
+
 				final int descriptionIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION);
-	
+
 				if (!cursor.getString(descriptionIndex).equals(
 						context.getString(R.string.download_description))) {
-					// Download doesn't belong to us. Weird way to check, but way,
+					// Download doesn't belong to us. Weird way to check, but
+					// way,
 					// way
 					// easier than keeping track of the IDs.
 					Ln.d("Description did not match SCDL default description.");
 					return null;
 				}
-	
+
 				final int titleIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_TITLE);
 				final String title = cursor.getString(titleIndex);
-	
+
 				final int statusIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_STATUS);
 				final int status = cursor.getInt(statusIndex);
-	
+
 				final int localUriIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
 				final String downloadUri = cursor.getString(localUriIndex);
-	
+
 				final Download download = new Download();
 				download.setTitle(title);
 				download.setStatus(status);
 				download.setPath(downloadUri);
-	
+
 				return download;
 			} finally {
 				cursor.close();
@@ -169,6 +173,10 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		@Override
 		protected void onSuccess(Download t) throws Exception {
 			super.onSuccess(t);
+			
+			if (shouldMoveFileToLocal(t)) {
+				moveFileToLocal(t);
+			}
 
 			final Intent scanIntent = new Intent(context,
 					MediaScannerService.class);
@@ -176,6 +184,18 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			context.startService(scanIntent);
 
 			showNotification(context, t.getTitle());
+		}
+
+		protected boolean shouldMoveFileToLocal(Download download) {
+			return download.getPath().endsWith(Config.TMP_DOWNLOAD_POSTFIX);
+		}
+
+		protected void moveFileToLocal(Download download) {
+			final File path = new File(download.getPath());
+			final File newDir = context.getDir(path.getName(),
+					Context.MODE_WORLD_READABLE);
+			path.renameTo(new File(newDir, path.getName()));
+
 		}
 
 	}

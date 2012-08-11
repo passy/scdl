@@ -3,6 +3,7 @@ package net.rdrei.android.scdl;
 import java.io.File;
 import java.io.IOException;
 
+import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
 import roboguice.util.Ln;
 import roboguice.util.SafeAsyncTask;
@@ -85,8 +86,29 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	private DownloadManager.Request createDownloadRequest(final Uri uri)
 			throws IOException {
 		final Request request = new Request(uri);
-		final File typePath = mPreferences.getStorageDirectory();
+		
+		setRequestStorage(request);
+		request.setTitle(mTrack.getTitle());
+		request.setDescription(mContext
+				.getString(R.string.download_description));
 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// We have an audio file, please scan it!
+			request.allowScanningByMediaScanner();
+		}
+
+		return request;
+	}
+	
+	private void setRequestStorage(final Request request) throws IOException {
+		final StorageType type = mPreferences.getStorageType();
+		final File typePath = mPreferences.getStorageDirectory();
+		String filename = mTrack.getDownloadFilename();
+		
+		if (type == StorageType.CUSTOM) {
+			filename += Config.TMP_DOWNLOAD_POSTFIX;
+		}
+		
 		// The preferences panel already tries to create the path, but it could
 		// have been removed in the meantime, so we rather double-check.
 		if (!checkAndCreateTypePath(typePath)) {
@@ -96,20 +118,9 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		
 
 		Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
-				mTrack.getDownloadFilename());
-		
+				filename);
 		Ln.d("Local destination URI: %s", destinationUri.toString());
-		request.setTitle(mTrack.getTitle());
-		request.setDescription(mContext
-				.getString(R.string.download_description));
 		request.setDestinationUri(destinationUri);
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			// We have an audio file, please scan it!
-			request.allowScanningByMediaScanner();
-		}
-
-		return request;
 	}
 
 	private class StartDownloadTask extends SafeAsyncTask<Void> {

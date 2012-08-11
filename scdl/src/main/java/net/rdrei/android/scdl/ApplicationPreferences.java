@@ -76,8 +76,6 @@ public class ApplicationPreferences {
 			if (customPath != null) {
 				return new File(customPath);
 			}
-		} else if (storageType == StorageType.LOCAL) {
-			return mContext.getFilesDir();
 		}
 
 		return new File(Environment.getExternalStorageDirectory().toString(),
