@@ -88,10 +88,10 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 
 	private void loadStorageTypeOptions() {
 		mTypePreference.setEntries(new CharSequence[] { getExternalLabel(),
-				getString(R.string.storage_custom_label) });
-		mTypePreference
-				.setEntryValues(new String[] { StorageType.EXTERNAL.toString(),
-						StorageType.CUSTOM.toString(), });
+				getPhoneLabel(), getString(R.string.storage_custom_label) });
+		mTypePreference.setEntryValues(new String[] {
+				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
+				StorageType.CUSTOM.toString(), });
 
 		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 	}
@@ -101,7 +101,6 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 				getFreeExternalStorage() / Math.pow(1024, 3));
 	}
 
-	@SuppressWarnings("unused")
 	private String getPhoneLabel() {
 		return String.format(getString(R.string.storage_phone_label),
 				getFreeInternalStorage() / Math.pow(1024, 3));

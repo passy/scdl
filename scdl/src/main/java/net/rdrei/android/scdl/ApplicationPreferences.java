@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 @ContextSingleton
 public class ApplicationPreferences {
-	private static final String DEFAULT_STORAGE_DIRECTORY = "Soundcloud";
+	public static final String DEFAULT_STORAGE_DIRECTORY = "Soundcloud";
 
 	public static final String KEY_STORAGE_TYPE = "download_preferences_storage_type";
 

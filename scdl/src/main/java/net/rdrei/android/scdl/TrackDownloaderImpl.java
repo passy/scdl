@@ -105,7 +105,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		final File typePath = mPreferences.getStorageDirectory();
 		String filename = mTrack.getDownloadFilename();
 		
-		if (type == StorageType.CUSTOM) {
+		if (type == StorageType.LOCAL) {
 			filename += Config.TMP_DOWNLOAD_POSTFIX;
 		}
 		

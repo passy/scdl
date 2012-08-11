@@ -1,8 +1,11 @@
 package net.rdrei.android.scdl.receiver;
 
 import java.io.File;
+import java.io.IOException;
 
+import net.rdrei.android.scdl.ApplicationPreferences;
 import net.rdrei.android.scdl.Config;
+import net.rdrei.android.scdl.IOUtil;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.service.MediaScannerService;
 import roboguice.receiver.RoboBroadcastReceiver;
@@ -173,8 +176,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		@Override
 		protected void onSuccess(Download t) throws Exception {
 			super.onSuccess(t);
-			
+
 			if (shouldMoveFileToLocal(t)) {
+				Ln.d("Moving temporary file to local location.");
 				moveFileToLocal(t);
 			}
 
@@ -190,13 +194,33 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			return download.getPath().endsWith(Config.TMP_DOWNLOAD_POSTFIX);
 		}
 
+		/**
+		 * Moves a download to a local location and removes the temporary path
+		 * suffix.
+		 * 
+		 * @param download
+		 */
 		protected void moveFileToLocal(Download download) {
-			final File path = new File(download.getPath());
-			final File newDir = context.getDir(path.getName(),
+			final File path = new File(download.getPath().substring("file:".length()));
+			final String filename = path.getName();
+			final File newDir = context.getDir(
+					ApplicationPreferences.DEFAULT_STORAGE_DIRECTORY,
 					Context.MODE_WORLD_READABLE);
-			path.renameTo(new File(newDir, path.getName()));
-
+			
+			final String newFileName = path.getName().substring(0,
+					filename.length() - Config.TMP_DOWNLOAD_POSTFIX.length());
+			
+			final File newPath = new File(newDir, newFileName);
+			try {
+				IOUtil.copyFile(path, newPath);
+			} catch (IOException err) {
+				Ln.w(err, "Failed to rename download.");
+				return;
+			}
+			
+			Ln.d("Download moved to %s", newPath.toString());
+			path.delete();
+			download.setPath(newPath.getAbsolutePath());
 		}
-
 	}
 }
