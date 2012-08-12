@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/download_preferences_title" >
+        <ListPreference
+            android:key="download_preferences_storage_type"
+            android:defaultValue="EXTERNAL"
+            android:title="@string/download_preferences_storage_type_title" />
+
+        <EditTextPreference
+            android:name="Storage Folder"
+            android:key="download_preferences_storage_custom_path"
+            android:summary=""
+            android:title="Custom folder location" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

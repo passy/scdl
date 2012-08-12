@@ -5,18 +5,19 @@ import net.rdrei.android.scdl.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
+import sheetrock.panda.changelog.ChangeLog;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.app.AlertDialog.Builder;
 
-import sheetrock.panda.changelog.ChangeLog;
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -28,18 +29,23 @@ public class MainActivity extends RoboFragmentActivity implements
 	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
 
 	@Inject
-	FragmentManager mFragmentManager;
+	private FragmentManager mFragmentManager;
 
 	@InjectView(R.id.pager)
-	ViewPager mPager;
+	private ViewPager mPager;
 
 	@InjectView(R.id.indicator)
-	CirclePageIndicator mIndicator;
+	private CirclePageIndicator mIndicator;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Load default settings once.
+		PreferenceManager.setDefaultValues(this, R.xml.download_preferences,
+				false);
+
 		setContentView(R.layout.demo);
 
 		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(
@@ -48,6 +54,13 @@ public class MainActivity extends RoboFragmentActivity implements
 		mIndicator.setViewPager(mPager);
 
 		showChangelogOnDemand();
+
+		// Only attach if this is a fresh activity (eg. not on a screen rotated
+		// onCreate call
+
+		if (savedInstanceState == null) {
+			CommonMenuFragment.injectMenu(this);
+		}
 	}
 
 	@Override
@@ -125,7 +138,7 @@ public class MainActivity extends RoboFragmentActivity implements
 					TrackErrorActivity.class);
 			errorIntent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE,
 					ErrorCode.NO_MARKET);
-			
+
 			startActivity(errorIntent);
 		}
 	}

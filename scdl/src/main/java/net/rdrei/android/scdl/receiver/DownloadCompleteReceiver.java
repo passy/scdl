@@ -1,5 +1,11 @@
 package net.rdrei.android.scdl.receiver;
 
+import java.io.File;
+import java.io.IOException;
+
+import net.rdrei.android.scdl.ApplicationPreferences;
+import net.rdrei.android.scdl.Config;
+import net.rdrei.android.scdl.IOUtil;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.service.MediaScannerService;
 import roboguice.receiver.RoboBroadcastReceiver;
@@ -130,36 +136,37 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 					Ln.d("Could not find download with id %d.", mDownloadId);
 					return null;
 				}
-	
+
 				final int descriptionIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION);
-	
+
 				if (!cursor.getString(descriptionIndex).equals(
 						context.getString(R.string.download_description))) {
-					// Download doesn't belong to us. Weird way to check, but way,
+					// Download doesn't belong to us. Weird way to check, but
+					// way,
 					// way
 					// easier than keeping track of the IDs.
 					Ln.d("Description did not match SCDL default description.");
 					return null;
 				}
-	
+
 				final int titleIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_TITLE);
 				final String title = cursor.getString(titleIndex);
-	
+
 				final int statusIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_STATUS);
 				final int status = cursor.getInt(statusIndex);
-	
+
 				final int localUriIndex = cursor
 						.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
 				final String downloadUri = cursor.getString(localUriIndex);
-	
+
 				final Download download = new Download();
 				download.setTitle(title);
 				download.setStatus(status);
 				download.setPath(downloadUri);
-	
+
 				return download;
 			} finally {
 				cursor.close();
@@ -170,6 +177,11 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		protected void onSuccess(Download t) throws Exception {
 			super.onSuccess(t);
 
+			if (shouldMoveFileToLocal(t)) {
+				Ln.d("Moving temporary file to local location.");
+				moveFileToLocal(t);
+			}
+
 			final Intent scanIntent = new Intent(context,
 					MediaScannerService.class);
 			scanIntent.putExtra(MediaScannerService.EXTRA_PATH, t.getPath());
@@ -178,5 +190,37 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			showNotification(context, t.getTitle());
 		}
 
+		protected boolean shouldMoveFileToLocal(Download download) {
+			return download.getPath().endsWith(Config.TMP_DOWNLOAD_POSTFIX);
+		}
+
+		/**
+		 * Moves a download to a local location and removes the temporary path
+		 * suffix.
+		 * 
+		 * @param download
+		 */
+		protected void moveFileToLocal(Download download) {
+			final File path = new File(download.getPath().substring("file:".length()));
+			final String filename = path.getName();
+			final File newDir = context.getDir(
+					ApplicationPreferences.DEFAULT_STORAGE_DIRECTORY,
+					Context.MODE_WORLD_READABLE);
+			
+			final String newFileName = path.getName().substring(0,
+					filename.length() - Config.TMP_DOWNLOAD_POSTFIX.length());
+			
+			final File newPath = new File(newDir, newFileName);
+			try {
+				IOUtil.copyFile(path, newPath);
+			} catch (IOException err) {
+				Ln.w(err, "Failed to rename download.");
+				return;
+			}
+			
+			Ln.d("Download moved to %s", newPath.toString());
+			path.delete();
+			download.setPath(newPath.getAbsolutePath());
+		}
 	}
 }

@@ -31,4 +31,18 @@
     <string name="changelog_full_title">Change Log</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_ok_button">Cool!</string>
+    <string name="download_preferences_title">Download Preferences</string>
+    <string name="download_preferences_storage_type_title">Store tracks on</string>
+    <string name="preferences">Preferences</string>
+    <string name="storage_sd_label">SD Card (%.2fGB free)</string>
+    <string name="storage_phone_label">Phone (%.2fGB free)</string>
+    <string name="storage_custom_label">Custom Path</string>
+    <string name="storage_sd">SD Card</string>
+    <string name="storage_phone">Phone</string>
+    <string name="sd_custom">Custom Path</string>
+    <string name="custom_path_error_title">Couldn\'t set custom path</string>
+    <string name="custom_path_error_insecure_path">The custom path must start with "/mnt/"!</string>
+    <string name="custom_path_error_permission_denied">We don\'t have permission to write to this location.</string>
+    <string name="custom_path_error_not_a_directory">The given path doesn\'t point to a directory.</string>
+    <string name="custom_path_error_unknown">Blyme! Something went wrong. Please choose a different path.</string>
 </resources>
