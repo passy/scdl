@@ -97,13 +97,23 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment
 	}
 
 	private String getExternalLabel() {
-		return String.format(getString(R.string.storage_sd_label),
-				getFreeExternalStorage() / Math.pow(1024, 3));
+		double free = getFreeExternalStorage() / Math.pow(1024, 3);
+
+		if (free >= 0) {
+			return String.format(getString(R.string.storage_sd_label), free);
+		}
+		
+		return getString(R.string.storage_sd_label_no_free);
 	}
 
 	private String getPhoneLabel() {
-		return String.format(getString(R.string.storage_phone_label),
-				getFreeInternalStorage() / Math.pow(1024, 3));
+		double free = getFreeInternalStorage() / Math.pow(1024, 3);
+
+		if (free >= 0) {
+			return String.format(getString(R.string.storage_phone_label), free);
+		}
+		
+		return getString(R.string.storage_phone_label_no_free);
 	}
 
 	/**
