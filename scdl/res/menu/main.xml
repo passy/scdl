@@ -3,4 +3,7 @@
     <item android:id="@+id/preferences"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="Preferences" />
+    <item android:id="@+id/changelog"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Changelog" />
 </menu>

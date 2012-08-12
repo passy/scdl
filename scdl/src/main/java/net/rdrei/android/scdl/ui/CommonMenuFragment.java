@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
+import sheetrock.panda.changelog.ChangeLog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,14 +16,12 @@ public class CommonMenuFragment extends Fragment {
 
 		return fragment;
 	}
-	
+
 	public static void injectMenu(FragmentActivity mActivity) {
 		CommonMenuFragment menuFragment = CommonMenuFragment.newInstance();
 
-		mActivity.getSupportFragmentManager()
-			.beginTransaction()
-			.add(menuFragment, "MENU")
-			.commit();
+		mActivity.getSupportFragmentManager().beginTransaction()
+				.add(menuFragment, "MENU").commit();
 	}
 
 	@Override
@@ -47,6 +46,10 @@ public class CommonMenuFragment extends Fragment {
 			intent.putExtra(ApplicationPreferencesActivity.EXTRA_SHOW_FRAGMENT,
 					"net.rdrei.android.scdl.ui.DownloadPreferencesFragment");
 			startActivity(intent);
+			return true;
+		} else if (item.getItemId() == R.id.changelog) {
+			ChangeLog changeLog = new ChangeLog(this.getActivity());
+			changeLog.getFullLogDialog().show();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
