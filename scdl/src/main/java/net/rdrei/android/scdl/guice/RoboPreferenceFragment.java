@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl.guice;
 
 import roboguice.RoboGuice;
+import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -11,6 +12,7 @@ import android.preference.PreferenceFragment;
  * @author pascal
  * 
  */
+@TargetApi(11)
 public abstract class RoboPreferenceFragment extends PreferenceFragment {
 
 	@Override
