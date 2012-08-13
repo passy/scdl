@@ -105,7 +105,7 @@ public class ShareIntentResolver {
 
 		throw new UnsupportedUrlException(
 				String.format("Given URL '%s' is not a valid soundcloud URL.",
-						uri.toString()));
+						uri == null ? "unknown" : uri.toString()));
 	}
 
 	/**
