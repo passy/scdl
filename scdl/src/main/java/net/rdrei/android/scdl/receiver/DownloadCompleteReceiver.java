@@ -176,6 +176,10 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		@Override
 		protected void onSuccess(Download t) throws Exception {
 			super.onSuccess(t);
+			
+			if (t == null) {
+				return;
+			}
 
 			if (shouldMoveFileToLocal(t)) {
 				Ln.d("Moving temporary file to local location.");
@@ -201,15 +205,16 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		 * @param download
 		 */
 		protected void moveFileToLocal(Download download) {
-			final File path = new File(download.getPath().substring("file:".length()));
+			final File path = new File(download.getPath().substring(
+					"file:".length()));
 			final String filename = path.getName();
 			final File newDir = context.getDir(
 					ApplicationPreferences.DEFAULT_STORAGE_DIRECTORY,
 					Context.MODE_WORLD_READABLE);
-			
+
 			final String newFileName = path.getName().substring(0,
 					filename.length() - Config.TMP_DOWNLOAD_POSTFIX.length());
-			
+
 			final File newPath = new File(newDir, newFileName);
 			try {
 				IOUtil.copyFile(path, newPath);
@@ -217,7 +222,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				Ln.w(err, "Failed to rename download.");
 				return;
 			}
-			
+
 			Ln.d("Download moved to %s", newPath.toString());
 			path.delete();
 			download.setPath(newPath.getAbsolutePath());

@@ -7,6 +7,7 @@ import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
 import roboguice.util.Ln;
 import roboguice.util.SafeAsyncTask;
+import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
@@ -65,14 +66,13 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	 * Check if the given path is writable and attempts to create it.
 	 */
 	public static boolean checkAndCreateTypePath(File path) {
-		final File fullPath = new File(Environment
-				.getExternalStorageDirectory().toString(), path.toString());
-
-		if (!fullPath.exists()) {
-			return fullPath.mkdirs();
+		if (!path.exists()) {
+			if(!path.mkdirs()) {
+				return false;
+			}
 		}
 
-		return fullPath.isDirectory() && fullPath.canWrite();
+		return path.isDirectory() && path.canWrite();
 	}
 
 	/**
@@ -83,6 +83,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	 * @throws IOException
 	 *             If directory can't be used for saving the file.
 	 */
+	@TargetApi(11)
 	private DownloadManager.Request createDownloadRequest(final Uri uri)
 			throws IOException {
 		final Request request = new Request(uri);
@@ -115,7 +116,6 @@ public class TrackDownloaderImpl implements TrackDownloader {
 			throw new IOException(String.format(
 					"Can't open directory %s to write.", typePath.toString()));
 		}
-		
 
 		Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
 				filename);
