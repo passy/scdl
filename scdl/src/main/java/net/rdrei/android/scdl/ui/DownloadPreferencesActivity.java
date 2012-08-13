@@ -1,18 +1,23 @@
 package net.rdrei.android.scdl.ui;
 
 import net.rdrei.android.scdl.R;
-import net.rdrei.android.scdl.guice.RoboPreferenceFragment;
+import roboguice.activity.RoboPreferenceActivity;
 import android.os.Bundle;
 
 import com.google.inject.Inject;
 
-public class DownloadPreferencesFragment extends RoboPreferenceFragment {
-
+/**
+ * The activity replacing {@link DownloadPreferencesFragment} on pre-ICS.
+ * @author pascal
+ *
+ */
+public class DownloadPreferencesActivity extends RoboPreferenceActivity {
 	@Inject
 	private DownloadPreferencesDelegateFactory mDelegateFactory;
 	
 	private DownloadPreferencesDelegate mDelegate;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,4 +41,5 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment {
 
 		mDelegate.onResume();
 	}
+
 }

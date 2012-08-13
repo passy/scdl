@@ -21,7 +21,7 @@ public class ApplicationPreferencesActivity extends RoboPreferenceActivity {
 
 		// Directly start into the download fragment activity.
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-			startActivity(new Intent(this, DownloadFragmentActivity.class));
+			startActivity(new Intent(this, DownloadPreferencesActivity.class));
 			finish();
 		}
 	}
