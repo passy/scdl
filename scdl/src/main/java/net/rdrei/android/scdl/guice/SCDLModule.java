@@ -13,6 +13,9 @@ import net.rdrei.android.scdl.api.URLWrapperFactory;
 import net.rdrei.android.scdl.api.URLWrapperImpl;
 import net.rdrei.android.scdl.api.entity.ResolveEntity;
 import net.rdrei.android.scdl.api.entity.TrackEntity;
+import net.rdrei.android.scdl.ui.DownloadPreferencesDelegate;
+import net.rdrei.android.scdl.ui.DownloadPreferencesDelegateFactory;
+import net.rdrei.android.scdl.ui.DownloadPreferencesDelegateImpl;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
@@ -36,6 +39,11 @@ public class SCDLModule extends AbstractModule {
 
 		install(new FactoryModuleBuilder().implement(TrackDownloader.class,
 				TrackDownloaderImpl.class).build(TrackDownloaderFactory.class));
+
+		install(new FactoryModuleBuilder().implement(
+				DownloadPreferencesDelegate.class,
+				DownloadPreferencesDelegateImpl.class).build(
+				DownloadPreferencesDelegateFactory.class));
 
 		// Unfortunately, I haven't figured yet how to use generics for the type
 		// specifications here. This is why there needs to be one binding per
