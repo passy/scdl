@@ -43,8 +43,6 @@ public class CommonMenuFragment extends Fragment {
 		if (item.getItemId() == R.id.preferences) {
 			final Intent intent = new Intent(this.getActivity(),
 					ApplicationPreferencesActivity.class);
-			intent.putExtra(ApplicationPreferencesActivity.EXTRA_SHOW_FRAGMENT,
-					"net.rdrei.android.scdl.ui.DownloadPreferencesFragment");
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.changelog) {
