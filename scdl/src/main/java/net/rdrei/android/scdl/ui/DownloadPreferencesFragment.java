@@ -1,5 +1,7 @@
 package net.rdrei.android.scdl.ui;
 
+import net.rdrei.android.scdl.PreferenceManagerWrapper;
+import net.rdrei.android.scdl.PreferenceManagerWrapperFactory;
 import net.rdrei.android.scdl.R;
 import net.rdrei.android.scdl.guice.RoboPreferenceFragment;
 import android.os.Bundle;
@@ -10,15 +12,19 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment {
 
 	@Inject
 	private DownloadPreferencesDelegateFactory mDelegateFactory;
-	
 	private DownloadPreferencesDelegate mDelegate;
+
+	@Inject
+	private PreferenceManagerWrapperFactory mPreferenceManagerWrapperFactory;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mDelegate = mDelegateFactory.create(getPreferenceManager());
-		
+
+		PreferenceManagerWrapper preferenceManager = mPreferenceManagerWrapperFactory
+				.create(getPreferenceManager());
+		mDelegate = mDelegateFactory.create(preferenceManager);
+
 		addPreferencesFromResource(R.xml.download_preferences);
 		mDelegate.onCreate();
 	}

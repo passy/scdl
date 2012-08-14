@@ -1,7 +1,7 @@
 package net.rdrei.android.scdl.ui;
 
-import android.preference.PreferenceManager;
+import net.rdrei.android.scdl.PreferenceManagerWrapper;
 
 public interface DownloadPreferencesDelegateFactory {
-	DownloadPreferencesDelegate create(PreferenceManager manager);
+	DownloadPreferencesDelegate create(PreferenceManagerWrapper preferenceManagerWrapper);
 }

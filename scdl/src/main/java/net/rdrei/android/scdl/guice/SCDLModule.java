@@ -1,5 +1,8 @@
 package net.rdrei.android.scdl.guice;
 
+import net.rdrei.android.scdl.PreferenceManagerWrapper;
+import net.rdrei.android.scdl.PreferenceManagerWrapperFactory;
+import net.rdrei.android.scdl.PreferenceManagerWrapperImpl;
 import net.rdrei.android.scdl.TrackDownloader;
 import net.rdrei.android.scdl.TrackDownloaderFactory;
 import net.rdrei.android.scdl.TrackDownloaderImpl;
@@ -44,6 +47,11 @@ public class SCDLModule extends AbstractModule {
 				DownloadPreferencesDelegate.class,
 				DownloadPreferencesDelegateImpl.class).build(
 				DownloadPreferencesDelegateFactory.class));
+		
+		install(new FactoryModuleBuilder().implement(
+				PreferenceManagerWrapper.class,
+				PreferenceManagerWrapperImpl.class).build(
+				PreferenceManagerWrapperFactory.class));
 
 		// Unfortunately, I haven't figured yet how to use generics for the type
 		// specifications here. This is why there needs to be one binding per

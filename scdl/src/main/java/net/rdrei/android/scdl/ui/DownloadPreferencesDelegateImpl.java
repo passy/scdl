@@ -4,6 +4,7 @@ import net.rdrei.android.scdl.ApplicationPreferences;
 import net.rdrei.android.scdl.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl.DownloadPathValidator;
 import net.rdrei.android.scdl.DownloadPathValidator.DownloadPathValidationException;
+import net.rdrei.android.scdl.PreferenceManagerWrapper;
 import net.rdrei.android.scdl.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -15,7 +16,6 @@ import android.os.StatFs;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
@@ -42,10 +42,10 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	@Inject
 	private Context mContext;
 	
-	final private PreferenceManager mPreferenceManager;
+	final private PreferenceManagerWrapper mPreferenceManager;
 	
 	@Inject
-	public DownloadPreferencesDelegateImpl(@Assisted PreferenceManager manager) {
+	public DownloadPreferencesDelegateImpl(@Assisted PreferenceManagerWrapper manager) {
 		mPreferenceManager = manager;
 	}
 
