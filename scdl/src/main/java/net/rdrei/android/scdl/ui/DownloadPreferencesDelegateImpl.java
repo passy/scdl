@@ -139,7 +139,8 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	 * Returns the free bytes on internal storage.
 	 */
 	public static long getFreeInternalStorage() {
-		StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
+		String path = Environment.getDataDirectory().getPath();
+		StatFs statFs = new StatFs(path);
 		return statFs.getAvailableBlocks() * statFs.getBlockSize();
 	}
 
