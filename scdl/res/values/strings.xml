@@ -47,5 +47,5 @@
     <string name="custom_path_error_permission_denied">We don\'t have permission to write to this location.</string>
     <string name="custom_path_error_not_a_directory">The given path doesn\'t point to a directory.</string>
     <string name="custom_path_error_unknown">Blyme! Something went wrong. Please choose a different path.</string>
-    <string name="intent_send_label">SoundCloud Downloader</string>
+    <string name="intent_send_label">SoundCloud Download</string>
 </resources>
