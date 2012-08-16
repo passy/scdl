@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl2.R;
 
 import android.app.AlertDialog;
 import android.content.Context;

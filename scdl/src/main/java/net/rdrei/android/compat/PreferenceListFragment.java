@@ -3,7 +3,7 @@ package net.rdrei.android.compat;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import net.rdrei.android.scdl.R;
+import net.rdrei.android.scdl2.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

@@ -78,7 +78,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import net.rdrei.android.scdl.api.URLWrapper;
+import net.rdrei.android.scdl2.api.URLWrapper;
 
 /**
  * A fluid interface for making HTTP requests using an underlying
