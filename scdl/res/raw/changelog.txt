@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.0
+  % Version 1.0
+  _ 2012-08-xx
+    * Rebranding to comply with Google Play program policies.
 $ 0.4
   % Version 0.4
   _ 2012-08-07
