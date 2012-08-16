@@ -3,6 +3,7 @@ package net.rdrei.android.scdl2.test;
 import net.rdrei.android.scdl2.DownloadPathValidator;
 import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
 import net.rdrei.android.scdl2.DownloadPathValidator.ErrorCode;
+import static net.rdrei.android.scdl2.test.DownloadPathValidationErrorCodeMatcher.hasErrorCode;
 
 import org.junit.Before;
 import org.junit.Rule;
