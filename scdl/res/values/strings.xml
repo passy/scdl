@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Soundcloud Downloader</string>
+    <string name="app_name">Downloader for SoundCloud</string>
     <string name="loading_track_title">Loading Track …</string>
     <string name="cancel">Cancel</string>
     <string name="download">Download</string>
-    <string name="demo_welcome">Learn how to use Soundcloud Downloader in 4 simple steps.</string>
+    <string name="demo_welcome">Learn how to use Downloader for SoundCloud in 4 simple steps.</string>
     <string name="start">Start</string>
     <string name="next">Next</string>
-    <string name="dialog_install_soundcloud">You don\'t have the Soundcloud app installed, which is required for this app to run. Do you want to install it from Google Play now?</string>
+    <string name="dialog_install_soundcloud">You don\'t have the SoundCloud app installed, which is required for this app to run. Do you want to install it from Google Play now?</string>
     <string name="dialog_yes">Sure thing</string>
     <string name="dialog_no">No way</string>
     <string name="demo_step1_title">Select Track</string>
-    <string name="demo_step1_text">Open the Soundcloud app and search for the desired track.</string>
+    <string name="demo_step1_text">Open the SoundCloud app and search for the desired track.</string>
     <string name="demo_step2_title">Share Track</string>
     <string name="demo_step2_text">Choose the share menu action.</string>
-    <string name="demo_step3_title">Select Soundcloud Downloader</string>
-    <string name="demo_step3_text">Select Soundcloud Downloader from the menu.</string>
+    <string name="demo_step3_title">Select SoundCloud Downloader</string>
+    <string name="demo_step3_text">Select SoundCloud Downloader from the menu.</string>
     <string name="demo_step4_title">Enjoy</string>
     <string name="demo_step4_text">Verify your choice and download the track to your phone.</string>
     <string name="track_error_unsupported_url">Sorry, this type of URL is not supported.</string>
     <string name="track_error_unknown">Unknown error.</string>
     <string name="track_error_no_write_permission">Sorry, but we can\'t write to the external storage.</string>
-    <string name="track_error_no_market">There is no Google Play on your device. Please install Soundcloud manually.</string>
+    <string name="track_error_no_market">There is no Google Play on your device. Please install SoundCloud manually.</string>
     <string name="track_error_not_found">Sorry, the track could not be found. Perhaps it was deleted.</string>
-    <string name="track_error_network">Can\'t connect to Soundcloud. Please check your network connection.</string>
+    <string name="track_error_network">Can\'t connect to SoundCloud. Please check your network connection.</string>
     <string name="track_error">Download Error</string>
     <string name="download_description">From soundcloud.com</string>
     <string name="notification_download_finished">Download finished</string>
