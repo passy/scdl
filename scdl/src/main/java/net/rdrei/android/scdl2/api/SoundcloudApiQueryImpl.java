@@ -48,6 +48,7 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 	private final Map<String, String> mPostParameters = new HashMap<String, String>();
 	private final Map<String, File> mPartParameters = new HashMap<String, File>();
 	private SendCallback mSendCallback;
+	private boolean mConnectionPinned = true;
 
 	@Inject
 	private Injector mInjector;
@@ -154,7 +155,10 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 	protected HttpURLConnection executePost() throws APIException {
 		Ln.d("Executing POST against URL " + mUrl.toString());
 		final HttpRequest request = HttpRequest.post(mUrl);
-		pinSSLConnection(request);
+		
+		if (mConnectionPinned) {
+			pinSSLConnection(request);
+		}
 
 		if (mSendCallback != null) {
 			request.setSendCallback(mSendCallback);
@@ -237,7 +241,11 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 		try {
 			final HttpsURLConnection connection = (HttpsURLConnection) mUrl
 					.openConnection();
-			pinSSLConnection(connection);
+			
+			if (mConnectionPinned) {
+				pinSSLConnection(connection);
+			}
+			
 			return connection;
 		} catch (IOException e) {
 			throw new APIException(e, -1);
@@ -274,6 +282,10 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 				.getSocketFactory());
 	}
 
+	private void pinSSLConnection(HttpRequest request) {
+		request.applyTrustManager(getPinningTrustManagers());
+	}
+
 	/**
 	 * @return An array containing an instance of the PinningTrustManager.
 	 */
@@ -281,10 +293,6 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 		final TrustManager[] trustManagers = new TrustManager[1];
 		trustManagers[0] = mInjector.getInstance(PinningTrustManager.class);
 		return trustManagers;
-	}
-
-	private void pinSSLConnection(HttpRequest request) {
-		request.applyTrustManager(getPinningTrustManagers());
 	}
 
 	/**
@@ -351,6 +359,18 @@ public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
 		}
 
 		return sb.toString();
+	}
+
+	public boolean isConnectionPinned() {
+		return mConnectionPinned;
+	}
+
+	/**
+	 * Set whether connection pinning should be used or not.
+	 * @param connectionPinned
+	 */
+	public void setConnectionPinned(boolean connectionPinned) {
+		mConnectionPinned = connectionPinned;
 	}
 
 	@Override
