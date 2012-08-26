@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl2.api;
 
+import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.ResolveService;
 import net.rdrei.android.scdl2.api.service.TrackService;
@@ -22,13 +23,15 @@ public class ServiceManager {
 	private final Injector mInjector;
 	
 	@Inject
+	private ApplicationPreferences mPreferences;
+	
+	@Inject
 	public ServiceManager(Application application) {
 		mInjector = RoboGuice.getBaseApplicationInjector(application);
 	}
 	
-	
 	private void setupService(SoundcloudApiService service) {
-		// No-op without authentication.
+		service.setUseSSL(mPreferences.getSSLEnabled());
 	}
 	
 	public TrackService trackService() {
