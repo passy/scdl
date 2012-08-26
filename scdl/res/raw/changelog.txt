@@ -22,9 +22,13 @@
     </style>
   </head>
   <body>
+$ 1.1
+  % Version 1.1
+  _ 2012-08-xx
+    * Added option to disable SSL in settings. This should those getting long loading times.
 $ 1.0
   % Version 1.0
-  _ 2012-08-xx
+  _ 2012-08-16
     * Rebranding to comply with Google Play program policies.
 $ 0.4
   % Version 0.4
