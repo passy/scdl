@@ -4,16 +4,17 @@ import java.net.URL;
 
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ShareIntentResolver;
-import net.rdrei.android.scdl2.TrackDownloader;
-import net.rdrei.android.scdl2.TrackDownloaderFactory;
 import net.rdrei.android.scdl2.ShareIntentResolver.TrackNotFoundException;
 import net.rdrei.android.scdl2.ShareIntentResolver.UnsupportedUrlException;
+import net.rdrei.android.scdl2.TrackDownloader;
+import net.rdrei.android.scdl2.TrackDownloaderFactory;
 import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.ContextScope;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
@@ -201,9 +202,17 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		@Inject
 		private ShareIntentResolver mShareIntentResolver;
 
+		@Inject
+		private ContextScope mContextScope;
+
 		@Override
 		public String call() throws Exception {
-			return mShareIntentResolver.resolveId();
+			mContextScope.enter(context);
+			try {
+				return mShareIntentResolver.resolveId();
+			} finally {
+				mContextScope.exit(context);
+			}
 		}
 
 		@Override
@@ -233,6 +242,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	public class TrackLoaderTask extends RoboAsyncTask<TrackEntity> {
 		@Inject
 		private ServiceManager mServiceManager;
+		
+		@Inject
+		private ContextScope mContextScope;
 
 		private final String mId;
 
@@ -259,8 +271,13 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 		@Override
 		public TrackEntity call() throws Exception {
-			final TrackService trackService = mServiceManager.trackService();
-			return trackService.getTrack(mId);
+			mContextScope.enter(context);
+			try {
+				final TrackService trackService = mServiceManager.trackService();
+				return trackService.getTrack(mId);
+			} finally {
+				mContextScope.exit(context);
+			}
 		}
 	}
 

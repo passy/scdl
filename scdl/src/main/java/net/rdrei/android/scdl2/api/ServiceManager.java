@@ -5,11 +5,12 @@ import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.ResolveService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 import roboguice.RoboGuice;
+import roboguice.inject.ContextSingleton;
 import android.app.Application;
+import android.content.Context;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * Singleton managing creation of API services and setting them up with default
@@ -18,7 +19,7 @@ import com.google.inject.Singleton;
  * @author pascal
  * 
  */
-@Singleton
+@ContextSingleton
 public class ServiceManager {
 	private final Injector mInjector;
 	
