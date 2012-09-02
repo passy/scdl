@@ -24,7 +24,7 @@ public class ShareIntentResolver {
 	private ServiceManager mServiceManager;
 
 	public static final Pattern URL_ID_PATTERN = Pattern
-			.compile("^https://api.soundcloud.com/tracks/(\\d+)\\.json");
+			.compile("^https?://api.soundcloud.com/tracks/(\\d+)\\.json");
 
 	private static final String[] ALLOWED_HOSTS = { "soundcloud.com", "snd.sc",
 			"m.soundcloud.com" };
