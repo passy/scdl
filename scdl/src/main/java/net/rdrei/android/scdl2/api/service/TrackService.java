@@ -3,8 +3,8 @@ package net.rdrei.android.scdl2.api.service;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
+import net.rdrei.android.scdl2.ApplicationSoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.APIException;
-import net.rdrei.android.scdl2.api.SoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.SoundcloudApiService;
 import net.rdrei.android.scdl2.api.URLWrapper;
 import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
@@ -21,7 +21,7 @@ public class TrackService extends SoundcloudApiService {
 	};
 
 	@Inject
-	private SoundcloudApiQueryFactory<TrackEntity> mTrackQueryFactory;
+	private ApplicationSoundcloudApiQueryFactory mTrackQueryFactory;
 
 	/**
 	 * Resolves a track based on its unique soundcloud ID.

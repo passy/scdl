@@ -7,8 +7,8 @@ import java.util.Map;
 
 import roboguice.util.Ln;
 
+import net.rdrei.android.scdl2.ApplicationSoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.APIException;
-import net.rdrei.android.scdl2.api.SoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.SoundcloudApiService;
 import net.rdrei.android.scdl2.api.URLWrapper;
 import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
@@ -26,7 +26,7 @@ public class ResolveService extends SoundcloudApiService {
 	};
 
 	@Inject
-	private SoundcloudApiQueryFactory<ResolveEntity> mResolveQueryFactory;
+	private ApplicationSoundcloudApiQueryFactory mResolveQueryFactory;
 
 	public ResolveEntity resolve(String url) throws APIException {
 		final Map<String, String> parameters = new HashMap<String, String>();

@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import roboguice.util.Ln;
-
 import net.rdrei.android.scdl2.api.APIException;
 import net.rdrei.android.scdl2.api.SoundcloudApiService;
 import net.rdrei.android.scdl2.api.URLWrapper;
+import roboguice.util.Ln;
 import android.net.Uri;
 
 public class DownloadService extends SoundcloudApiService {
@@ -34,10 +31,10 @@ public class DownloadService extends SoundcloudApiService {
 			throw new IllegalStateException(e);
 		}
 
-		HttpsURLConnection connection = null;
+		HttpURLConnection connection = null;
 		Ln.d("Opening connection at %s.", url.toString());
 		try {
-			connection = (HttpsURLConnection) url.openConnection();
+			connection = (HttpURLConnection) url.openConnection();
 		} catch (IOException e) {
 			throw new APIException(e, -1);
 		}

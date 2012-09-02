@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import roboguice.util.Ln;
+
 import net.rdrei.android.scdl2.Config;
 
 import com.google.inject.Inject;
@@ -14,24 +16,30 @@ import com.google.inject.Inject;
 public class SoundcloudApiService {
 	@Inject
 	private URLWrapperFactory mURLWrapperFactory;
-	
-	private static final String BASE_URL = "https://api.soundcloud.com";
+
+	private static final String BASE_URL_HTTPS = "https://api.soundcloud.com";
+	private static final String BASE_URL_HTTP = "http://api.soundcloud.com";
 	private static final String CONTENT_ENCODING = "UTF-8";
-	
 	private static final String CLIENT_ID_PARAMETER = "client_id";
 	
+	private boolean mUseSSL = true;
+
 	public SoundcloudApiService() {
 		super();
 	}
-	
+
 	/**
 	 * @return The BASE_URL including the correct version field, if added at
-	 * some point.
+	 *         some point.
 	 */
 	protected String getBaseUrl() {
-		return BASE_URL;
+		if (isUseSSL()) {
+			return BASE_URL_HTTPS;
+		} else {
+			return BASE_URL_HTTP;
+		}
 	}
-	
+
 	/**
 	 * Builds a new URL based on the base url and the provided resource.
 	 * 
@@ -43,15 +51,15 @@ public class SoundcloudApiService {
 		return buildUrl(resource, null);
 	}
 
-	protected URLWrapper buildUrl(String resource, Map<String, String> parameters)
-			throws MalformedURLException {
+	protected URLWrapper buildUrl(String resource,
+			Map<String, String> parameters) throws MalformedURLException {
 		final StringBuilder strUrl = new StringBuilder(getBaseUrl());
 		strUrl.append(resource);
 
 		if (parameters == null) {
 			parameters = new HashMap<String, String>();
 		}
-		
+
 		parameters.put(CLIENT_ID_PARAMETER, Config.API_CONSUMER_KEY);
 
 		if (parameters.size() > 0) {
@@ -61,7 +69,7 @@ public class SoundcloudApiService {
 
 		return mURLWrapperFactory.create(strUrl.toString());
 	}
-	
+
 	/**
 	 * Assemble a parameter string from a mapping.
 	 * 
@@ -83,7 +91,7 @@ public class SoundcloudApiService {
 
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Encode the URL.
 	 * 
@@ -96,7 +104,16 @@ public class SoundcloudApiService {
 			return URLEncoder.encode(original, CONTENT_ENCODING);
 		} catch (UnsupportedEncodingException e) {
 			// should never be here..
+			Ln.e(e);
 			return original;
 		}
+	}
+
+	public boolean isUseSSL() {
+		return mUseSSL;
+	}
+
+	public void setUseSSL(boolean useSSL) {
+		mUseSSL = useSSL;
 	}
 }

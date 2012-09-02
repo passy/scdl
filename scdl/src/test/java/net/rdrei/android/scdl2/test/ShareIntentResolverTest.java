@@ -43,7 +43,11 @@ public class ShareIntentResolverTest {
 			public ResolveEntity resolve(String string) throws APIException {
 				ResolveEntity entity = new ResolveEntity();
 				entity.setStatus("302 - Found");
-				entity.setLocation("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
+				if (string.startsWith("https://")) {
+					entity.setLocation("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
+				} else {
+					entity.setLocation("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
+				}
 				return entity;
 			}
 		};
@@ -73,7 +77,7 @@ public class ShareIntentResolverTest {
 		final String result = resolver.resolve();
 		assertThat(
 				result,
-				equalTo("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
+				equalTo("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
 	}
 
 	@Test
@@ -98,6 +102,20 @@ public class ShareIntentResolverTest {
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
 		intent.setData(Uri
 				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
+
+		final ShareIntentResolver resolver = TestRunner.getInjector()
+				.getInstance(ShareIntentResolver.class);
+
+		final String result = resolver.resolveId();
+		assertThat(result, equalTo("44276907"));
+	}
+
+	@Test
+	public void testNoSslResolveToId() throws ShareIntentResolverException {
+
+		ShadowIntent intent = Robolectric.shadowOf(mIntent);
+		intent.setData(Uri
+				.parse("http://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
 		final ShareIntentResolver resolver = TestRunner.getInjector()
 				.getInstance(ShareIntentResolver.class);

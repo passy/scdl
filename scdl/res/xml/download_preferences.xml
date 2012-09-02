@@ -12,6 +12,12 @@
             android:key="download_preferences_storage_custom_path"
             android:summary=""
             android:title="Custom folder location" />
+        
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="Use SSL"
+            android:key="download_preferences_enable_ssl"
+            android:summary="Use encrypted network communication" />
     </PreferenceCategory>
 
 </PreferenceScreen>
