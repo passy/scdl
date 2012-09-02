@@ -13,7 +13,7 @@
             android:summary=""
             android:title="Custom folder location" />
         
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:title="Use SSL"
             android:key="download_preferences_enable_ssl"
