@@ -49,6 +49,11 @@ public class CommonMenuFragment extends Fragment {
 			ChangeLog changeLog = new ChangeLog(this.getActivity());
 			changeLog.getFullLogDialog().show();
 			return true;
+		} else if (item.getItemId() == R.id.buy_adfree) {
+			final Intent intent = new Intent(this.getActivity(),
+					BuyAdFreeActivity.class);
+			startActivity(intent);
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}

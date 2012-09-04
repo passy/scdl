@@ -1,6 +1,8 @@
 package net.rdrei.android.scdl2;
 
 
+import net.robotmedia.billing.BillingController;
+
 import com.bugsense.trace.BugSenseHandler;
 
 import roboguice.util.Ln;
@@ -21,6 +23,8 @@ public class SCDLApplication extends Application {
 
 		if (isDebuggable()) {
 			Ln.d("Debug mode enabled.");
+			BillingController.setDebug(true);
+			
 			// This is irrelevant on older platforms, anyway.
 			if (Build.VERSION.SDK_INT > 11) {
 				this.enableStrictMode();
