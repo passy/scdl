@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.rdrei.android.scdl2"
-    android:versionCode="4"
-    android:versionName="1.1" >
+    android:versionCode="6"
+    android:versionName="1.2-dev" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <uses-sdk
         android:maxSdkVersion="16"
@@ -86,14 +87,14 @@
             android:exported="false"
             android:label="@string/preferences" >
             <intent-filter>
-                <category android:name="android.intent.category.PREFERENCE"/>
+                <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.DownloadPreferencesActivity"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <category android:name="android.intent.category.PREFERENCE"/>
+                <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
         <activity
@@ -107,6 +108,15 @@
         </receiver>
 
         <service android:name=".service.MediaScannerService" />
+        <service android:name="net.robotmedia.billing.BillingService" />
+
+        <receiver android:name="net.robotmedia.billing.BillingReceiver" >
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
