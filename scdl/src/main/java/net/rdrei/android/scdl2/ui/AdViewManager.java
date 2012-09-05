@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
  * Loads and injects an AdView if required into an existing layout.
@@ -19,17 +20,17 @@ public class AdViewManager {
 	private Context mContext;
 	
 	@Inject
-	private ApplicationPreferences mPreferences;
+	private Provider<ApplicationPreferences> mPreferencesProvider;
 	
 	@Inject
-	private LayoutInflater mInflater;
+	private Provider<LayoutInflater> mInflaterProvider;
 	
 	public AdViewManager() {
 		// Injectable
 	}
 	
 	private View getAdView() {
-		return mInflater.inflate(R.layout.adview, null, false);
+		return mInflaterProvider.get().inflate(R.layout.adview, null, false);
 	}
 	
 	/**
@@ -49,7 +50,7 @@ public class AdViewManager {
 	 * @return True if added to layout, false if not.
 	 */
 	public boolean addToViewIfRequired(ViewGroup baseView) {
-		boolean showAds = !mPreferences.isAdFree();
+		boolean showAds = !mPreferencesProvider.get().isAdFree();
 		if (showAds) {
 			addToView(baseView);
 		}
