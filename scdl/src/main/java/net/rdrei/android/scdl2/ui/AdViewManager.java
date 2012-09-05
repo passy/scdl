@@ -2,8 +2,7 @@ package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
-import android.content.Context;
-import android.view.LayoutInflater;
+import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,20 +16,17 @@ import com.google.inject.Provider;
  */
 public class AdViewManager {
 	@Inject
-	private Context mContext;
-	
-	@Inject
 	private Provider<ApplicationPreferences> mPreferencesProvider;
 	
 	@Inject
-	private Provider<LayoutInflater> mInflaterProvider;
+	private ActivityLayoutInflater mInflater;
 	
 	public AdViewManager() {
 		// Injectable
 	}
 	
 	private View getAdView() {
-		return mInflaterProvider.get().inflate(R.layout.adview, null, false);
+		return mInflater.inflate(R.layout.adview, null, false);
 	}
 	
 	/**

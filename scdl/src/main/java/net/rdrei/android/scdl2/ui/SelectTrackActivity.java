@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,9 +71,15 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@InjectView(R.id.track_size)
 	private TextView mSizeView;
+	
+	@InjectView(R.id.main_layout)
+	private ViewGroup mMainLayout;
 
 	@Inject
 	private TrackDownloaderFactory mDownloaderFactory;
+	
+	@Inject
+	private AdViewManager mAdViewManager;
 
 	private TrackEntity mTrack;
 
@@ -85,6 +92,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		if (savedInstanceState != null) {
 			Ln.d("Loading previous track record.");
 			mTrack = savedInstanceState.getParcelable(STATE_TRACK);
+		} else {
+			CommonMenuFragment.injectMenu(this);
 		}
 
 		if (mTrack == null) {
@@ -97,9 +106,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		bindButtons();
-		if (savedInstanceState == null) {
-			CommonMenuFragment.injectMenu(this);
-		}
+		mAdViewManager.addToViewIfRequired(mMainLayout);
 	}
 
 	@Override
