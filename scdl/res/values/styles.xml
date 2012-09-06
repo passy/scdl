@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="BuyButton">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:paddingTop">0.0dip</item>
+        <item name="android:paddingBottom">0.0dip</item>
+        <item name="android:layout_width">90.0dip</item>
+        <item name="android:layout_height">40.0dip</item>
+        <item name="android:layout_marginLeft">8.0dip</item>
+        <item name="android:layout_marginRight">8.0dip</item>
+        <item name="android:textColor">@color/buy_button</item>
+        <item name="android:background">@drawable/buy_button</item>
+    </style>
+
+</resources>
