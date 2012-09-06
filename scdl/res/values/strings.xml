@@ -48,4 +48,7 @@
     <string name="custom_path_error_not_a_directory">The given path doesn\'t point to a directory.</string>
     <string name="custom_path_error_unknown">Blyme! Something went wrong. Please choose a different path.</string>
     <string name="intent_send_label">SoundCloud Download</string>
+    <string name="buy_ad_free_teaser_text">• No more ads anywhere in the app, even after a reinstall!&lt;br&gt;• Certainty the developer gets enough coffee to build cool new stuff.&lt;br&gt;• A warm, fuzzy feeling.</string>
+    <string name="buy_ad_free_teaser_header">What You Get</string>
+    <string name="buy_ad_free_teaser_button">Buy Now</string>
 </resources>

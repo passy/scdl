@@ -2,7 +2,13 @@ package net.rdrei.android.scdl2.ui;
 
 import net.robotmedia.billing.BillingRequest.ResponseCode;
 import net.robotmedia.billing.model.Transaction.PurchaseState;
+import roboguice.util.Ln;
 
+/**
+ * Fragment holding the billing logic to buy the "adfree" option.
+ * @author pascal
+ *
+ */
 public class AdFreeBillingFragment extends AbstractBillingFragment {
 
 	public static AdFreeBillingFragment newInstance() {
@@ -12,22 +18,21 @@ public class AdFreeBillingFragment extends AbstractBillingFragment {
 
 	@Override
 	public void onBillingChecked(boolean supported) {
-		// TODO Auto-generated method stub
+		Ln.d("onBillingChecked(): " + supported);
 	}
 
 	@Override
 	public void onSubscriptionChecked(boolean supported) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("There are no subscriptions.");
 	}
 
 	@Override
 	public void onPurchaseStateChanged(String itemId, PurchaseState state) {
-		// TODO Auto-generated method stub
+		Ln.d("onPurchaseStateChanged: %s, %s", itemId, state.toString());
 	}
 
 	@Override
 	public void onRequestPurchaseResponse(String itemId, ResponseCode response) {
-		// TODO Auto-generated method stub
+		Ln.d("onRequestPurchaseResponse: %s, %s", itemId, response.toString());
 	}
-
 }

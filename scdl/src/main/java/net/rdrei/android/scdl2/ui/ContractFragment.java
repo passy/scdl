@@ -1,10 +1,10 @@
 package net.rdrei.android.scdl2.ui;
 
+import roboguice.fragment.RoboFragment;
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 
 /* Base fragment to ensure the parent activity implements a contract interface. */
-public abstract class ContractFragment<T> extends Fragment {
+public abstract class ContractFragment<T> extends RoboFragment {
 	private T mContract;
 
 	/**
