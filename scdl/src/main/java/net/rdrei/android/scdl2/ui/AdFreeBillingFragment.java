@@ -1,8 +1,10 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
 import net.robotmedia.billing.BillingRequest.ResponseCode;
 import net.robotmedia.billing.model.Transaction.PurchaseState;
 import roboguice.util.Ln;
+import android.app.Activity;
 
 /**
  * Fragment holding the billing logic to buy the "adfree" option.
@@ -10,6 +12,8 @@ import roboguice.util.Ln;
  *
  */
 public class AdFreeBillingFragment extends AbstractBillingFragment {
+	
+	private BuyAdFreeFragmentContract mContract;
 
 	public static AdFreeBillingFragment newInstance() {
 		// No configuration needed at this point.
@@ -17,8 +21,18 @@ public class AdFreeBillingFragment extends AbstractBillingFragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		// Need to manually attach here, because we still don't have
+		// mixins, traits or multiple inheritence. ):
+		mContract = (BuyAdFreeFragmentContract) activity;
+	}
+
+	@Override
 	public void onBillingChecked(boolean supported) {
 		Ln.d("onBillingChecked(): " + supported);
+		mContract.onBillingChecked(supported);
 	}
 
 	@Override
