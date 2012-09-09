@@ -32,7 +32,7 @@ public class BuyAdFreeTeaserFragmentTest {
 	public void testSpannedTextLoaded() {
 		ShadowFragment fragment = Robolectric.shadowOf(mFragment);
 		TextView text = (TextView) fragment.getView().findViewById(
-				R.id.buy_ad_teaser_text);
+				R.id.buy_ad_free_teaser_text);
 
 		assertFalse(text.getText().toString().isEmpty());
 	}
