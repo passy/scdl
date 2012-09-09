@@ -7,6 +7,17 @@ import java.util.Queue;
 
 import android.os.Message;
 
+/**
+ * A simple message queue mediator, that collects messages until the receiver
+ * is ready to process them.
+ * 
+ * Messages are standard Android message, so we can leverage the efficient
+ * recycling process. However, we don't reuse any of the Handler 
+ * infrastructure, so be sure not to attach it to one by accident.
+ * 
+ * @author pascal
+ *
+ */
 public class MessageMediator {
 
 	private final Map<String, MessageMediator.Receiver> mReceiverRegistry;
@@ -15,6 +26,12 @@ public class MessageMediator {
 		mReceiverRegistry = new HashMap<String, MessageMediator.Receiver>();
 	}
 
+	/**
+	 * Register a new handler for a given, unique key.
+	 * 
+	 * @param key
+	 * @param receiver
+	 */
 	public void register(final String key,
 			final MessageMediator.Receiver receiver) {
 		mReceiverRegistry.put(key, receiver);
@@ -64,6 +81,7 @@ public class MessageMediator {
 			}
 
 			mHandler.handleMessage(message);
+			message.recycle();
 		}
 	}
 
