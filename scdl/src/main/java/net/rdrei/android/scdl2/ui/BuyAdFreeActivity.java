@@ -86,10 +86,10 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBillingChecked(final boolean supported) {
 		if (mContentFragment instanceof BuyAdFreeTeaserFragment) {
 			final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
-			if (!supported) {
-				fragment.showError(getString(R.string.error_no_iab));
-			} else {
+			if (supported) {
 				fragment.clearError();
+			} else {
+				fragment.showError(getString(R.string.error_no_iab));
 			}
 
 			fragment.setBillingEnabled(supported);
@@ -100,7 +100,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuyError(ResponseCode response) {
 		final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
 		Ln.e("IAB error: %s", response.toString());
-		fragment.showError("There was an error contacting the billing service. Please try again later.");
+		fragment.showError(getString(R.string.error_iab_connection));
+		fragment.setBillingEnabled(true);
 	}
 
 	@Override
@@ -114,7 +115,11 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onBuyRevert() {
+		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
 		mPreferences.setAdFree(false);
+		
+		fragment.setBillingEnabled(true);
+		fragment.showError(getString(R.string.error_iab_reverted));
 	}
 
 	@Override
@@ -123,5 +128,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		fragment.setBillingEnabled(true);
 		fragment.clearError();
+	}
+
+	@Override
+	public void onPurchaseRequested() {
+		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
+		
+		fragment.showLoadingSpinner();
 	}
 }

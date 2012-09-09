@@ -73,6 +73,7 @@ public class AdFreeBillingFragment extends AbstractBillingFragment {
 			break;
 		case RESULT_OK:
 			// We wait for the purchage state change.
+			mContract.onPurchaseRequested();
 			break;
 		case RESULT_USER_CANCELED:
 		default:

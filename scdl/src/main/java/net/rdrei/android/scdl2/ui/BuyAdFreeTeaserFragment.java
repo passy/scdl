@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BuyAdFreeTeaserFragment extends
@@ -26,8 +27,10 @@ public class BuyAdFreeTeaserFragment extends
 	@InjectView(R.id.buy_ad_free_teaser_button)
 	private Button mButton;
 
+	@InjectView(R.id.progress_bar)
+	private ProgressBar mProgressBar;
+
 	private boolean mBillingEnabled = false;
-	private String mLastError;
 
 	public static BuyAdFreeTeaserFragment newInstance() {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
@@ -69,15 +72,29 @@ public class BuyAdFreeTeaserFragment extends
 		if (getActivity() != null) {
 			mButton.setEnabled(billingEnabled);
 		}
+
+		hideLoadingSpinner();
 	}
-	
+
 	public void showError(final String error) {
 		mErrorText.setText(error);
 		mErrorText.setVisibility(View.VISIBLE);
+
+		hideLoadingSpinner();
 	}
-	
+
 	public void clearError() {
-		mErrorText.setVisibility(View.VISIBLE);
+		mErrorText.setVisibility(View.GONE);
+	}
+
+	public void showLoadingSpinner() {
+		mButton.setVisibility(View.GONE);
+		mProgressBar.setVisibility(View.VISIBLE);
+	}
+
+	public void hideLoadingSpinner() {
+		mButton.setVisibility(View.VISIBLE);
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	public static interface BuyAdFreeFragmentContract {
@@ -92,5 +109,7 @@ public class BuyAdFreeTeaserFragment extends
 		public void onBuyCancel();
 
 		public void onBuyRevert();
+
+		public void onPurchaseRequested();
 	}
 }
