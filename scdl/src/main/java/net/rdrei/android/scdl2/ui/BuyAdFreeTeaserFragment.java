@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
+import net.robotmedia.billing.BillingRequest.ResponseCode;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class BuyAdFreeTeaserFragment extends
 	private Button mButton;
 
 	private boolean mBillingEnabled = false;
+	private String mLastError;
 
 	public static BuyAdFreeTeaserFragment newInstance() {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
@@ -65,17 +67,30 @@ public class BuyAdFreeTeaserFragment extends
 		Ln.d("Setting new billing enabled state to %s.", billingEnabled);
 
 		if (getActivity() != null) {
-			// Update display.
-			mErrorText.setVisibility(billingEnabled ? View.VISIBLE : View.GONE);
 			mButton.setEnabled(billingEnabled);
 		}
+	}
+	
+	public void showError(final String error) {
+		mErrorText.setText(error);
+		mErrorText.setVisibility(View.VISIBLE);
+	}
+	
+	public void clearError() {
+		mErrorText.setVisibility(View.VISIBLE);
 	}
 
 	public static interface BuyAdFreeFragmentContract {
 		public void onBuyClicked();
 
-		public void onBuyError();
+		public void onBuyError(ResponseCode response);
 
 		public void onBillingChecked(boolean supported);
+
+		public void onBuySuccess();
+
+		public void onBuyCancel();
+
+		public void onBuyRevert();
 	}
 }
