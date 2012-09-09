@@ -49,7 +49,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		setContentView(R.layout.buy_ad_free);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		loadFragments();
+		if (savedInstanceState == null) {
+			loadFragments();
+		}
 	}
 
 	private void loadFragments() {

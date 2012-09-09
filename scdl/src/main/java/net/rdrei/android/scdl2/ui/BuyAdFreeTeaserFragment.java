@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class BuyAdFreeTeaserFragment extends
 		ContractFragment<BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract> implements MessageMediator.ReceiveHandler {
 
+	private static final String DATA_BILLING_ENABLED = "BILLING_ENABLED";
 	public static final int MSG_BILLING_SUPPORTED = 0;
 	public static final int MSG_BILLING_UNSUPPORTED = 1;
 	public static final int MSG_PURCHASE_REVERTED = 2;
@@ -54,6 +55,12 @@ public class BuyAdFreeTeaserFragment extends
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		if (savedInstanceState != null) {
+			mBillingEnabled = savedInstanceState.getBoolean(
+					DATA_BILLING_ENABLED, false);
+			Ln.d("savedInstanceState found. Billing enabled: %s", mBillingEnabled);
+		}
+
 		final Spanned html = Html.fromHtml(getActivity().getString(
 				R.string.buy_ad_free_teaser_text));
 		mTeaserText.setText(html);
@@ -65,9 +72,15 @@ public class BuyAdFreeTeaserFragment extends
 				getContract().onBuyClicked();
 			}
 		});
-		
+
 		mReceiver.setHandler(this);
 		mReceiver.accept();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(DATA_BILLING_ENABLED, mBillingEnabled);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -137,7 +150,7 @@ public class BuyAdFreeTeaserFragment extends
 		default:
 			throw new UnsupportedOperationException("Unsupported message!");
 		}
-		
+
 	}
 
 	private void onPurchaseError() {
