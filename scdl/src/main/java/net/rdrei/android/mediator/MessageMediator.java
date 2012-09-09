@@ -43,7 +43,7 @@ public class MessageMediator {
 	}
 
 	public static class Receiver {
-		final private Queue<Message> mQueue;
+		private final Queue<Message> mQueue;
 		private boolean mIsAccepting = false;
 		private ReceiveHandler mHandler;
 

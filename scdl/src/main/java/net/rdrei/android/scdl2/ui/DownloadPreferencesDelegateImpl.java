@@ -42,7 +42,7 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	@Inject
 	private Context mContext;
 	
-	final private PreferenceManagerWrapper mPreferenceManager;
+	private final PreferenceManagerWrapper mPreferenceManager;
 	
 	@Inject
 	public DownloadPreferencesDelegateImpl(@Assisted PreferenceManagerWrapper manager) {

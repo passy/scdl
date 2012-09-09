@@ -1,10 +1,12 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.mediator.MessageMediator;
 import net.rdrei.android.scdl2.R;
 import net.robotmedia.billing.BillingRequest.ResponseCode;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -16,7 +18,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BuyAdFreeTeaserFragment extends
-		ContractFragment<BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract> {
+		ContractFragment<BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract> implements MessageMediator.ReceiveHandler {
+
+	public static final int MSG_BILLING_SUPPORTED = 0;
+	public static final int MSG_BILLING_UNSUPPORTED = 1;
+	public static final int MSG_PURCHASE_REVERTED = 2;
+	public static final int MSG_PURCHASE_CANCELLED = 3;
+	public static final int MSG_PURCHASE_REQUESTED = 4;
+	public static final int MSG_PURCHASE_ERROR = 5;
 
 	@InjectView(R.id.buy_ad_free_teaser_text)
 	private TextView mTeaserText;
@@ -29,11 +38,15 @@ public class BuyAdFreeTeaserFragment extends
 
 	@InjectView(R.id.progress_bar)
 	private ProgressBar mProgressBar;
+	
+	private MessageMediator.Receiver mReceiver;
 
 	private boolean mBillingEnabled = false;
 
-	public static BuyAdFreeTeaserFragment newInstance() {
+	public static BuyAdFreeTeaserFragment newInstance(MessageMediator.Receiver receiver) {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
+		fragment.mReceiver = receiver;
+		
 		return fragment;
 	}
 
@@ -52,6 +65,9 @@ public class BuyAdFreeTeaserFragment extends
 				getContract().onBuyClicked();
 			}
 		});
+		
+		mReceiver.setHandler(this);
+		mReceiver.accept();
 	}
 
 	@Override
@@ -95,6 +111,61 @@ public class BuyAdFreeTeaserFragment extends
 	public void hideLoadingSpinner() {
 		mButton.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void handleMessage(Message message) {
+		switch (message.what) {
+		case MSG_BILLING_SUPPORTED:
+			onBillingSupportChecked(true);
+			break;
+		case MSG_BILLING_UNSUPPORTED:
+			onBillingSupportChecked(false);
+			break;
+		case MSG_PURCHASE_REVERTED:
+			onBillingReverted();
+			break;
+		case MSG_PURCHASE_CANCELLED:
+			onBillingCancelled();
+			break;
+		case MSG_PURCHASE_REQUESTED:
+			onPurchaseRequested();
+			break;
+		case MSG_PURCHASE_ERROR:
+			onPurchaseError();
+			break;
+		default:
+			throw new UnsupportedOperationException("Unsupported message!");
+		}
+		
+	}
+
+	private void onPurchaseError() {
+		showError(getString(R.string.error_iab_connection));
+		setBillingEnabled(true);
+	}
+
+	private void onPurchaseRequested() {
+		showLoadingSpinner();
+	}
+
+	private void onBillingCancelled() {
+		setBillingEnabled(true);
+		clearError();
+	}
+
+	private void onBillingReverted() {
+		setBillingEnabled(true);
+		showError(getString(R.string.error_iab_reverted));
+	}
+
+	private void onBillingSupportChecked(boolean supported) {
+		if (supported) {
+			clearError();
+		} else {
+			showError(getString(R.string.error_no_iab));
+		}
+		setBillingEnabled(supported);
 	}
 
 	public static interface BuyAdFreeFragmentContract {

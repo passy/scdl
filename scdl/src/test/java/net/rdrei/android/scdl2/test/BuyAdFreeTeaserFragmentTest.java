@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl2.test;
 
 import static org.junit.Assert.assertFalse;
+import net.rdrei.android.mediator.MessageMediator.Receiver;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment;
 
@@ -24,7 +25,7 @@ public class BuyAdFreeTeaserFragmentTest {
 		RoboFragmentActivity activity = new RoboFragmentActivity();
 
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		mFragment = BuyAdFreeTeaserFragment.newInstance();
+		mFragment = BuyAdFreeTeaserFragment.newInstance(new Receiver());
 		fragmentManager.beginTransaction().add(mFragment, "TEST").commit();
 	}
 

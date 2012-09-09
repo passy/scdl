@@ -61,7 +61,7 @@ public class DownloadPreferencesDelegateTest {
 	public void testPreferenceEditSetup() {
 		mDelegate.onCreate();
 		
-		Preference preference = mPreferenceManager.preferences.get(ApplicationPreferences.KEY_STORAGE_TYPE);
+		mPreferenceManager.preferences.get(ApplicationPreferences.KEY_STORAGE_TYPE);
 	}
 	
 	private static class FakePreferenceManagerWrapperImpl implements PreferenceManagerWrapper {
@@ -76,7 +76,6 @@ public class DownloadPreferencesDelegateTest {
 
 		@Override
 		public Preference findPreference(CharSequence key) {
-			Preference preference;
 			if (!preferences.containsKey(key)) {
 				preferences.put(key, new ListPreference(null));
 			}

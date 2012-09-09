@@ -7,7 +7,6 @@ import net.rdrei.android.scdl2.api.service.TrackService;
 import roboguice.RoboGuice;
 import roboguice.inject.ContextSingleton;
 import android.app.Application;
-import android.content.Context;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;

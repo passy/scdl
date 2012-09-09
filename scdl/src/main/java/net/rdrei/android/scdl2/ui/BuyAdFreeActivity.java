@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.mediator.MessageMediator;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
@@ -9,6 +10,7 @@ import roboguice.util.Ln;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
@@ -16,10 +18,10 @@ import android.view.MenuItem;
 import com.google.inject.Inject;
 
 /**
- * This class acts as mediator between the three different fragments loaded into
- * it that are responsible for a) the billing logic b) the teaser view leading
- * to a purchase, giving explanations c) the thanks view after a successful
- * purchase
+ * This class acts as net.rdrei.android.mediator between the three different
+ * fragments loaded into it that are responsible for a) the billing logic b) the
+ * teaser view leading to a purchase, giving explanations c) the thanks view
+ * after a successful purchase
  * 
  * @author pascal
  */
@@ -30,10 +32,13 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Inject
 	private ApplicationPreferences mPreferences;
-	
+
 	@Inject
 	private ActionBar mActionBar;
-	
+
+	@Inject
+	private MessageMediator.Receiver mTeaserReceiver;
+
 	private Fragment mContentFragment;
 	private AdFreeBillingFragment mBillingFragment;
 
@@ -43,6 +48,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		setContentView(R.layout.buy_ad_free);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
+
 		loadFragments();
 	}
 
@@ -54,7 +60,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 			mContentFragment = BuyAdFreeThanksFragment.newInstance();
 		} else {
 			mBillingFragment = AdFreeBillingFragment.newInstance();
-			mContentFragment = BuyAdFreeTeaserFragment.newInstance();
+			mContentFragment = BuyAdFreeTeaserFragment
+					.newInstance(mTeaserReceiver);
 
 			transaction.add(mBillingFragment, BILLING_FRAGMENT_TAG);
 		}
@@ -64,7 +71,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onBuyClicked() {
-		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
+		final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
 		fragment.setBillingEnabled(false);
 		mBillingFragment.requestPurchase();
 	}
@@ -84,24 +91,23 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onBillingChecked(final boolean supported) {
-		if (mContentFragment instanceof BuyAdFreeTeaserFragment) {
-			final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
-			if (supported) {
-				fragment.clearError();
-			} else {
-				fragment.showError(getString(R.string.error_no_iab));
-			}
+		final Message message = Message.obtain();
 
-			fragment.setBillingEnabled(supported);
+		if (supported) {
+			message.what = BuyAdFreeTeaserFragment.MSG_BILLING_SUPPORTED;
+		} else {
+			message.what = BuyAdFreeTeaserFragment.MSG_BILLING_UNSUPPORTED;
 		}
+
+		mTeaserReceiver.dispatch(message);
 	}
 
 	@Override
-	public void onBuyError(ResponseCode response) {
-		final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
+	public void onBuyError(final ResponseCode response) {
 		Ln.e("IAB error: %s", response.toString());
-		fragment.showError(getString(R.string.error_iab_connection));
-		fragment.setBillingEnabled(true);
+
+		mTeaserReceiver.dispatch(Message.obtain(null,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_ERROR));
 	}
 
 	@Override
@@ -115,25 +121,21 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onBuyRevert() {
-		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
 		mPreferences.setAdFree(false);
-		
-		fragment.setBillingEnabled(true);
-		fragment.showError(getString(R.string.error_iab_reverted));
+
+		mTeaserReceiver.dispatch(Message.obtain(null,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED));
 	}
 
 	@Override
 	public void onBuyCancel() {
-		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
-
-		fragment.setBillingEnabled(true);
-		fragment.clearError();
+		mTeaserReceiver.dispatch(Message.obtain(null,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED));
 	}
 
 	@Override
 	public void onPurchaseRequested() {
-		final BuyAdFreeTeaserFragment fragment = ((BuyAdFreeTeaserFragment) mContentFragment);
-		
-		fragment.showLoadingSpinner();
+		mTeaserReceiver.dispatch(Message.obtain(null,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED));
 	}
 }

@@ -2,7 +2,7 @@ package net.rdrei.android.scdl2.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import mediator.MessageMediator;
+import net.rdrei.android.mediator.MessageMediator;
 
 import org.junit.Before;
 import org.junit.Test;
