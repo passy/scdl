@@ -52,4 +52,5 @@
     <string name="buy_ad_free_teaser_header">What You Get</string>
     <string name="buy_ad_free_teaser_button">Buy Now</string>
     <string name="error_no_iab">Your device does not support In-App Billing.</string>
+    <string name="buy_ad_free_thanks_text">Thank you for your support!</string>
 </resources>

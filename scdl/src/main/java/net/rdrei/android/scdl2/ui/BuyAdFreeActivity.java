@@ -5,8 +5,11 @@ import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
 import net.robotmedia.billing.BillingController;
 import roboguice.activity.RoboFragmentActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
 import com.google.inject.Inject;
 
@@ -33,27 +36,43 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.buy_ad_free);
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		loadFragments();
 	}
 
 	private void loadFragments() {
-		final AdFreeBillingFragment billingFragment = AdFreeBillingFragment
-				.newInstance();
+		final FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+
 		if (mPreferences.isAdFree()) {
 			mContentFragment = BuyAdFreeThanksFragment.newInstance();
 		} else {
+			final AdFreeBillingFragment billingFragment = AdFreeBillingFragment
+					.newInstance();
 			mContentFragment = BuyAdFreeTeaserFragment.newInstance();
+
+			transaction.add(billingFragment, BILLING_FRAGMENT_TAG);
 		}
 
-		getSupportFragmentManager().beginTransaction()
-				.add(billingFragment, BILLING_FRAGMENT_TAG)
-				.add(R.id.main_layout, mContentFragment).commit();
+		transaction.add(R.id.main_layout, mContentFragment).commit();
 	}
 
 	@Override
 	public void onBuyClicked() {
 		BillingController.requestPurchase(this, ADFREE_ITEM);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			final Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			startActivity(intent);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
