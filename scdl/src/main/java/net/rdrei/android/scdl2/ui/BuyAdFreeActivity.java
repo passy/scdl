@@ -29,7 +29,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		BuyAdFreeFragmentContract {
 
 	private static final String BILLING_FRAGMENT_TAG = "BILLING";
-	private static final String KEY_TEASER_HANDLER = "TEASER";
+	private static final String KEY_TEASER_HANDLER = "TEASER_HANDLER";
+	private static final String KEY_BILLING_HANDLER = "BILLING_HANDLER";
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -62,7 +63,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (mPreferences.isAdFree()) {
 			mContentFragment = BuyAdFreeThanksFragment.newInstance();
 		} else {
-			mBillingFragment = AdFreeBillingFragment.newInstance();
+			mBillingFragment = AdFreeBillingFragment
+					.newInstance(KEY_BILLING_HANDLER);
 			mContentFragment = BuyAdFreeTeaserFragment
 					.newInstance(KEY_TEASER_HANDLER);
 
@@ -119,27 +121,28 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuyRevert() {
 		mPreferences.setAdFree(false);
 
-		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED));
+		mMessageQueue.send(KEY_TEASER_HANDLER,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED);
 	}
 
 	@Override
 	public void onBuyCancel() {
-		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED));
+		mMessageQueue.send(KEY_TEASER_HANDLER,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED);
 	}
 
 	@Override
 	public void onPurchaseRequested() {
-		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED));
+		mMessageQueue.send(KEY_TEASER_HANDLER,
+				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED);
 	}
 
 	@Override
 	public void onBuyClicked() {
-		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
-				BuyAdFreeTeaserFragment.MSG_BILLING_REQUESTED));
-		mBillingFragment.requestPurchase();
+		mMessageQueue.send(KEY_TEASER_HANDLER,
+				BuyAdFreeTeaserFragment.MSG_BILLING_REQUESTED);
+		mMessageQueue.send(KEY_TEASER_HANDLER,
+				AdFreeBillingFragment.MSG_REQUEST_PURCHASE);
 	}
 
 	@Override
@@ -151,6 +154,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mMessageQueue.setHandler(key, handler);
 	}
 
+	/**
+	 * Urgs, for testing only. I feel bad about this. Should use reflection at
+	 * some point for this hackery.
+	 * 
+	 * @param queue
+	 */
 	public void setMessageQueue(final DelayedMessageQueue queue) {
 		mMessageQueue = queue;
 	}

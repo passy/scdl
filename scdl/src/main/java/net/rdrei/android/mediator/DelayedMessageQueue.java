@@ -26,6 +26,18 @@ public class DelayedMessageQueue {
 		}
 	}
 
+	/**
+	 * Simpler way of sending a message only containing the what field without
+	 * having to create it from scratch.
+	 * 
+	 * @param key
+	 * @param what
+	 */
+	public void send(final String key, final int what) {
+		final Message message = Message.obtain(null, what);
+		send(key, message);
+	}
+
 	private void storeMessage(final String key, final Message message) {
 		LinkedList<Message> queue = mQueueMap.get(key);
 
