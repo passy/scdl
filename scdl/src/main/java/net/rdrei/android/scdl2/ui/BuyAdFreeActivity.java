@@ -73,13 +73,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onBuyClicked() {
-		final BuyAdFreeTeaserFragment fragment = (BuyAdFreeTeaserFragment) mContentFragment;
-		fragment.setBillingEnabled(false);
-		mBillingFragment.requestPurchase();
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			final Intent intent = new Intent(this, MainActivity.class);
@@ -140,6 +133,13 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onPurchaseRequested() {
 		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED));
+	}
+
+	@Override
+	public void onBuyClicked() {
+		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
+				BuyAdFreeTeaserFragment.MSG_BILLING_REQUESTED));
+		mBillingFragment.requestPurchase();
 	}
 
 	@Override

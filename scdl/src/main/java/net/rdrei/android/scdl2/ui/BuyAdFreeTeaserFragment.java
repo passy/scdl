@@ -29,6 +29,7 @@ public class BuyAdFreeTeaserFragment extends
 	public static final int MSG_PURCHASE_CANCELLED = 3;
 	public static final int MSG_PURCHASE_REQUESTED = 4;
 	public static final int MSG_PURCHASE_ERROR = 5;
+	public static final int MSG_BILLING_REQUESTED = 6;
 
 	@InjectView(R.id.buy_ad_free_teaser_text)
 	private TextView mTeaserText;
@@ -147,10 +148,16 @@ public class BuyAdFreeTeaserFragment extends
 		case MSG_PURCHASE_ERROR:
 			onPurchaseError();
 			break;
+		case MSG_BILLING_REQUESTED:
+			onBillingRequested();
+			break;
 		default:
 			throw new UnsupportedOperationException("Unsupported message!");
 		}
+	}
 
+	private void onBillingRequested() {
+		showLoadingSpinner();
 	}
 
 	private void onPurchaseError() {
