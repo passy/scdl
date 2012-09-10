@@ -8,14 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class BuyAdFreeThanksFragment extends Fragment {
-	
-	public static BuyAdFreeThanksFragment newInstance () {
+
+	public static BuyAdFreeThanksFragment newInstance() {
 		return new BuyAdFreeThanksFragment();
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.buy_ad_free_thanks, container, false);
 	}
 }

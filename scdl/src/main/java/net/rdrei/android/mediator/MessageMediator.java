@@ -8,15 +8,15 @@ import java.util.Queue;
 import android.os.Message;
 
 /**
- * A simple message queue net.rdrei.android.mediator, that collects messages until the receiver
- * is ready to process them.
+ * A simple message queue net.rdrei.android.mediator, that collects messages
+ * until the receiver is ready to process them.
  * 
  * Messages are standard Android message, so we can leverage the efficient
- * recycling process. However, we don't reuse any of the Handler 
- * infrastructure, so be sure not to attach it to one by accident.
+ * recycling process. However, we don't reuse any of the Handler infrastructure,
+ * so be sure not to attach it to one by accident.
  * 
  * @author pascal
- *
+ * 
  */
 public class MessageMediator {
 

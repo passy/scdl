@@ -25,12 +25,12 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity> implements
-		SoundcloudApiQuery<T> {
+public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
+		implements SoundcloudApiQuery<T> {
 
 	private static final String NEWLINE_FALLBACK = "\n";
 	private static final String GZIP = "gzip";
-	
+
 	private static final String ACCEPT_HEADER_KEY = "Accept";
 	private static final String ACCEPT_HEADER_VALUE = "application/json";
 
@@ -45,12 +45,12 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	private Injector mInjector;
 
 	@Override
-	public void setSendCallback(SendCallback sendCallback) {
+	public void setSendCallback(final SendCallback sendCallback) {
 		mSendCallback = sendCallback;
 	}
 
-	public AbstractSoundcloudApiQueryImpl(URLWrapper url,
-			HttpMethod method, TypeToken<T> typeToken) {
+	public AbstractSoundcloudApiQueryImpl(final URLWrapper url,
+			final HttpMethod method, final TypeToken<T> typeToken) {
 		super();
 
 		mMethod = method;
@@ -59,21 +59,23 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	}
 
 	@Override
-	public SoundcloudApiQuery<T> addPostParameter(String key, String value) {
+	public SoundcloudApiQuery<T> addPostParameter(final String key,
+			final String value) {
 		mPostParameters.put(key, value);
 
 		return this;
 	}
 
 	@Override
-	public SoundcloudApiQuery<T> addPartParameters(String key, File file) {
+	public SoundcloudApiQuery<T> addPartParameters(final String key,
+			final File file) {
 		mPartParameters.put(key, file);
 
 		return this;
 	}
 
 	@Override
-	public T execute(int expected) throws APIException {
+	public T execute(final int expected) throws APIException {
 		final HttpURLConnection connection;
 
 		Ln.d("Executing API request for %s.", this.toString());
@@ -87,7 +89,7 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 		default:
 			throw new IllegalArgumentException("Method not implemented.");
 		}
-		
+
 		// Don't follow redirects.
 		connection.setInstanceFollowRedirects(false);
 		setRequestHeaders(connection);
@@ -95,7 +97,7 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 		int code;
 		try {
 			code = connection.getResponseCode();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// I consider this a bug. A 401 without auth challenge causes
 			// an IOException, while it's perfectly valid in terms of RFC 2616.
 			if (e.getMessage().equals(
@@ -115,27 +117,28 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 		final InputStream responseStream;
 		try {
 			responseStream = getWrappedResponseStream(connection);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new APIException(e, -1);
 		}
 
 		final String responseStr = convertStreamToString(responseStream);
 		final Type entityType = mTypeToken.getType();
 
-		return (new Gson()).fromJson(responseStr, entityType);
+		return new Gson().fromJson(responseStr, entityType);
 	}
-	
+
 	protected abstract void setupPostRequest(HttpRequest request);
+
 	protected abstract void setupGetConnection(URLConnection connection);
 
 	/**
 	 * Sets custom headers required for all requests.
+	 * 
 	 * @param connection
 	 */
-	private void setRequestHeaders(HttpURLConnection connection) {
+	private void setRequestHeaders(final HttpURLConnection connection) {
 		connection.addRequestProperty(ACCEPT_HEADER_KEY, ACCEPT_HEADER_VALUE);
 	}
-	
 
 	/**
 	 * Executes the POST request. Instead of using the bare HttpURLConnection
@@ -148,7 +151,7 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	protected HttpURLConnection executePost() throws APIException {
 		Ln.d("Executing POST against URL " + mUrl.toString());
 		final HttpRequest request = HttpRequest.post(mUrl);
-		
+
 		setupPostRequest(request);
 
 		if (mSendCallback != null) {
@@ -164,18 +167,18 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 
 		try {
 			request.closeOutput();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new APIException(e, -1);
 		}
 		return request.getConnection();
 	}
 
-	private void applyPostParametersAsPart(HttpRequest request) {
+	private void applyPostParametersAsPart(final HttpRequest request) {
 		final Iterator<Entry<String, String>> iterator = mPostParameters
 				.entrySet().iterator();
 
 		while (iterator.hasNext()) {
-			Entry<String, String> entry = iterator.next();
+			final Entry<String, String> entry = iterator.next();
 			Ln.d("Applying POST parameter as multipart: %s", entry.getKey());
 			request.part(entry.getKey(), entry.getValue());
 		}
@@ -186,14 +189,14 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	 * 
 	 * @param request
 	 */
-	private void applyPartParameters(HttpRequest request) {
+	private void applyPartParameters(final HttpRequest request) {
 		final Iterator<Entry<String, File>> iterator = mPartParameters
 				.entrySet().iterator();
 
 		while (iterator.hasNext()) {
-			Entry<String, File> entry = iterator.next();
+			final Entry<String, File> entry = iterator.next();
 			Ln.d("Applying multipart parameter %s.", entry.getKey());
-			File file = entry.getValue();
+			final File file = entry.getValue();
 			request.part(entry.getKey(), file.getName(), file,
 					"application/octet-stream");
 		}
@@ -204,13 +207,13 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	 * 
 	 * @param request
 	 */
-	private void applyPostParameters(HttpRequest request) {
+	private void applyPostParameters(final HttpRequest request) {
 		final Iterator<Entry<String, String>> iterator = mPostParameters
 				.entrySet().iterator();
 
 		while (iterator.hasNext()) {
-			Entry<String, String> entry = iterator.next();
-			StringBuffer buf = new StringBuffer();
+			final Entry<String, String> entry = iterator.next();
+			final StringBuffer buf = new StringBuffer();
 			Ln.d("Applying POST parameters: %s", entry.getKey());
 			buf.append(entry.getKey());
 			buf.append('=');
@@ -231,11 +234,11 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 		Ln.d("Executing GET against URL " + mUrl.toString());
 		try {
 			final URLConnection connection = mUrl.openConnection();
-			
+
 			setupGetConnection(connection);
-			
+
 			return (HttpURLConnection) connection;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new APIException(e, -1);
 		}
 	}
@@ -250,8 +253,8 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	 * @return Wrapped stream.
 	 * @throws IOException
 	 */
-	protected static InputStream getWrappedInputStream(InputStream is,
-			boolean gzip) throws IOException {
+	protected static InputStream getWrappedInputStream(final InputStream is,
+			final boolean gzip) throws IOException {
 		if (gzip) {
 			return new BufferedInputStream(new GZIPInputStream(is));
 		} else {
@@ -260,7 +263,7 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	}
 
 	protected static InputStream getWrappedResponseStream(
-			HttpURLConnection response) throws IOException {
+			final HttpURLConnection response) throws IOException {
 		return getWrappedInputStream(response.getInputStream(),
 				GZIP.equalsIgnoreCase(response.getContentEncoding()));
 	}
@@ -272,7 +275,7 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 	 *            Stream to read.
 	 * @return Entire stream contents.
 	 */
-	protected static String convertStreamToString(InputStream is) {
+	protected static String convertStreamToString(final InputStream is) {
 		/*
 		 * To convert the InputStream to String we use the
 		 * BufferedReader.readLine() method. We iterate until the BufferedReader
@@ -293,19 +296,19 @@ public abstract class AbstractSoundcloudApiQueryImpl<T extends SoundcloudEntity>
 				sb.append(line);
 				sb.append(newline);
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Ln.e(e);
 		} finally {
 			try {
 				is.close();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Ln.e(e);
 			}
 		}
 
 		return sb.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "SoundcloudApiQuery [method=" + mMethod + ", url=" + mUrl + "]";

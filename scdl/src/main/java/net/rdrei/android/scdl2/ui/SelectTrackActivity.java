@@ -71,20 +71,20 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@InjectView(R.id.track_size)
 	private TextView mSizeView;
-	
+
 	@InjectView(R.id.main_layout)
 	private ViewGroup mMainLayout;
 
 	@Inject
 	private TrackDownloaderFactory mDownloaderFactory;
-	
+
 	@Inject
 	private AdViewManager mAdViewManager;
 
 	private TrackEntity mTrack;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.select_track);
@@ -110,7 +110,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		if (mTrack != null) {
@@ -123,7 +123,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		mDownloadButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				final DownloadTask task = new DownloadTask(
 						SelectTrackActivity.this,
 						String.valueOf(mTrack.getId()));
@@ -136,7 +136,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		mCancelButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				Ln.d("Canceling download. Bye, bye!");
 				finish();
 			}
@@ -149,7 +149,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	 * 
 	 * @param errorCode
 	 */
-	protected void startErrorActivity(TrackErrorActivity.ErrorCode errorCode) {
+	protected void startErrorActivity(
+			final TrackErrorActivity.ErrorCode errorCode) {
 		final Intent intent = new Intent(this, TrackErrorActivity.class);
 		intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
 		startActivity(intent);
@@ -158,7 +159,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	protected void downloadTrack(final Uri uri) throws Exception {
 		// Download using TrackDownloader
-		Handler handler = new Handler(new DownloadHandlerCallback());
+		final Handler handler = new Handler(new DownloadHandlerCallback());
 		final TrackDownloader downloader = mDownloaderFactory.create(uri,
 				mTrack, handler);
 		downloader.enqueue();
@@ -202,7 +203,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	 */
 	public class TrackResolverTask extends RoboAsyncTask<String> {
 
-		protected TrackResolverTask(Context context) {
+		protected TrackResolverTask(final Context context) {
 			super(context);
 		}
 
@@ -223,7 +224,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onException(Exception e) throws RuntimeException {
+		protected void onException(final Exception e) throws RuntimeException {
 			super.onException(e);
 
 			if (e instanceof UnsupportedUrlException) {
@@ -236,7 +237,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onSuccess(String id) throws Exception {
+		protected void onSuccess(final String id) throws Exception {
 			super.onSuccess(id);
 
 			Ln.d("Resolved track to id %s. Starting further API calls.", id);
@@ -249,19 +250,19 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	public class TrackLoaderTask extends RoboAsyncTask<TrackEntity> {
 		@Inject
 		private ServiceManager mServiceManager;
-		
+
 		@Inject
 		private ContextScope mContextScope;
 
 		private final String mId;
 
-		protected TrackLoaderTask(Context context, String id) {
+		protected TrackLoaderTask(final Context context, final String id) {
 			super(context);
 			mId = id;
 		}
 
 		@Override
-		protected void onException(Exception e) throws RuntimeException {
+		protected void onException(final Exception e) throws RuntimeException {
 			super.onException(e);
 			Ln.e("Error during resolving track: %s", e.toString());
 
@@ -270,7 +271,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onSuccess(TrackEntity t) throws Exception {
+		protected void onSuccess(final TrackEntity t) throws Exception {
 			super.onSuccess(t);
 			mTrack = t;
 			updateTrackDisplay();
@@ -280,7 +281,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		public TrackEntity call() throws Exception {
 			mContextScope.enter(context);
 			try {
-				final TrackService trackService = mServiceManager.trackService();
+				final TrackService trackService = mServiceManager
+						.trackService();
 				return trackService.getTrack(mId);
 			} finally {
 				mContextScope.exit(context);
@@ -292,7 +294,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 		private final String mUrlStr;
 
-		public ArtworkLoaderTask(String url) {
+		public ArtworkLoaderTask(final String url) {
 			super();
 
 			mUrlStr = url;
@@ -305,7 +307,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onSuccess(Drawable t) throws Exception {
+		protected void onSuccess(final Drawable t) throws Exception {
 			super.onSuccess(t);
 
 			mArtworkImageView.setImageDrawable(t);
@@ -318,7 +320,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 		private final String mId;
 
-		protected DownloadTask(Context context, String id) {
+		protected DownloadTask(final Context context, final String id) {
 			super(context);
 			mId = id;
 		}
@@ -330,7 +332,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onSuccess(Uri t) throws Exception {
+		protected void onSuccess(final Uri t) throws Exception {
 			super.onSuccess(t);
 
 			Ln.d("Resolved download URL: %s", t);
@@ -341,7 +343,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	private class DownloadHandlerCallback implements Handler.Callback {
 
 		@Override
-		public boolean handleMessage(Message msg) {
+		public boolean handleMessage(final Message msg) {
 			final Intent intent = new Intent(SelectTrackActivity.this,
 					TrackErrorActivity.class);
 			final ErrorCode errorCode;
@@ -351,7 +353,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			} else {
 				errorCode = ErrorCode.UNKNOWN_ERROR;
 			}
-			
+
 			intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
 			startActivity(intent);
 			return true;

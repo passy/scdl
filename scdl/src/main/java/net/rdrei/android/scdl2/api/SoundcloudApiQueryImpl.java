@@ -7,20 +7,22 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> extends AbstractSoundcloudApiQueryImpl<T> {
+public class SoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
+		AbstractSoundcloudApiQueryImpl<T> {
 	@Inject
-	public SoundcloudApiQueryImpl(@Assisted URLWrapper url,
-			@Assisted HttpMethod method, @Assisted TypeToken<T> typeToken) {
+	public SoundcloudApiQueryImpl(@Assisted final URLWrapper url,
+			@Assisted final HttpMethod method,
+			@Assisted final TypeToken<T> typeToken) {
 		super(url, method, typeToken);
 	}
 
 	@Override
-	protected void setupPostRequest(HttpRequest request) {
+	protected void setupPostRequest(final HttpRequest request) {
 		// No-op
 	}
 
 	@Override
-	protected void setupGetConnection(URLConnection connection) {
+	protected void setupGetConnection(final URLConnection connection) {
 		// No-op
 	}
 }

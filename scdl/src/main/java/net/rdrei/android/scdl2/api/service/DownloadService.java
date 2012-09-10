@@ -21,13 +21,13 @@ public class DownloadService extends SoundcloudApiService {
 	 * @return
 	 * @throws APIException
 	 */
-	public Uri resolveUri(String id) throws APIException {
+	public Uri resolveUri(final String id) throws APIException {
 		final String resource = String.format(RESOURCE_URL, id);
 		final URLWrapper url;
 
 		try {
 			url = buildUrl(resource);
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			throw new IllegalStateException(e);
 		}
 
@@ -35,7 +35,7 @@ public class DownloadService extends SoundcloudApiService {
 		Ln.d("Opening connection at %s.", url.toString());
 		try {
 			connection = (HttpURLConnection) url.openConnection();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new APIException(e, -1);
 		}
 
@@ -44,7 +44,7 @@ public class DownloadService extends SoundcloudApiService {
 
 		try {
 			code = connection.getResponseCode();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			connection.disconnect();
 			throw new APIException(e, -1);
 		}

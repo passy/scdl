@@ -6,10 +6,10 @@ import android.preference.PreferenceFragment;
 public class ApplicationPreferencesFragment extends PreferenceFragment {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int identifier = getResources().getIdentifier(
+		final int identifier = getResources().getIdentifier(
 				getArguments().getString("resource"), "xml",
 				getActivity().getPackageName());
 		addPreferencesFromResource(identifier);

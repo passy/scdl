@@ -16,11 +16,11 @@ public class ResolveEntity implements SoundcloudEntity {
 		return location;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(final String location) {
 		this.location = location;
 	}
 }

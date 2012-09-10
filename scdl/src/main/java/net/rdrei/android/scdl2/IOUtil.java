@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 public class IOUtil {
-	public static void copyFile(File sourceFile, File destFile)
+	public static void copyFile(final File sourceFile, final File destFile)
 			throws IOException {
 		if (!destFile.exists()) {
 			destFile.createNewFile();

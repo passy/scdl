@@ -1,8 +1,8 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.PreferenceManagerWrapper;
 import net.rdrei.android.scdl2.PreferenceManagerWrapperFactory;
+import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.guice.RoboPreferenceFragment;
 import android.os.Bundle;
 
@@ -18,10 +18,10 @@ public class DownloadPreferencesFragment extends RoboPreferenceFragment {
 	private PreferenceManagerWrapperFactory mPreferenceManagerWrapperFactory;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		PreferenceManagerWrapper preferenceManager = mPreferenceManagerWrapperFactory
+		final PreferenceManagerWrapper preferenceManager = mPreferenceManagerWrapperFactory
 				.create(getPreferenceManager());
 		mDelegate = mDelegateFactory.create(preferenceManager);
 

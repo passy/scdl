@@ -1,10 +1,10 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
-import net.rdrei.android.scdl2.DownloadPathValidator;
-import net.rdrei.android.scdl2.PreferenceManagerWrapper;
 import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
+import net.rdrei.android.scdl2.DownloadPathValidator;
 import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
+import net.rdrei.android.scdl2.PreferenceManagerWrapper;
 import net.rdrei.android.scdl2.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -16,13 +16,14 @@ import android.os.StatFs;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.view.inputmethod.EditorInfo;
+import android.text.InputType;
 import android.widget.EditText;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
+public class DownloadPreferencesDelegateImpl implements
+		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	private static final String DEFAULT_CUSTOM_PATH = "/mnt/sdcard/SoundcloudDownloader/";
 
@@ -38,47 +39,58 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 
 	@Inject
 	private CustomPathChangeValidator mCustomPathValidator;
-	
+
 	@Inject
 	private Context mContext;
-	
+
 	private final PreferenceManagerWrapper mPreferenceManager;
-	
+
 	@Inject
-	public DownloadPreferencesDelegateImpl(@Assisted PreferenceManagerWrapper manager) {
+	public DownloadPreferencesDelegateImpl(
+			@Assisted final PreferenceManagerWrapper manager) {
 		mPreferenceManager = manager;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onCreate()
 	 */
 	@Override
 	public void onCreate() {
-		mTypePreference = (ListPreference) mPreferenceManager.findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
-		mPathPreference = (EditTextPreference) mPreferenceManager.findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
+		mTypePreference = (ListPreference) mPreferenceManager
+				.findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
+		mPathPreference = (EditTextPreference) mPreferenceManager
+				.findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
 		// Enable "enter" to submit.
 		final EditText pathEditText = mPathPreference.getEditText();
 		pathEditText.setSingleLine(true);
 		pathEditText.setHint(DEFAULT_CUSTOM_PATH);
-		pathEditText.setInputType(EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		pathEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
 
 		loadStorageTypeOptions();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#
+	 * onSharedPreferenceChanged(android.content.SharedPreferences,
+	 * java.lang.String)
 	 */
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
+	public void onSharedPreferenceChanged(
+			final SharedPreferences sharedPreferences, final String key) {
 		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 		mPathPreference.setSummary(mAppPreferences.getCustomPath());
 		mPathPreference
 				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onPause()
 	 */
 	@Override
@@ -86,7 +98,9 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 		mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onResume()
 	 */
 	@Override
@@ -98,7 +112,8 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 
 	private void loadStorageTypeOptions() {
 		mTypePreference.setEntries(new CharSequence[] { getExternalLabel(),
-				getPhoneLabel(), mContext.getString(R.string.storage_custom_label) });
+				getPhoneLabel(),
+				mContext.getString(R.string.storage_custom_label) });
 		mTypePreference.setEntryValues(new String[] {
 				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
 				StorageType.CUSTOM.toString(), });
@@ -107,22 +122,24 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	}
 
 	private String getExternalLabel() {
-		double free = getFreeExternalStorage() / Math.pow(1024, 3);
+		final double free = getFreeExternalStorage() / Math.pow(1024, 3);
 
 		if (free >= 0) {
-			return String.format(mContext.getString(R.string.storage_sd_label), free);
+			return String.format(mContext.getString(R.string.storage_sd_label),
+					free);
 		}
-		
+
 		return mContext.getString(R.string.storage_sd_label_no_free);
 	}
 
 	private String getPhoneLabel() {
-		double free = getFreeInternalStorage() / Math.pow(1024, 3);
+		final double free = getFreeInternalStorage() / Math.pow(1024, 3);
 
 		if (free >= 0) {
-			return String.format(mContext.getString(R.string.storage_phone_label), free);
+			return String.format(
+					mContext.getString(R.string.storage_phone_label), free);
 		}
-		
+
 		return mContext.getString(R.string.storage_phone_label_no_free);
 	}
 
@@ -130,8 +147,8 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	 * Returns the free bytes on external storage.
 	 */
 	public static long getFreeExternalStorage() {
-		StatFs statFs = new StatFs(Environment.getExternalStorageDirectory()
-				.getPath());
+		final StatFs statFs = new StatFs(Environment
+				.getExternalStorageDirectory().getPath());
 		return statFs.getAvailableBlocks() * statFs.getBlockSize();
 	}
 
@@ -139,8 +156,8 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 	 * Returns the free bytes on internal storage.
 	 */
 	public static long getFreeInternalStorage() {
-		String path = Environment.getDataDirectory().getPath();
-		StatFs statFs = new StatFs(path);
+		final String path = Environment.getDataDirectory().getPath();
+		final StatFs statFs = new StatFs(path);
 		return statFs.getAvailableBlocks() * statFs.getBlockSize();
 	}
 
@@ -151,10 +168,11 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 		private DownloadPathValidator mValidator;
 
 		@Override
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
+		public boolean onPreferenceChange(final Preference preference,
+				final Object newValue) {
 			try {
 				mValidator.validateCustomPathOrThrow((String) newValue);
-			} catch (DownloadPathValidationException e) {
+			} catch (final DownloadPathValidationException e) {
 				int errorMsgId;
 
 				switch (e.getErrorCode()) {
@@ -179,7 +197,7 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 			return true;
 		}
 
-		public void showErrorDialog(Context context, int errorMsgId) {
+		public void showErrorDialog(final Context context, final int errorMsgId) {
 			final Builder builder = new AlertDialog.Builder(context);
 			builder.setMessage(errorMsgId)
 					.setTitle(R.string.custom_path_error_title)

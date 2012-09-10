@@ -13,7 +13,8 @@ public interface TrackDownloaderFactory {
 	 * @param mTrack
 	 *            The track object associated with the download.
 	 * @param handler
-	 *            Optional. May send error messages, see {@link TrackDownloader}.
+	 *            Optional. May send error messages, see {@link TrackDownloader}
+	 *            .
 	 */
 	TrackDownloader create(Uri mUri, TrackEntity mTrack, Handler handler);
 }

@@ -8,7 +8,8 @@ import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction.PurchaseState;
 import android.support.v4.app.Fragment;
 
-public abstract class AbstractBillingFragment extends Fragment implements BillingController.IConfiguration {
+public abstract class AbstractBillingFragment extends Fragment implements
+		BillingController.IConfiguration {
 
 	protected AbstractBillingObserver mBillingObserver;
 
@@ -74,25 +75,33 @@ public abstract class AbstractBillingFragment extends Fragment implements Billin
 	public abstract void onSubscriptionChecked(boolean supported);
 
 	@Override
-	public void onCreate(android.os.Bundle savedInstanceState) {
+	public void onCreate(final android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mBillingObserver = new AbstractBillingObserver(getActivity()) {
 
-			public void onBillingChecked(boolean supported) {
+			@Override
+			public void onBillingChecked(final boolean supported) {
 				AbstractBillingFragment.this.onBillingChecked(supported);
 			}
 
-			public void onSubscriptionChecked(boolean supported) {
+			@Override
+			public void onSubscriptionChecked(final boolean supported) {
 				AbstractBillingFragment.this.onSubscriptionChecked(supported);
 			}
 
-			public void onPurchaseStateChanged(String itemId, PurchaseState state) {
-				AbstractBillingFragment.this.onPurchaseStateChanged(itemId, state);
+			@Override
+			public void onPurchaseStateChanged(final String itemId,
+					final PurchaseState state) {
+				AbstractBillingFragment.this.onPurchaseStateChanged(itemId,
+						state);
 			}
 
-			public void onRequestPurchaseResponse(String itemId, ResponseCode response) {
-				AbstractBillingFragment.this.onRequestPurchaseResponse(itemId, response);
+			@Override
+			public void onRequestPurchaseResponse(final String itemId,
+					final ResponseCode response) {
+				AbstractBillingFragment.this.onRequestPurchaseResponse(itemId,
+						response);
 			}
 		};
 		BillingController.registerObserver(mBillingObserver);
@@ -114,9 +123,11 @@ public abstract class AbstractBillingFragment extends Fragment implements Billin
 		BillingController.setConfiguration(null);
 	}
 
-	public abstract void onPurchaseStateChanged(String itemId, PurchaseState state);;
+	public abstract void onPurchaseStateChanged(String itemId,
+			PurchaseState state);;
 
-	public abstract void onRequestPurchaseResponse(String itemId, ResponseCode response);
+	public abstract void onRequestPurchaseResponse(String itemId,
+			ResponseCode response);
 
 	/**
 	 * Requests the purchase of the specified item. The transaction will not be
@@ -129,7 +140,7 @@ public abstract class AbstractBillingFragment extends Fragment implements Billin
 	 * @param itemId
 	 *            id of the item to be purchased.
 	 */
-	public void requestPurchase(String itemId) {
+	public void requestPurchase(final String itemId) {
 		BillingController.requestPurchase(getActivity(), itemId);
 	}
 
@@ -144,7 +155,7 @@ public abstract class AbstractBillingFragment extends Fragment implements Billin
 	 * @param itemId
 	 *            id of the item to be purchased.
 	 */
-	public void requestSubscription(String itemId) {
+	public void requestSubscription(final String itemId) {
 		BillingController.requestSubscription(getActivity(), itemId);
 	}
 

@@ -9,15 +9,19 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class URLWrapperImpl implements URLWrapper {
-	@Inject private URLConnectionFactory mUrlConnectionFactory;
+	@Inject
+	private URLConnectionFactory mUrlConnectionFactory;
 	private final URL mUrl;
 
 	@Inject
-	public URLWrapperImpl(@Assisted String spec) throws MalformedURLException {
+	public URLWrapperImpl(@Assisted final String spec)
+			throws MalformedURLException {
 		mUrl = new URL(spec);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.rdrei.android.wakimail.URLWrapper#openConnection()
 	 */
 	@Override
@@ -25,7 +29,9 @@ public class URLWrapperImpl implements URLWrapper {
 		return mUrlConnectionFactory.create(mUrl);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

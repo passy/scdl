@@ -12,41 +12,42 @@ import android.view.MenuItem;
 
 public class CommonMenuFragment extends Fragment {
 	public static CommonMenuFragment newInstance() {
-		CommonMenuFragment fragment = new CommonMenuFragment();
+		final CommonMenuFragment fragment = new CommonMenuFragment();
 
 		return fragment;
 	}
 
-	public static void injectMenu(FragmentActivity mActivity) {
-		CommonMenuFragment menuFragment = CommonMenuFragment.newInstance();
+	public static void injectMenu(final FragmentActivity mActivity) {
+		final CommonMenuFragment menuFragment = CommonMenuFragment
+				.newInstance();
 
 		mActivity.getSupportFragmentManager().beginTransaction()
 				.add(menuFragment, "MENU").commit();
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setHasOptionsMenu(true);
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 
 		inflater.inflate(R.menu.main, menu);
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		if (item.getItemId() == R.id.preferences) {
 			final Intent intent = new Intent(this.getActivity(),
 					ApplicationPreferencesActivity.class);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.changelog) {
-			ChangeLog changeLog = new ChangeLog(this.getActivity());
+			final ChangeLog changeLog = new ChangeLog(this.getActivity());
 			changeLog.getFullLogDialog().show();
 			return true;
 		} else if (item.getItemId() == R.id.buy_adfree) {

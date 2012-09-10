@@ -37,12 +37,12 @@ public class SystemKeyStore {
 			parameters = this.getPkixParameters();
 			certificateFactory = CertificateFactory.getInstance("X509");
 			validator = CertPathValidator.getInstance("PKIX");
-		} catch (NoSuchAlgorithmException nsae) {
+		} catch (final NoSuchAlgorithmException nsae) {
 			throw new CertificateException(nsae);
 		}
 	}
 
-	public X509Certificate getTrustRoot(X509Certificate[] chain)
+	public X509Certificate getTrustRoot(final X509Certificate[] chain)
 			throws CertificateException {
 		try {
 			final CertPath certPath = certificateFactory
@@ -50,13 +50,14 @@ public class SystemKeyStore {
 			final PKIXCertPathValidatorResult result = (PKIXCertPathValidatorResult) validator
 					.validate(certPath, parameters);
 
-			if (result == null)
+			if (result == null) {
 				return null;
-			else
+			} else {
 				return result.getTrustAnchor().getTrustedCert();
-		} catch (CertPathValidatorException e) {
+			}
+		} catch (final CertPathValidatorException e) {
 			return null;
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (final InvalidAlgorithmParameterException e) {
 			throw new CertificateException(e);
 		}
 	}
@@ -68,21 +69,22 @@ public class SystemKeyStore {
 
 			for (final Enumeration<String> aliases = trustStore.aliases(); aliases
 					.hasMoreElements();) {
-				String alias = aliases.nextElement();
-				X509Certificate cert = (X509Certificate) trustStore
+				final String alias = aliases.nextElement();
+				final X509Certificate cert = (X509Certificate) trustStore
 						.getCertificate(alias);
 
-				if (cert != null)
+				if (cert != null) {
 					trusted.add(new TrustAnchor(cert, null));
+				}
 			}
 
 			final PKIXParameters parameters = new PKIXParameters(trusted);
 			parameters.setRevocationEnabled(false);
 
 			return parameters;
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (final InvalidAlgorithmParameterException e) {
 			throw new AssertionError(e);
-		} catch (KeyStoreException e) {
+		} catch (final KeyStoreException e) {
 			throw new AssertionError(e);
 		}
 	}
@@ -104,15 +106,15 @@ public class SystemKeyStore {
 			Log.d(TAG, "Loaded keystore");
 
 			return trustStore;
-		} catch (NoSuchAlgorithmException nsae) {
+		} catch (final NoSuchAlgorithmException nsae) {
 			throw new AssertionError(nsae);
-		} catch (KeyStoreException e) {
+		} catch (final KeyStoreException e) {
 			throw new AssertionError(e);
-		} catch (CertificateException e) {
+		} catch (final CertificateException e) {
 			throw new AssertionError(e);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			throw new AssertionError(e);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new AssertionError(e);
 		}
 	}
@@ -133,8 +135,9 @@ public class SystemKeyStore {
 		String password = System
 				.getProperty("javax.net.ssl.trustStorePassword");
 
-		if (password == null)
+		if (password == null) {
 			password = "changeit";
+		}
 
 		return password;
 	}

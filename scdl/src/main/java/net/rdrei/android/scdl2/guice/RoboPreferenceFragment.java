@@ -16,7 +16,7 @@ import android.preference.PreferenceFragment;
 public abstract class RoboPreferenceFragment extends PreferenceFragment {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
 	}

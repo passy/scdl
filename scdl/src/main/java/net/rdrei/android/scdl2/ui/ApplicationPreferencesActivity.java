@@ -7,14 +7,14 @@ import roboguice.activity.RoboPreferenceActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 
 public class ApplicationPreferencesActivity extends RoboPreferenceActivity {
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		// As long as we only have one pane, directly skip to the Download
 		// Preference Fragment.
-		getIntent().putExtra(
-				ApplicationPreferencesActivity.EXTRA_SHOW_FRAGMENT,
+		getIntent().putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
 				"net.rdrei.android.scdl2.ui.DownloadPreferencesFragment");
 
 		super.onCreate(savedInstanceState);
@@ -27,7 +27,7 @@ public class ApplicationPreferencesActivity extends RoboPreferenceActivity {
 	}
 
 	@Override
-	public void onBuildHeaders(List<Header> target) {
+	public void onBuildHeaders(final List<Header> target) {
 		super.onBuildHeaders(target);
 
 		// This isn't called at the moment.

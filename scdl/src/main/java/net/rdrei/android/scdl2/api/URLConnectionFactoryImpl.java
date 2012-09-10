@@ -6,7 +6,7 @@ import java.net.URLConnection;
 
 public class URLConnectionFactoryImpl implements URLConnectionFactory {
 	@Override
-	public URLConnection create(URL url) throws IOException {
+	public URLConnection create(final URL url) throws IOException {
 		return url.openConnection();
 	}
 }

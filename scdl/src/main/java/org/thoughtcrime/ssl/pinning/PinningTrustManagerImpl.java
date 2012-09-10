@@ -90,12 +90,13 @@ public class PinningTrustManagerImpl implements PinningTrustManager {
 	 *             If the system trust store can't be initialized.
 	 */
 
-	public PinningTrustManagerImpl(String[] pins) throws CertificateException {
+	public PinningTrustManagerImpl(final String[] pins)
+			throws CertificateException {
 		this(pins, null);
 	}
 
-	public PinningTrustManagerImpl(String[] pins, SystemKeyStore systemKeyStore)
-			throws CertificateException {
+	public PinningTrustManagerImpl(final String[] pins,
+			final SystemKeyStore systemKeyStore) throws CertificateException {
 		systemTrustManagers = this.initializeSystemTrustManagers();
 		if (systemKeyStore == null) {
 			this.systemKeyStore = new SystemKeyStore();
@@ -103,52 +104,57 @@ public class PinningTrustManagerImpl implements PinningTrustManager {
 			this.systemKeyStore = systemKeyStore;
 		}
 
-		for (String pin : pins)
+		for (final String pin : pins) {
 			this.pins.add(hexStringToByteArray(pin));
+		}
 	}
 
 	private TrustManager[] initializeSystemTrustManagers()
 			throws CertificateException {
 		try {
-			final TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+			final TrustManagerFactory tmf = TrustManagerFactory
+					.getInstance("X509");
 			tmf.init((KeyStore) null);
 
 			return tmf.getTrustManagers();
-		} catch (NoSuchAlgorithmException nsae) {
+		} catch (final NoSuchAlgorithmException nsae) {
 			throw new CertificateException(nsae);
-		} catch (KeyStoreException e) {
+		} catch (final KeyStoreException e) {
 			throw new CertificateException(e);
 		}
 	}
 
-	private boolean isValidPin(X509Certificate certificate)
+	private boolean isValidPin(final X509Certificate certificate)
 			throws CertificateException {
 		try {
 			final byte[] spki = certificate.getPublicKey().getEncoded();
 			final MessageDigest digest = MessageDigest.getInstance("SHA1");
 			final byte[] pin = digest.digest(spki);
 
-			for (byte[] validPin : pins) {
-				if (Arrays.equals(validPin, pin))
+			for (final byte[] validPin : pins) {
+				if (Arrays.equals(validPin, pin)) {
 					return true;
+				}
 			}
 
 			return false;
-		} catch (NoSuchAlgorithmException nsae) {
+		} catch (final NoSuchAlgorithmException nsae) {
 			throw new CertificateException(nsae);
 		}
 	}
 
-	public void checkClientTrusted(X509Certificate[] chain, String authType)
-			throws CertificateException {
+	@Override
+	public void checkClientTrusted(final X509Certificate[] chain,
+			final String authType) throws CertificateException {
 		throw new CertificateException("Client certificates not supported!");
 	}
 
-	public void checkServerTrusted(X509Certificate[] chain, String authType)
-			throws CertificateException {
+	@Override
+	public void checkServerTrusted(final X509Certificate[] chain,
+			final String authType) throws CertificateException {
 
 		Log.d(TAG, "Checking if server is trusted");
-		for (TrustManager systemTrustManager : systemTrustManagers) {
+		for (final TrustManager systemTrustManager : systemTrustManagers) {
 			((X509TrustManager) systemTrustManager).checkServerTrusted(chain,
 					authType);
 		}
@@ -156,7 +162,7 @@ public class PinningTrustManagerImpl implements PinningTrustManager {
 		final X509Certificate anchor = systemKeyStore.getTrustRoot(chain);
 
 		Log.d(TAG, "checking certs for valid pin");
-		for (X509Certificate certificate : chain) {
+		for (final X509Certificate certificate : chain) {
 			if (isValidPin(certificate)) {
 				Log.d(TAG, "Success!");
 				return;
@@ -173,11 +179,12 @@ public class PinningTrustManagerImpl implements PinningTrustManager {
 				"No valid Pins found in Certificate Chain!");
 	}
 
+	@Override
 	public X509Certificate[] getAcceptedIssuers() {
 		return null;
 	}
 
-	private byte[] hexStringToByteArray(String s) {
+	private byte[] hexStringToByteArray(final String s) {
 		final int len = s.length();
 		final byte[] data = new byte[len / 2];
 		for (int i = 0; i < len; i += 2) {

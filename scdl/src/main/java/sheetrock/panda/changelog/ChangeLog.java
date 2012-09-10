@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.rdrei.android.scdl2.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,7 +45,7 @@ public class ChangeLog {
 	 * 
 	 * @param context
 	 */
-	public ChangeLog(Context context) {
+	public ChangeLog(final Context context) {
 		this(context, PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
@@ -60,7 +59,7 @@ public class ChangeLog {
 	 * @param sp
 	 *            the shared preferences to store the last version name into
 	 */
-	public ChangeLog(Context context, SharedPreferences sp) {
+	public ChangeLog(final Context context, final SharedPreferences sp) {
 		this.context = context;
 
 		// get version numbers
@@ -69,7 +68,7 @@ public class ChangeLog {
 		try {
 			this.thisVersion = context.getPackageManager().getPackageInfo(
 					context.getPackageName(), 0).versionName;
-		} catch (NameNotFoundException e) {
+		} catch (final NameNotFoundException e) {
 			this.thisVersion = "?";
 			Log.e(TAG, "could not get version name from manifest!");
 			e.printStackTrace();
@@ -77,7 +76,7 @@ public class ChangeLog {
 		Log.d(TAG, "appVersion: " + this.thisVersion);
 
 		// save new version number to preferences
-		SharedPreferences.Editor editor = sp.edit();
+		final SharedPreferences.Editor editor = sp.edit();
 		editor.putString(VERSION_KEY, this.thisVersion);
 		editor.commit();
 	}
@@ -134,14 +133,15 @@ public class ChangeLog {
 		return this.getDialog(true);
 	}
 
-	private AlertDialog getDialog(boolean full) {
-		WebView wv = new WebView(this.context);
+	private AlertDialog getDialog(final boolean full) {
+		final WebView wv = new WebView(this.context);
 		wv.setBackgroundColor(0); // transparent
 		// wv.getSettings().setDefaultTextEncodingName("utf-8");
 		wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
 				null);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(
+				this.context);
 		builder.setTitle(
 				context.getResources().getString(
 						full ? R.string.changelog_full_title
@@ -152,7 +152,9 @@ public class ChangeLog {
 						context.getResources().getString(
 								R.string.changelog_ok_button),
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int id) {
 								dialog.cancel();
 							}
 						});
@@ -183,24 +185,25 @@ public class ChangeLog {
 	private StringBuffer sb = null;
 	private static final String EOCL = "END_OF_CHANGE_LOG";
 
-	private String getLog(boolean full) {
+	private String getLog(final boolean full) {
 		// read changelog.txt file
 		sb = new StringBuffer();
 		try {
-			InputStream ins = context.getResources().openRawResource(
+			final InputStream ins = context.getResources().openRawResource(
 					R.raw.changelog);
-			BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+			final BufferedReader br = new BufferedReader(new InputStreamReader(
+					ins));
 
 			String line = null;
 			boolean advanceToEOVS = false; // if true: ignore further version
 											// sections
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
-				char marker = line.length() > 0 ? line.charAt(0) : 0;
+				final char marker = line.length() > 0 ? line.charAt(0) : 0;
 				if (marker == '$') {
 					// begin of a version section
 					this.closeList();
-					String version = line.substring(1).trim();
+					final String version = line.substring(1).trim();
 					// stop output?
 					if (!full) {
 						if (this.lastVersion.equals(version)) {
@@ -248,14 +251,14 @@ public class ChangeLog {
 			}
 			this.closeList();
 			br.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
 		return sb.toString();
 	}
 
-	private void openList(Listmode listMode) {
+	private void openList(final Listmode listMode) {
 		if (this.listMode != listMode) {
 			closeList();
 			if (listMode == Listmode.ORDERED) {
@@ -283,7 +286,7 @@ public class ChangeLog {
 	 * 
 	 * @param lastVersion
 	 */
-	void setLastVersion(String lastVersion) {
+	void setLastVersion(final String lastVersion) {
 		this.lastVersion = lastVersion;
 	}
 }

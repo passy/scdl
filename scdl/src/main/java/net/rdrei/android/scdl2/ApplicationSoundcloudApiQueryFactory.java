@@ -2,10 +2,10 @@ package net.rdrei.android.scdl2;
 
 import net.rdrei.android.scdl2.api.SecureSoundcloudApiQueryImpl;
 import net.rdrei.android.scdl2.api.SoundcloudApiQuery;
+import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 import net.rdrei.android.scdl2.api.SoundcloudApiQueryImpl;
 import net.rdrei.android.scdl2.api.SoundcloudEntity;
 import net.rdrei.android.scdl2.api.URLWrapper;
-import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -24,7 +24,8 @@ public class ApplicationSoundcloudApiQueryFactory {
 	private Injector mInjector;
 
 	public <T extends SoundcloudEntity> SoundcloudApiQuery<T> create(
-			URLWrapper url, HttpMethod method, TypeToken<T> typeToken) {
+			final URLWrapper url, final HttpMethod method,
+			final TypeToken<T> typeToken) {
 
 		// Using very ugly, manual injection here, because I couldn't figure out
 		// how to dynamically resolve the generic type using TypeLiterals.

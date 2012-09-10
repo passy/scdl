@@ -23,7 +23,7 @@ public class DemoFragment extends
 		void onStartSoundcloud();
 	}
 
-	public static DemoFragment newInstance(int layoutId) {
+	public static DemoFragment newInstance(final int layoutId) {
 		final DemoFragment fragment = new DemoFragment();
 
 		final Bundle bundle = new Bundle();
@@ -41,8 +41,8 @@ public class DemoFragment extends
 	 * Load the given demo layout.
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 
 		final View view = inflater.inflate(getLayoutId(), container, false);
 
@@ -65,26 +65,26 @@ public class DemoFragment extends
 	 * -activity-from-fragment-causes-nullpointerexception
 	 */
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		setUserVisibleHint(true);
 	}
 
-	private void bindStartButton(View startButton) {
+	private void bindStartButton(final View startButton) {
 		startButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				getContract().onStartSoundcloud();
 			}
 		});
 	}
 
-	private void bindNextButton(View nextButton) {
+	private void bindNextButton(final View nextButton) {
 		nextButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				getContract().onNextPage();
 			}
 		});

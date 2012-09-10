@@ -20,24 +20,25 @@ public class ActivityLayoutInflater {
 	private final LayoutInflater mInflater;
 
 	@Inject
-	public ActivityLayoutInflater(Activity activity) {
+	public ActivityLayoutInflater(final Activity activity) {
 		mInflater = LayoutInflater.from(activity);
 	}
 
-	public View inflate(int resource, ViewGroup root) {
+	public View inflate(final int resource, final ViewGroup root) {
 		return mInflater.inflate(resource, root);
 	}
 
-	public View inflate(XmlPullParser parser, ViewGroup root) {
+	public View inflate(final XmlPullParser parser, final ViewGroup root) {
 		return mInflater.inflate(parser, root);
 	}
 
-	public View inflate(int resource, ViewGroup root, boolean attachToRoot) {
+	public View inflate(final int resource, final ViewGroup root,
+			final boolean attachToRoot) {
 		return mInflater.inflate(resource, root, attachToRoot);
 	}
 
-	public View inflate(XmlPullParser parser, ViewGroup root,
-			boolean attachToRoot) {
+	public View inflate(final XmlPullParser parser, final ViewGroup root,
+			final boolean attachToRoot) {
 		return mInflater.inflate(parser, root, attachToRoot);
 	}
 }

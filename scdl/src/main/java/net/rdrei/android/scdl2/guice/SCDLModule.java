@@ -43,7 +43,7 @@ public class SCDLModule extends AbstractModule {
 				DownloadPreferencesDelegate.class,
 				DownloadPreferencesDelegateImpl.class).build(
 				DownloadPreferencesDelegateFactory.class));
-		
+
 		install(new FactoryModuleBuilder().implement(
 				PreferenceManagerWrapper.class,
 				PreferenceManagerWrapperImpl.class).build(

@@ -24,13 +24,14 @@ public class SecureSoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
 	private Injector mInjector;
 
 	@Inject
-	public SecureSoundcloudApiQueryImpl(@Assisted URLWrapper url,
-			@Assisted HttpMethod method, @Assisted TypeToken<T> typeToken) {
+	public SecureSoundcloudApiQueryImpl(@Assisted final URLWrapper url,
+			@Assisted final HttpMethod method,
+			@Assisted final TypeToken<T> typeToken) {
 		super(url, method, typeToken);
 	}
 
 	@Override
-	protected void setupPostRequest(HttpRequest request) {
+	protected void setupPostRequest(final HttpRequest request) {
 		pinSSLConnection(request);
 	}
 
@@ -39,7 +40,7 @@ public class SecureSoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
 	 * 
 	 * @param connection
 	 */
-	private void pinSSLConnection(HttpURLConnection connection) {
+	private void pinSSLConnection(final HttpURLConnection connection) {
 		if (!(connection instanceof HttpsURLConnection)) {
 			throw new IllegalStateException("Not an SSL connection!");
 		}
@@ -49,14 +50,14 @@ public class SecureSoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
 
 		try {
 			sslContext = SSLContext.getInstance("TLS");
-		} catch (NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			// Again, should not happen if I didn't type it wrong.
 			throw new IllegalArgumentException(e);
 		}
 
 		try {
 			sslContext.init(null, trustManagers, null);
-		} catch (KeyManagementException e) {
+		} catch (final KeyManagementException e) {
 			throw new IllegalStateException(e);
 		}
 
@@ -64,7 +65,7 @@ public class SecureSoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
 				.getSocketFactory());
 	}
 
-	private void pinSSLConnection(HttpRequest request) {
+	private void pinSSLConnection(final HttpRequest request) {
 		request.applyTrustManager(getPinningTrustManagers());
 	}
 
@@ -78,7 +79,7 @@ public class SecureSoundcloudApiQueryImpl<T extends SoundcloudEntity> extends
 	}
 
 	@Override
-	protected void setupGetConnection(URLConnection connection) {
+	protected void setupGetConnection(final URLConnection connection) {
 		pinSSLConnection((HttpsURLConnection) connection);
 	}
 }

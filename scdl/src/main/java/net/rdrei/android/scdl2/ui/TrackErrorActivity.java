@@ -20,23 +20,23 @@ public class TrackErrorActivity extends RoboActivity {
 
 	@InjectView(R.id.error_message)
 	TextView mErrorTextView;
-	
+
 	@InjectView(R.id.main_layout)
 	ViewGroup mMainLayout;
 
 	@InjectExtra(EXTRA_ERROR_CODE)
 	private ErrorCode mErrorCode;
-	
+
 	@Inject
 	private AdViewManager mAdViewManager;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.track_error);
 		setErrorText();
-		
+
 		if (savedInstanceState == null) {
 			mAdViewManager.addToViewIfRequired(mMainLayout);
 		}

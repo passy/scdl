@@ -21,33 +21,35 @@ import com.google.inject.Injector;
 @ContextSingleton
 public class ServiceManager {
 	private final Injector mInjector;
-	
+
 	@Inject
 	private ApplicationPreferences mPreferences;
-	
+
 	@Inject
-	public ServiceManager(Application application) {
+	public ServiceManager(final Application application) {
 		mInjector = RoboGuice.getBaseApplicationInjector(application);
 	}
-	
-	private void setupService(SoundcloudApiService service) {
+
+	private void setupService(final SoundcloudApiService service) {
 		service.setUseSSL(mPreferences.getSSLEnabled());
 	}
-	
+
 	public TrackService trackService() {
 		final TrackService service = mInjector.getInstance(TrackService.class);
 		setupService(service);
 		return service;
 	}
-	
+
 	public ResolveService resolveService() {
-		final ResolveService service = mInjector.getInstance(ResolveService.class);
+		final ResolveService service = mInjector
+				.getInstance(ResolveService.class);
 		setupService(service);
 		return service;
 	}
 
 	public DownloadService downloadService() {
-		final DownloadService service = mInjector.getInstance(DownloadService.class);
+		final DownloadService service = mInjector
+				.getInstance(DownloadService.class);
 		setupService(service);
 		return service;
 	}

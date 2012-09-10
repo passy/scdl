@@ -1,9 +1,8 @@
 package net.rdrei.android.scdl2;
 
+import java.net.HttpURLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import net.rdrei.android.scdl2.api.APIException;
 import net.rdrei.android.scdl2.api.ServiceManager;
@@ -32,19 +31,19 @@ public class ShareIntentResolver {
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
 
-		public ShareIntentResolverException(String detailMessage) {
+		public ShareIntentResolverException(final String detailMessage) {
 			super(detailMessage, -1);
 		}
 
-		public ShareIntentResolverException(String detailMessage,
-				Throwable throwable) {
+		public ShareIntentResolverException(final String detailMessage,
+				final Throwable throwable) {
 			super(detailMessage, throwable, -1);
 		}
 	}
 
 	public static class UnsupportedUrlException extends
 			ShareIntentResolverException {
-		public UnsupportedUrlException(String detailMessage) {
+		public UnsupportedUrlException(final String detailMessage) {
 			super(detailMessage);
 		}
 
@@ -54,7 +53,8 @@ public class ShareIntentResolver {
 	public static class TrackNotFoundException extends
 			ShareIntentResolverException {
 
-		public TrackNotFoundException(String detailMessage, Throwable throwable) {
+		public TrackNotFoundException(final String detailMessage,
+				final Throwable throwable) {
 			super(detailMessage, throwable);
 		}
 
@@ -89,10 +89,10 @@ public class ShareIntentResolver {
 		if (isValidUri(uri)) {
 			try {
 				return resolveUri(uri);
-			} catch (APIException e) {
+			} catch (final APIException e) {
 				final int code = e.getCode();
 
-				if (code == HttpsURLConnection.HTTP_NOT_FOUND) {
+				if (code == HttpURLConnection.HTTP_NOT_FOUND) {
 					throw new TrackNotFoundException(String.format(
 							"The given track could not be resolved for URL %s",
 							uri.toString()), e);
@@ -103,9 +103,9 @@ public class ShareIntentResolver {
 			}
 		}
 
-		throw new UnsupportedUrlException(
-				String.format("Given URL '%s' is not a valid soundcloud URL.",
-						uri == null ? "unknown" : uri.toString()));
+		throw new UnsupportedUrlException(String.format(
+				"Given URL '%s' is not a valid soundcloud URL.",
+				uri == null ? "unknown" : uri.toString()));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class ShareIntentResolver {
 		throw new ShareIntentResolverException("Could not parse ID from URL.");
 	}
 
-	protected boolean isValidUri(Uri uri) {
+	protected boolean isValidUri(final Uri uri) {
 		if (uri == null) {
 			return false;
 		}
@@ -143,7 +143,7 @@ public class ShareIntentResolver {
 			return false;
 		}
 
-		for (String allowedHost : ALLOWED_HOSTS) {
+		for (final String allowedHost : ALLOWED_HOSTS) {
 			if (host.equals(allowedHost)) {
 				return true;
 			}
@@ -152,7 +152,7 @@ public class ShareIntentResolver {
 		return false;
 	}
 
-	protected String resolveUri(Uri uri) throws APIException {
+	protected String resolveUri(final Uri uri) throws APIException {
 		final ResolveService service = mServiceManager.resolveService();
 		final ResolveEntity entity = service.resolve(uri.toString());
 

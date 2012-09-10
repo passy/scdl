@@ -42,8 +42,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	private final Handler mHandler;
 
 	@Inject
-	public TrackDownloaderImpl(@Assisted Uri mUri,
-			@Assisted TrackEntity mTrack, @Assisted Handler handler) {
+	public TrackDownloaderImpl(@Assisted final Uri mUri,
+			@Assisted final TrackEntity mTrack, @Assisted final Handler handler) {
 		super();
 		this.mUri = mUri;
 		this.mTrack = mTrack;
@@ -57,16 +57,17 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	 */
 	@Override
 	public void enqueue() throws IOException {
-		StartDownloadTask startDownloadTask = new StartDownloadTask(mHandler);
+		final StartDownloadTask startDownloadTask = new StartDownloadTask(
+				mHandler);
 		startDownloadTask.execute();
 	}
 
 	/**
 	 * Check if the given path is writable and attempts to create it.
 	 */
-	public static boolean checkAndCreateTypePath(File path) {
+	public static boolean checkAndCreateTypePath(final File path) {
 		if (!path.exists()) {
-			if(!path.mkdirs()) {
+			if (!path.mkdirs()) {
 				return false;
 			}
 		}
@@ -86,7 +87,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	private DownloadManager.Request createDownloadRequest(final Uri uri)
 			throws IOException {
 		final Request request = new Request(uri);
-		
+
 		setRequestStorage(request);
 		request.setTitle(mTrack.getTitle());
 		request.setDescription(mContext
@@ -99,16 +100,16 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 		return request;
 	}
-	
+
 	private void setRequestStorage(final Request request) throws IOException {
 		final StorageType type = mPreferences.getStorageType();
 		final File typePath = mPreferences.getStorageDirectory();
 		String filename = mTrack.getDownloadFilename();
-		
+
 		if (type == StorageType.LOCAL) {
 			filename += Config.TMP_DOWNLOAD_POSTFIX;
 		}
-		
+
 		// The preferences panel already tries to create the path, but it could
 		// have been removed in the meantime, so we rather double-check.
 		if (!checkAndCreateTypePath(typePath)) {
@@ -116,7 +117,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 					"Can't open directory %s to write.", typePath.toString()));
 		}
 
-		Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
+		final Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
 				filename);
 		Ln.d("Local destination URI: %s", destinationUri.toString());
 		request.setDestinationUri(destinationUri);
@@ -124,7 +125,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 	private class StartDownloadTask extends SafeAsyncTask<Void> {
 
-		public StartDownloadTask(Handler handler) {
+		public StartDownloadTask(final Handler handler) {
 			super(handler);
 		}
 
@@ -134,7 +135,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 			final Request request;
 			try {
 				request = createDownloadRequest(mUri);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new IOException(e);
 			}
 
@@ -147,7 +148,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		 * bubbles them up using the provided handler.
 		 */
 		@Override
-		protected void onException(Exception e) throws RuntimeException {
+		protected void onException(final Exception e) throws RuntimeException {
 			super.onException(e);
 			final Message msg;
 

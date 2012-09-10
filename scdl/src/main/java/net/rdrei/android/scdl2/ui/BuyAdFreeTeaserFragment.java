@@ -1,7 +1,7 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.scdl2.R;
 import net.rdrei.android.mediator.DelayedMessageQueue;
+import net.rdrei.android.scdl2.R;
 import net.robotmedia.billing.BillingRequest.ResponseCode;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -47,7 +47,7 @@ public class BuyAdFreeTeaserFragment extends
 	public static BuyAdFreeTeaserFragment newInstance(final String handlerKey) {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
 
-		Bundle bundle = new Bundle();
+		final Bundle bundle = new Bundle();
 		bundle.putString(DATA_HANDLER_KEY, handlerKey);
 		fragment.setArguments(bundle);
 
@@ -82,7 +82,7 @@ public class BuyAdFreeTeaserFragment extends
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(final Bundle outState) {
 		outState.putBoolean(DATA_BILLING_ENABLED, mBillingEnabled);
 		super.onSaveInstanceState(outState);
 	}
@@ -101,11 +101,7 @@ public class BuyAdFreeTeaserFragment extends
 		mBillingEnabled = billingEnabled;
 
 		Ln.d("Setting new billing enabled state to %s.", billingEnabled);
-
-		if (getActivity() != null) {
-			mButton.setEnabled(billingEnabled);
-		}
-
+		mButton.setEnabled(billingEnabled);
 		hideLoadingSpinner();
 	}
 
@@ -131,7 +127,7 @@ public class BuyAdFreeTeaserFragment extends
 	}
 
 	@Override
-	public void handleMessage(Message message) {
+	public void handleMessage(final Message message) {
 		switch (message.what) {
 		case MSG_BILLING_SUPPORTED:
 			onBillingSupportChecked(true);
@@ -176,7 +172,7 @@ public class BuyAdFreeTeaserFragment extends
 		showError(getString(R.string.error_iab_reverted));
 	}
 
-	private void onBillingSupportChecked(boolean supported) {
+	private void onBillingSupportChecked(final boolean supported) {
 		if (supported) {
 			clearError();
 		} else {
