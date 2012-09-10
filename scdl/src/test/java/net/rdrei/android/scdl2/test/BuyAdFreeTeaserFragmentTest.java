@@ -2,7 +2,6 @@ package net.rdrei.android.scdl2.test;
 
 import static org.junit.Assert.assertFalse;
 import net.rdrei.android.mediator.DelayedMessageQueue;
-import net.rdrei.android.mediator.MessageMediator.Receiver;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment;
@@ -11,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.activity.RoboFragmentActivity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.widget.TextView;
 
