@@ -11,5 +11,5 @@ public interface PreferenceManagerWrapperFactory {
 	 * 
 	 * @param preferenceManager
 	 */
-	public PreferenceManagerWrapper create(PreferenceManager preferenceManager);
+	PreferenceManagerWrapper create(PreferenceManager preferenceManager);
 }

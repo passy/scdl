@@ -63,21 +63,21 @@ public class ChangeLog {
 		this.context = context;
 
 		// get version numbers
-		this.lastVersion = sp.getString(VERSION_KEY, "");
+		lastVersion = sp.getString(VERSION_KEY, "");
 		Log.d(TAG, "lastVersion: " + lastVersion);
 		try {
-			this.thisVersion = context.getPackageManager().getPackageInfo(
+			thisVersion = context.getPackageManager().getPackageInfo(
 					context.getPackageName(), 0).versionName;
 		} catch (final NameNotFoundException e) {
-			this.thisVersion = "?";
+			thisVersion = "?";
 			Log.e(TAG, "could not get version name from manifest!");
 			e.printStackTrace();
 		}
-		Log.d(TAG, "appVersion: " + this.thisVersion);
+		Log.d(TAG, "appVersion: " + thisVersion);
 
 		// save new version number to preferences
 		final SharedPreferences.Editor editor = sp.edit();
-		editor.putString(VERSION_KEY, this.thisVersion);
+		editor.putString(VERSION_KEY, thisVersion);
 		editor.commit();
 	}
 
@@ -90,7 +90,7 @@ public class ChangeLog {
 	 * @see AndroidManifest.xml#android:versionName
 	 */
 	public String getLastVersion() {
-		return this.lastVersion;
+		return lastVersion;
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class ChangeLog {
 	 * @see AndroidManifest.xml#android:versionName
 	 */
 	public String getThisVersion() {
-		return this.thisVersion;
+		return thisVersion;
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class ChangeLog {
 	 *         first time
 	 */
 	public boolean firstRun() {
-		return !this.lastVersion.equals(this.thisVersion);
+		return !lastVersion.equals(thisVersion);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class ChangeLog {
 	 *         again.
 	 */
 	public boolean firstRunEver() {
-		return "".equals(this.lastVersion);
+		return "".equals(lastVersion);
 	}
 
 	/**
@@ -134,14 +134,14 @@ public class ChangeLog {
 	}
 
 	private AlertDialog getDialog(final boolean full) {
-		final WebView wv = new WebView(this.context);
+		final WebView wv = new WebView(context);
 		wv.setBackgroundColor(0); // transparent
 		// wv.getSettings().setDefaultTextEncodingName("utf-8");
 		wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
 				null);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(
-				this.context);
+				context);
 		builder.setTitle(
 				context.getResources().getString(
 						full ? R.string.changelog_full_title
@@ -199,14 +199,14 @@ public class ChangeLog {
 											// sections
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
-				final char marker = line.length() > 0 ? line.charAt(0) : 0;
+				final char marker = (line.length() > 0) ? line.charAt(0) : 0;
 				if (marker == '$') {
 					// begin of a version section
 					this.closeList();
 					final String version = line.substring(1).trim();
 					// stop output?
 					if (!full) {
-						if (this.lastVersion.equals(version)) {
+						if (lastVersion.equals(version)) {
 							advanceToEOVS = true;
 						} else if (version.equals(EOCL)) {
 							advanceToEOVS = false;
@@ -271,12 +271,12 @@ public class ChangeLog {
 	}
 
 	private void closeList() {
-		if (this.listMode == Listmode.ORDERED) {
+		if (listMode == Listmode.ORDERED) {
 			sb.append("</ol></div>\n");
-		} else if (this.listMode == Listmode.UNORDERED) {
+		} else if (listMode == Listmode.UNORDERED) {
 			sb.append("</ul></div>\n");
 		}
-		this.listMode = Listmode.NONE;
+		listMode = Listmode.NONE;
 	}
 
 	private static final String TAG = "ChangeLog";

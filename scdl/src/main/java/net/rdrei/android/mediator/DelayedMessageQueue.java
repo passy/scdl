@@ -63,6 +63,6 @@ public class DelayedMessageQueue {
 	}
 
 	public static interface Handler {
-		public void handleMessage(final Message message);
+		void handleMessage(final Message message);
 	}
 }

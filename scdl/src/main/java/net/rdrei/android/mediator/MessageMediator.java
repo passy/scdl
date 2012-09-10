@@ -86,6 +86,6 @@ public class MessageMediator {
 	}
 
 	public interface Handler {
-		public void handleMessage(Message message);
+		void handleMessage(Message message);
 	}
 }

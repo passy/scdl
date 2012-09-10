@@ -301,10 +301,10 @@ public class HttpRequest {
 
 			final byte[] ALPHABET = _STANDARD_ALPHABET;
 
-			final int inBuff = (numSigBytes > 0 ? source[srcOffset] << 24 >>> 8
+			final int inBuff = ((numSigBytes > 0) ? source[srcOffset] << 24 >>> 8
 					: 0)
-					| (numSigBytes > 1 ? source[srcOffset + 1] << 24 >>> 16 : 0)
-					| (numSigBytes > 2 ? source[srcOffset + 2] << 24 >>> 24 : 0);
+					| ((numSigBytes > 1) ? source[srcOffset + 1] << 24 >>> 16 : 0)
+					| ((numSigBytes > 2) ? source[srcOffset + 2] << 24 >>> 24 : 0);
 
 			switch (numSigBytes) {
 			case 3:
@@ -435,7 +435,7 @@ public class HttpRequest {
 			}
 
 			// Bytes needed for actual encoding
-			final int encLen = len / 3 * 4 + (len % 3 > 0 ? 4 : 0);
+			final int encLen = len / 3 * 4 + ((len % 3 > 0) ? 4 : 0);
 
 			final byte[] outBuff = new byte[encLen];
 

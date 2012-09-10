@@ -47,7 +47,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		super();
 		this.mUri = mUri;
 		this.mTrack = mTrack;
-		this.mHandler = handler;
+		mHandler = handler;
 	}
 
 	/*

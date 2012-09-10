@@ -182,19 +182,19 @@ public class BuyAdFreeTeaserFragment extends
 	}
 
 	public static interface BuyAdFreeFragmentContract {
-		public void onBuyClicked();
+		void onBuyClicked();
 
-		public void onBuyError(ResponseCode response);
+		void onBuyError(ResponseCode response);
 
-		public void onBillingChecked(boolean supported);
+		void onBillingChecked(boolean supported);
 
-		public void onBuySuccess();
+		void onBuySuccess();
 
-		public void onBuyCancel();
+		void onBuyCancel();
 
-		public void onBuyRevert();
+		void onBuyRevert();
 
-		public void onPurchaseRequested();
+		void onPurchaseRequested();
 
 		void registerMessageHandler(String key,
 				net.rdrei.android.mediator.DelayedMessageQueue.Handler handler);
