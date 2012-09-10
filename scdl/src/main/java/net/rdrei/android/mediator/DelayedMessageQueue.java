@@ -18,38 +18,42 @@ public class DelayedMessageQueue {
 
 	public void send(final String key, final Message message) {
 		final Handler handler = mHandlerRegistry.get(key);
-		
+
 		if (handler == null) {
 			storeMessage(key, message);
 		} else {
 			dispatch(handler, message);
 		}
 	}
-	
+
 	private void storeMessage(String key, Message message) {
 		LinkedList<Message> queue = mQueueMap.get(key);
-		
+
 		if (queue == null) {
 			queue = new LinkedList<Message>();
 			mQueueMap.put(key, queue);
 		}
-		
+
 		queue.add(message);
 	}
 
 	public void setHandler(final String key, final Handler handler) {
 		synchronized (this) {
 			mHandlerRegistry.put(key, handler);
-			
+
 			LinkedList<Message> delayedMessages = mQueueMap.get(key);
-			
+
 			if (delayedMessages == null) {
 				return;
 			}
-			
+
 			for (final Message message : delayedMessages) {
 				dispatch(handler, message);
 			}
+
+			// Instead of dequeuing, we can also remove the queue as a whole
+			// because it's consumed and most likely not reused.
+			mQueueMap.remove(key);
 		}
 	}
 

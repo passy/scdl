@@ -149,4 +149,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void registerMessageHandler(String key, DelayedMessageQueue.Handler handler) {
 		mMessageQueue.setHandler(key, handler);
 	}
+	
+	public void setMessageQueue(DelayedMessageQueue queue) {
+		mMessageQueue = queue;
+	}
 }

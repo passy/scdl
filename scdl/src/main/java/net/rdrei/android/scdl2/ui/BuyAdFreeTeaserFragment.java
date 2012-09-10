@@ -77,9 +77,8 @@ public class BuyAdFreeTeaserFragment extends
 			}
 		});
 
-		final String handlerKey = getArguments()
-				.getString(DATA_HANDLER_KEY);
-		getContract().registerMessageHandler(handlerKey, this);
+		getContract().registerMessageHandler(
+				getArguments().getString(DATA_HANDLER_KEY), this);
 	}
 
 	@Override
