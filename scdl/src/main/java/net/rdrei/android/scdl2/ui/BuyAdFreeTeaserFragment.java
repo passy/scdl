@@ -1,7 +1,7 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.mediator.MessageMediator;
 import net.rdrei.android.scdl2.R;
+import net.rdrei.android.mediator.DelayedMessageQueue;
 import net.robotmedia.billing.BillingRequest.ResponseCode;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -18,8 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BuyAdFreeTeaserFragment extends
-		ContractFragment<BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract> implements MessageMediator.ReceiveHandler {
+		ContractFragment<BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract>
+		implements DelayedMessageQueue.Handler {
 
+	private static final String DATA_HANDLER_KEY = "HANDLER_KEY";
 	private static final String DATA_BILLING_ENABLED = "BILLING_ENABLED";
 	public static final int MSG_BILLING_SUPPORTED = 0;
 	public static final int MSG_BILLING_UNSUPPORTED = 1;
@@ -39,15 +41,16 @@ public class BuyAdFreeTeaserFragment extends
 
 	@InjectView(R.id.progress_bar)
 	private ProgressBar mProgressBar;
-	
-	private MessageMediator.Receiver mReceiver;
 
 	private boolean mBillingEnabled = false;
 
-	public static BuyAdFreeTeaserFragment newInstance(MessageMediator.Receiver receiver) {
+	public static BuyAdFreeTeaserFragment newInstance(final String handlerKey) {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
-		fragment.mReceiver = receiver;
-		
+
+		Bundle bundle = new Bundle();
+		bundle.putString(DATA_HANDLER_KEY, handlerKey);
+		fragment.setArguments(bundle);
+
 		return fragment;
 	}
 
@@ -58,7 +61,8 @@ public class BuyAdFreeTeaserFragment extends
 		if (savedInstanceState != null) {
 			mBillingEnabled = savedInstanceState.getBoolean(
 					DATA_BILLING_ENABLED, false);
-			Ln.d("savedInstanceState found. Billing enabled: %s", mBillingEnabled);
+			Ln.d("savedInstanceState found. Billing enabled: %s",
+					mBillingEnabled);
 		}
 
 		final Spanned html = Html.fromHtml(getActivity().getString(
@@ -73,8 +77,9 @@ public class BuyAdFreeTeaserFragment extends
 			}
 		});
 
-		mReceiver.setHandler(this);
-		mReceiver.accept();
+		final String handlerKey = getArguments()
+				.getString(DATA_HANDLER_KEY);
+		getContract().registerMessageHandler(handlerKey, this);
 	}
 
 	@Override
@@ -195,5 +200,8 @@ public class BuyAdFreeTeaserFragment extends
 		public void onBuyRevert();
 
 		public void onPurchaseRequested();
+
+		void registerMessageHandler(String key,
+				net.rdrei.android.mediator.DelayedMessageQueue.Handler handler);
 	}
 }

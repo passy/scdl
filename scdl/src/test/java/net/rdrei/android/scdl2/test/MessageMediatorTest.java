@@ -45,7 +45,7 @@ public class MessageMediatorTest {
 		mMediator.send(KEY_ZERO, message0);
 		mMediator.send(KEY_ZERO, message1);
 		
-		mReceiver0.setHandler(new MessageMediator.ReceiveHandler() {
+		mReceiver0.setHandler(new MessageMediator.Handler() {
 			public void handleMessage(final Message msg) {
 				counter.inc();
 				
@@ -72,7 +72,7 @@ public class MessageMediatorTest {
 		
 		mMediator.register(KEY_ZERO, mReceiver0);
 		
-		mReceiver0.setHandler(new MessageMediator.ReceiveHandler() {
+		mReceiver0.setHandler(new MessageMediator.Handler() {
 			public void handleMessage(final Message msg) {
 				counter.inc();
 				
@@ -106,14 +106,14 @@ public class MessageMediatorTest {
 		mMediator.register(KEY_ZERO, mReceiver0);
 		mMediator.register(KEY_ONE, mReceiver1);
 		
-		mReceiver0.setHandler(new MessageMediator.ReceiveHandler() {
+		mReceiver0.setHandler(new MessageMediator.Handler() {
 			public void handleMessage(final Message msg) {
 				assertThat(msg.arg1, is(23));
 				counter.inc();
 			}
 		});
 		
-		mReceiver1.setHandler(new MessageMediator.ReceiveHandler() {
+		mReceiver1.setHandler(new MessageMediator.Handler() {
 			public void handleMessage(final Message msg) {
 				assertThat(msg.arg1, is(42));
 				counter.inc();

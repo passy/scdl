@@ -25,7 +25,7 @@ public class BuyAdFreeTeaserFragmentTest {
 		RoboFragmentActivity activity = new RoboFragmentActivity();
 
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		mFragment = BuyAdFreeTeaserFragment.newInstance(new Receiver());
+		mFragment = BuyAdFreeTeaserFragment.newInstance("TEST");
 		fragmentManager.beginTransaction().add(mFragment, "TEST").commit();
 	}
 

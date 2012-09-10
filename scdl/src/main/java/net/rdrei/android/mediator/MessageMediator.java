@@ -45,13 +45,13 @@ public class MessageMediator {
 	public static class Receiver {
 		private final Queue<Message> mQueue;
 		private boolean mIsAccepting = false;
-		private ReceiveHandler mHandler;
+		private Handler mHandler;
 
 		public Receiver() {
 			mQueue = new LinkedList<Message>();
 		}
 
-		public void setHandler(final ReceiveHandler handler) {
+		public void setHandler(final Handler handler) {
 			mHandler = handler;
 		}
 
@@ -85,7 +85,7 @@ public class MessageMediator {
 		}
 	}
 
-	public interface ReceiveHandler {
+	public interface Handler {
 		public void handleMessage(Message message);
 	}
 }

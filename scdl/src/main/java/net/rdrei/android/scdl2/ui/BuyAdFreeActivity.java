@@ -1,6 +1,6 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.mediator.MessageMediator;
+import net.rdrei.android.mediator.DelayedMessageQueue;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
@@ -29,6 +29,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		BuyAdFreeFragmentContract {
 
 	private static final String BILLING_FRAGMENT_TAG = "BILLING";
+	private static final String KEY_TEASER_HANDLER = "TEASER";
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -37,7 +38,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	private ActionBar mActionBar;
 
 	@Inject
-	private MessageMediator.Receiver mTeaserReceiver;
+	private DelayedMessageQueue mMessageQueue;
 
 	private Fragment mContentFragment;
 	private AdFreeBillingFragment mBillingFragment;
@@ -63,7 +64,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		} else {
 			mBillingFragment = AdFreeBillingFragment.newInstance();
 			mContentFragment = BuyAdFreeTeaserFragment
-					.newInstance(mTeaserReceiver);
+					.newInstance(KEY_TEASER_HANDLER);
 
 			transaction.add(mBillingFragment, BILLING_FRAGMENT_TAG);
 		}
@@ -101,14 +102,14 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 			message.what = BuyAdFreeTeaserFragment.MSG_BILLING_UNSUPPORTED;
 		}
 
-		mTeaserReceiver.dispatch(message);
+		mMessageQueue.send(KEY_TEASER_HANDLER, message);
 	}
 
 	@Override
 	public void onBuyError(final ResponseCode response) {
 		Ln.e("IAB error: %s", response.toString());
 
-		mTeaserReceiver.dispatch(Message.obtain(null,
+		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_ERROR));
 	}
 
@@ -125,19 +126,27 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuyRevert() {
 		mPreferences.setAdFree(false);
 
-		mTeaserReceiver.dispatch(Message.obtain(null,
+		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED));
 	}
 
 	@Override
 	public void onBuyCancel() {
-		mTeaserReceiver.dispatch(Message.obtain(null,
+		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED));
 	}
 
 	@Override
 	public void onPurchaseRequested() {
-		mTeaserReceiver.dispatch(Message.obtain(null,
+		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED));
+	}
+
+	@Override
+	/**
+	 * Register and accept the message handler of a subordinate fragment.
+	 */
+	public void registerMessageHandler(String key, DelayedMessageQueue.Handler handler) {
+		mMessageQueue.setHandler(key, handler);
 	}
 }
