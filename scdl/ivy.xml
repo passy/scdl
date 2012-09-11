@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-    <info organisation="net.rdrei.android" module="scdl" revision="0.3.6" />
+    <info organisation="net.rdrei.android" module="scdl" revision="1.2" />
     <configurations>
         <conf name="compile" visibility="public" description="Compile dependencies"/>
         <conf name="test" visibility="public" extends="compile" description="Compile tests"/>
