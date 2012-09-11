@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.2
+  % Version 1.2
+  _ 2012-09-11
+    * Added menu option to donate and remove ads.
 $ 1.1
   % Version 1.1
   _ 2012-09-02
