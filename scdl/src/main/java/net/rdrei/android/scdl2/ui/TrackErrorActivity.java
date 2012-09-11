@@ -5,7 +5,10 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.inject.Inject;
 
 public class TrackErrorActivity extends RoboActivity {
 
@@ -18,16 +21,25 @@ public class TrackErrorActivity extends RoboActivity {
 	@InjectView(R.id.error_message)
 	TextView mErrorTextView;
 
+	@InjectView(R.id.main_layout)
+	ViewGroup mMainLayout;
+
 	@InjectExtra(EXTRA_ERROR_CODE)
 	private ErrorCode mErrorCode;
 
+	@Inject
+	private AdViewManager mAdViewManager;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.track_error);
-
 		setErrorText();
+
+		if (savedInstanceState == null) {
+			mAdViewManager.addToViewIfRequired(mMainLayout);
+		}
 	}
 
 	private void setErrorText() {

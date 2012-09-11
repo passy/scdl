@@ -17,7 +17,7 @@ public class PinningTrustManagerProvider implements
 		try {
 			return new PinningTrustManagerImpl(
 					new String[] { Config.API_SSL_PIN_HASH });
-		} catch (CertificateException e) {
+		} catch (final CertificateException e) {
 			throw new IllegalStateException(e);
 		}
 	}

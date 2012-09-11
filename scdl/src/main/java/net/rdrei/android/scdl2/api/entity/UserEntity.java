@@ -1,8 +1,8 @@
 package net.rdrei.android.scdl2.api.entity;
 
+import net.rdrei.android.scdl2.api.SoundcloudEntity;
 import android.os.Parcel;
 import android.os.Parcelable;
-import net.rdrei.android.scdl2.api.SoundcloudEntity;
 
 public class UserEntity implements SoundcloudEntity, Parcelable {
 	private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -23,7 +23,7 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -31,7 +31,7 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 		return uri;
 	}
 
-	public void setUri(String uri) {
+	public void setUri(final String uri) {
 		this.uri = uri;
 	}
 
@@ -41,29 +41,29 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	@Override
-	public void writeToParcel(Parcel dest, int flags) {
+	public void writeToParcel(final Parcel dest, final int flags) {
 		dest.writeLong(id);
 		dest.writeString(username);
 		dest.writeString(uri);
 	}
-	
-	private UserEntity(Parcel in) {
+
+	private UserEntity(final Parcel in) {
 		id = in.readInt();
 		username = in.readString();
 		uri = in.readString();
 	}
-	
+
 	public UserEntity() {
 	}
 
 	public static final Parcelable.Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
 		@Override
-		public UserEntity[] newArray(int size) {
+		public UserEntity[] newArray(final int size) {
 			return new UserEntity[size];
 		}
-		
+
 		@Override
-		public UserEntity createFromParcel(Parcel source) {
+		public UserEntity createFromParcel(final Parcel source) {
 			return new UserEntity(source);
 		}
 	};

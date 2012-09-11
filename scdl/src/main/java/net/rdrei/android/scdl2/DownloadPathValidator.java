@@ -26,8 +26,8 @@ public class DownloadPathValidator {
 		private final ErrorCode mErrorCode;
 		private static final long serialVersionUID = 1L;
 
-		public DownloadPathValidationException(ErrorCode code) {
-			this.mErrorCode = code;
+		public DownloadPathValidationException(final ErrorCode code) {
+			mErrorCode = code;
 		}
 
 		public ErrorCode getErrorCode() {

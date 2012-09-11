@@ -39,7 +39,7 @@ public class MainActivity extends RoboFragmentActivity implements
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// Load default settings once.
@@ -79,7 +79,7 @@ public class MainActivity extends RoboFragmentActivity implements
 	 * Show changelog if not displayed before on this version.
 	 */
 	private void showChangelogOnDemand() {
-		ChangeLog cl = new ChangeLog(this);
+		final ChangeLog cl = new ChangeLog(this);
 		if (cl.firstRun()) {
 			cl.getLogDialog().show();
 		}
@@ -109,8 +109,8 @@ public class MainActivity extends RoboFragmentActivity implements
 				.setPositiveButton(R.string.dialog_yes,
 						new DialogInterface.OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(final DialogInterface dialog,
+									final int which) {
 
 								startSoundcloudMarketActivity();
 							}
@@ -118,8 +118,8 @@ public class MainActivity extends RoboFragmentActivity implements
 				.setNegativeButton(R.string.dialog_no,
 						new DialogInterface.OnClickListener() {
 							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(final DialogInterface dialog,
+									final int which) {
 								dialog.cancel();
 							}
 						}).show();
@@ -133,7 +133,7 @@ public class MainActivity extends RoboFragmentActivity implements
 				Uri.parse(SOUNDCLOUD_MARKET_URI));
 		try {
 			startActivity(intent);
-		} catch (ActivityNotFoundException e) {
+		} catch (final ActivityNotFoundException e) {
 			final Intent errorIntent = new Intent(this,
 					TrackErrorActivity.class);
 			errorIntent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE,

@@ -8,18 +8,23 @@ import com.google.inject.assistedinject.Assisted;
 
 public class PreferenceManagerWrapperImpl implements PreferenceManagerWrapper {
 
-	private PreferenceManager mPreferenceManager;
-	
+	private final PreferenceManager mPreferenceManager;
+
 	@Inject
-	public PreferenceManagerWrapperImpl(@Assisted PreferenceManager preferenceManager) {
+	public PreferenceManagerWrapperImpl(
+			@Assisted final PreferenceManager preferenceManager) {
 		mPreferenceManager = preferenceManager;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.rdrei.android.scdl2.PreferenceManagerWrapper#findPreference(java.lang.CharSequence)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.rdrei.android.scdl2.PreferenceManagerWrapper#findPreference(java.
+	 * lang.CharSequence)
 	 */
 	@Override
-	public Preference findPreference(CharSequence key) {
+	public Preference findPreference(final CharSequence key) {
 		return mPreferenceManager.findPreference(key);
 	}
 }

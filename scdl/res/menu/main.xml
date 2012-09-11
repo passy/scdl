@@ -6,4 +6,6 @@
     <item android:id="@+id/changelog"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Changelog" />
+    <item android:id="@+id/buy_adfree"
+        android:title="Remove Ads" />
 </menu>

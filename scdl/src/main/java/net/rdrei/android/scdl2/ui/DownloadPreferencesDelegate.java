@@ -4,13 +4,13 @@ import android.content.SharedPreferences;
 
 public interface DownloadPreferencesDelegate {
 
-	public abstract void onCreate();
+	void onCreate();
 
-	public abstract void onSharedPreferenceChanged(
+	void onSharedPreferenceChanged(
 			SharedPreferences sharedPreferences, String key);
 
-	public abstract void onPause();
+	void onPause();
 
-	public abstract void onResume();
+	void onResume();
 
 }

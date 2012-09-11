@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import roboguice.util.Ln;
-
 import net.rdrei.android.scdl2.Config;
+import roboguice.util.Ln;
 
 import com.google.inject.Inject;
 
@@ -21,7 +20,7 @@ public class SoundcloudApiService {
 	private static final String BASE_URL_HTTP = "http://api.soundcloud.com";
 	private static final String CONTENT_ENCODING = "UTF-8";
 	private static final String CLIENT_ID_PARAMETER = "client_id";
-	
+
 	private boolean mUseSSL = true;
 
 	public SoundcloudApiService() {
@@ -47,11 +46,12 @@ public class SoundcloudApiService {
 	 * @return URL
 	 * @throws MalformedURLException
 	 */
-	protected URLWrapper buildUrl(String resource) throws MalformedURLException {
+	protected URLWrapper buildUrl(final String resource)
+			throws MalformedURLException {
 		return buildUrl(resource, null);
 	}
 
-	protected URLWrapper buildUrl(String resource,
+	protected URLWrapper buildUrl(final String resource,
 			Map<String, String> parameters) throws MalformedURLException {
 		final StringBuilder strUrl = new StringBuilder(getBaseUrl());
 		strUrl.append(resource);
@@ -77,9 +77,10 @@ public class SoundcloudApiService {
 	 *            Mapping of parameter names to values.
 	 * @return String representation.
 	 */
-	protected static String getParametersString(Map<String, String> parameters) {
+	protected static String getParametersString(
+			final Map<String, String> parameters) {
 		final StringBuilder builder = new StringBuilder();
-		for (Entry<String, String> entry : parameters.entrySet()) {
+		for (final Entry<String, String> entry : parameters.entrySet()) {
 			builder.append(entry.getKey());
 			builder.append('=');
 			builder.append(encodeUrl(entry.getValue()));
@@ -99,10 +100,10 @@ public class SoundcloudApiService {
 	 *            Original URL.
 	 * @return Encoded URL.
 	 */
-	private static String encodeUrl(String original) {
+	private static String encodeUrl(final String original) {
 		try {
 			return URLEncoder.encode(original, CONTENT_ENCODING);
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			// should never be here..
 			Ln.e(e);
 			return original;
@@ -113,7 +114,7 @@ public class SoundcloudApiService {
 		return mUseSSL;
 	}
 
-	public void setUseSSL(boolean useSSL) {
+	public void setUseSSL(final boolean useSSL) {
 		mUseSSL = useSSL;
 	}
 }

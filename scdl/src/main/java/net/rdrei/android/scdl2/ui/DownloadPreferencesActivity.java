@@ -1,8 +1,8 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.PreferenceManagerWrapper;
 import net.rdrei.android.scdl2.PreferenceManagerWrapperFactory;
+import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboPreferenceActivity;
 import android.os.Bundle;
 
@@ -24,10 +24,10 @@ public class DownloadPreferencesActivity extends RoboPreferenceActivity {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		PreferenceManagerWrapper preferenceManagerWrapper = mPreferenceManagerFactory
+		final PreferenceManagerWrapper preferenceManagerWrapper = mPreferenceManagerFactory
 				.create(getPreferenceManager());
 		mDelegate = mDelegateFactory.create(preferenceManagerWrapper);
 

@@ -5,9 +5,9 @@ import java.net.MalformedURLException;
 
 import net.rdrei.android.scdl2.ApplicationSoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 import net.rdrei.android.scdl2.api.SoundcloudApiService;
 import net.rdrei.android.scdl2.api.URLWrapper;
-import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import roboguice.util.Ln;
 
@@ -30,12 +30,12 @@ public class TrackService extends SoundcloudApiService {
 	 * @return
 	 * @throws APIException
 	 */
-	public TrackEntity getTrack(String id) throws APIException {
+	public TrackEntity getTrack(final String id) throws APIException {
 		// I'm not sure if escaping here makes any sense.
 		final URLWrapper url;
 		try {
 			url = this.buildUrl(RESOURCE_URL + id);
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			Ln.e(e);
 			throw new IllegalArgumentException("URL creation failed!", e);
 		}

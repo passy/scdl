@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -152,17 +152,4 @@
                 android:text="@string/download" />
         </LinearLayout>
     </RelativeLayout>
-
-    <!-- This is the only place I'm having ads right now, so I hard-code the unit id right here. -->
-
-    <com.google.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_unit_id"
-        ads:loadAdOnCreate="true"
-        ads:testDevices="TEST_EMULATOR, d951138e7ba75b4" />
-
 </LinearLayout>

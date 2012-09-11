@@ -5,14 +5,13 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import roboguice.util.Ln;
-
 import net.rdrei.android.scdl2.ApplicationSoundcloudApiQueryFactory;
 import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 import net.rdrei.android.scdl2.api.SoundcloudApiService;
 import net.rdrei.android.scdl2.api.URLWrapper;
-import net.rdrei.android.scdl2.api.SoundcloudApiQuery.HttpMethod;
 import net.rdrei.android.scdl2.api.entity.ResolveEntity;
+import roboguice.util.Ln;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -28,7 +27,7 @@ public class ResolveService extends SoundcloudApiService {
 	@Inject
 	private ApplicationSoundcloudApiQueryFactory mResolveQueryFactory;
 
-	public ResolveEntity resolve(String url) throws APIException {
+	public ResolveEntity resolve(final String url) throws APIException {
 		final Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(URL_PARAMETER, url);
 
@@ -42,12 +41,12 @@ public class ResolveService extends SoundcloudApiService {
 	 * @param parameters
 	 * @throws APIException
 	 */
-	protected ResolveEntity executeGet(Map<String, String> parameters)
+	protected ResolveEntity executeGet(final Map<String, String> parameters)
 			throws APIException {
 		final URLWrapper url;
 		try {
 			url = buildUrl(RESOURCE_URL, parameters);
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			// This is okay to crash the app, because this error can only be
 			// caused by static values.
 			Ln.e(e);

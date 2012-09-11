@@ -13,6 +13,8 @@ import com.google.inject.Inject;
 public class ApplicationPreferences {
 	private static final String KEY_SSL_ENABLED = "download_preferences_enable_ssl";
 
+	private static final String KEY_ADS_REMOVED = "adfree_please_actually_buy_this";
+
 	public static final String DEFAULT_STORAGE_DIRECTORY = "Soundcloud";
 
 	public static final String KEY_STORAGE_TYPE = "download_preferences_storage_type";
@@ -54,7 +56,7 @@ public class ApplicationPreferences {
 	public CharSequence getCustomPath() {
 		return mPreferences.getString(KEY_STORAGE_CUSTOM_PATH, null);
 	}
-	
+
 	public boolean getSSLEnabled() {
 		return mPreferences.getBoolean(KEY_SSL_ENABLED, true);
 	}
@@ -68,6 +70,14 @@ public class ApplicationPreferences {
 		return new File(Environment.DIRECTORY_MUSIC, DEFAULT_STORAGE_DIRECTORY);
 	}
 
+	public boolean isAdFree() {
+		return mPreferences.getBoolean(KEY_ADS_REMOVED, false);
+	}
+
+	public void setAdFree(final boolean value) {
+		mPreferences.edit().putBoolean(KEY_ADS_REMOVED, value).commit();
+	}
+
 	/**
 	 * Get the storage directory, based on either the user set value or the
 	 * default value.
@@ -75,9 +85,9 @@ public class ApplicationPreferences {
 	 * @return File
 	 */
 	public File getStorageDirectory() {
-		StorageType storageType = getStorageType();
+		final StorageType storageType = getStorageType();
 		if (storageType == StorageType.CUSTOM) {
-			String customPath = (String) getCustomPath();
+			final String customPath = (String) getCustomPath();
 
 			if (customPath != null) {
 				return new File(customPath);

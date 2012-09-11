@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- The default ad view we insert in other places. -->
+<com.google.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:id="@+id/adView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    ads:adSize="BANNER"
+    ads:adUnitId="@string/admob_unit_id"
+    ads:loadAdOnCreate="true"
+    ads:testDevices="TEST_EMULATOR, d951138e7ba75b4" />

@@ -48,4 +48,11 @@
     <string name="custom_path_error_not_a_directory">The given path doesn\'t point to a directory.</string>
     <string name="custom_path_error_unknown">Blyme! Something went wrong. Please choose a different path.</string>
     <string name="intent_send_label">SoundCloud Download</string>
+    <string name="buy_ad_free_teaser_text">• No more ads anywhere in the app, even after a reinstall!&lt;br&gt;• Certainty the developer gets enough coffee to build cool new stuff.&lt;br&gt;• A warm, fuzzy feeling.</string>
+    <string name="buy_ad_free_teaser_header">What You Get</string>
+    <string name="buy_ad_free_teaser_button">Buy Now</string>
+    <string name="error_no_iab">Your device does not support In-App Billing.</string>
+    <string name="buy_ad_free_thanks_text">Thank you for your support!</string>
+    <string name="error_iab_connection">There was an error contacting the billing service. Please try again later.</string>
+    <string name="error_iab_reverted">Your purchase has been reverted.</string>
 </resources>

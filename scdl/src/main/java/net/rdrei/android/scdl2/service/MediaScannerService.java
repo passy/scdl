@@ -17,30 +17,31 @@ import android.os.IBinder;
  * @author pascal
  * 
  */
-public class MediaScannerService extends Service implements MediaScannerConnectionClient {
-	
+public class MediaScannerService extends Service implements
+		MediaScannerConnectionClient {
+
 	public static final String EXTRA_PATH = "path";
-	
+
 	private MediaScannerConnection mScannerConnection;
 	private String mPath;
-	
+
 	@Override
 	public void onCreate() {
 		mScannerConnection = new MediaScannerConnection(this, this);
 	}
 
 	@Override
-	public IBinder onBind(Intent intent) {
+	public IBinder onBind(final Intent intent) {
 		return null;
 	}
-	
+
 	@Override
-	public void onStart(Intent intent, int startId) {
+	public void onStart(final Intent intent, final int startId) {
 		if (intent == null) {
 			stopSelf();
 			return;
 		}
-		
+
 		mPath = intent.getStringExtra(EXTRA_PATH);
 		mScannerConnection.connect();
 	}
@@ -52,7 +53,7 @@ public class MediaScannerService extends Service implements MediaScannerConnecti
 	}
 
 	@Override
-	public void onScanCompleted(String path, Uri uri) {
+	public void onScanCompleted(final String path, final Uri uri) {
 		Ln.d("Media scan completed.");
 		stopSelf();
 	}

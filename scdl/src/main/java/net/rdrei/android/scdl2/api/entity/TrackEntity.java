@@ -3,16 +3,14 @@ package net.rdrei.android.scdl2.api.entity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import net.rdrei.android.scdl2.Config;
+import net.rdrei.android.scdl2.api.SoundcloudEntity;
 import roboguice.util.Ln;
-
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-
-import net.rdrei.android.scdl2.Config;
-import net.rdrei.android.scdl2.api.SoundcloudEntity;
 
 /**
  * Entity tracking some of the Track information.
@@ -44,14 +42,14 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 
 	@SerializedName("original_content_size")
 	private long originalContentSize;
-	
+
 	private UserEntity user;
-	
+
 	public TrackEntity() {
 		super();
 	}
-	
-	private TrackEntity(Parcel in) {
+
+	private TrackEntity(final Parcel in) {
 		id = in.readLong();
 		duration = in.readLong();
 		title = in.readString();
@@ -67,12 +65,12 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 
 	public static final Parcelable.Creator<TrackEntity> CREATOR = new Creator<TrackEntity>() {
 		@Override
-		public TrackEntity[] newArray(int size) {
+		public TrackEntity[] newArray(final int size) {
 			return new TrackEntity[size];
 		}
-		
+
 		@Override
-		public TrackEntity createFromParcel(Parcel source) {
+		public TrackEntity createFromParcel(final Parcel source) {
 			Ln.d("Creating new TrackEntity from parcel source.");
 			return new TrackEntity(source);
 		}
@@ -84,7 +82,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	@Override
-	public void writeToParcel(Parcel dest, int flags) {
+	public void writeToParcel(final Parcel dest, final int flags) {
 		dest.writeLong(id);
 		dest.writeLong(duration);
 		dest.writeString(title);
@@ -102,7 +100,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -110,7 +108,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return duration;
 	}
 
-	public void setDuration(long duration) {
+	public void setDuration(final long duration) {
 		this.duration = duration;
 	}
 
@@ -118,7 +116,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -126,7 +124,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return downloadable;
 	}
 
-	public void setDownloadable(boolean downloadable) {
+	public void setDownloadable(final boolean downloadable) {
 		this.downloadable = downloadable;
 	}
 
@@ -147,7 +145,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return Uri.parse(downloadUrl);
 	}
 
-	public void setDownloadUrl(String downloadUrl) {
+	public void setDownloadUrl(final String downloadUrl) {
 		this.downloadUrl = downloadUrl;
 	}
 
@@ -155,7 +153,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -167,7 +165,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return Uri.parse(artworkUrl);
 	}
 
-	public void setArtworkUrl(String artworkUrl) {
+	public void setArtworkUrl(final String artworkUrl) {
 		this.artworkUrl = artworkUrl;
 	}
 
@@ -182,7 +180,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	 * @param originalFormat
 	 *            the originalFormat to set
 	 */
-	public void setOriginalFormat(String originalFormat) {
+	public void setOriginalFormat(final String originalFormat) {
 		this.originalFormat = originalFormat;
 	}
 
@@ -194,7 +192,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return permalink;
 	}
 
-	public void setPermalink(String permalink) {
+	public void setPermalink(final String permalink) {
 		this.permalink = permalink;
 	}
 
@@ -214,7 +212,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return originalContentSize;
 	}
 
-	public void setOriginalContentSize(long originalContentSize) {
+	public void setOriginalContentSize(final long originalContentSize) {
 		this.originalContentSize = originalContentSize;
 	}
 
@@ -222,7 +220,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		return user;
 	}
 
-	public void setUser(UserEntity user) {
+	public void setUser(final UserEntity user) {
 		this.user = user;
 	}
 }

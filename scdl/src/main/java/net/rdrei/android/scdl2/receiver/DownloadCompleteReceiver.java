@@ -51,7 +51,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			return mTitle;
 		}
 
-		public void setTitle(String title) {
+		public void setTitle(final String title) {
 			mTitle = title;
 		}
 
@@ -66,7 +66,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			return mStatus;
 		}
 
-		public void setStatus(int status) {
+		public void setStatus(final int status) {
 			mStatus = status;
 		}
 
@@ -74,13 +74,13 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			return mPath;
 		}
 
-		public void setPath(String path) {
+		public void setPath(final String path) {
 			mPath = path;
 		}
 	}
 
 	@Override
-	public void handleReceive(Context context, Intent intent) {
+	public void handleReceive(final Context context, final Intent intent) {
 		final long downloadId = intent.getLongExtra(
 				DownloadManager.EXTRA_DOWNLOAD_ID, 0);
 		final ResolveDownloadTask task = new ResolveDownloadTask(context,
@@ -92,7 +92,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	 * @param context
 	 * @param title
 	 */
-	private void showNotification(Context context, final String title) {
+	private void showNotification(final Context context, final String title) {
 		final Intent downloadIntent = new Intent(
 				DownloadManager.ACTION_VIEW_DOWNLOADS);
 
@@ -118,7 +118,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	private class ResolveDownloadTask extends RoboAsyncTask<Download> {
 		private final long mDownloadId;
 
-		public ResolveDownloadTask(Context context, long downloadId) {
+		public ResolveDownloadTask(final Context context, final long downloadId) {
 			super(context);
 
 			mDownloadId = downloadId;
@@ -174,9 +174,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		}
 
 		@Override
-		protected void onSuccess(Download t) throws Exception {
+		protected void onSuccess(final Download t) throws Exception {
 			super.onSuccess(t);
-			
+
 			if (t == null) {
 				return;
 			}
@@ -194,7 +194,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			showNotification(context, t.getTitle());
 		}
 
-		protected boolean shouldMoveFileToLocal(Download download) {
+		protected boolean shouldMoveFileToLocal(final Download download) {
 			return download.getPath().endsWith(Config.TMP_DOWNLOAD_POSTFIX);
 		}
 
@@ -204,7 +204,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		 * 
 		 * @param download
 		 */
-		protected void moveFileToLocal(Download download) {
+		protected void moveFileToLocal(final Download download) {
 			final File path = new File(download.getPath().substring(
 					"file:".length()));
 			final String filename = path.getName();
@@ -218,7 +218,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			final File newPath = new File(newDir, newFileName);
 			try {
 				IOUtil.copyFile(path, newPath);
-			} catch (IOException err) {
+			} catch (final IOException err) {
 				Ln.w(err, "Failed to rename download.");
 				return;
 			}
