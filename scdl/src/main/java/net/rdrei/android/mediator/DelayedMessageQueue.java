@@ -69,6 +69,10 @@ public class DelayedMessageQueue {
 			mQueueMap.remove(key);
 		}
 	}
+	
+	public void removeHandler(final String key) {
+		mHandlerRegistry.remove(key);
+	}
 
 	private void dispatch(final Handler handler, final Message message) {
 		handler.handleMessage(message);

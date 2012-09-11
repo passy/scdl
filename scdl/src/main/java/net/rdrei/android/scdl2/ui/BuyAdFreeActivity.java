@@ -73,6 +73,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		transaction.add(R.id.main_layout, mContentFragment).commit();
 	}
+	
+	private void replaceWithTeaserFragment() {
+		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
+				.add(R.id.main_layout, BuyAdFreeTeaserFragment.newInstance(KEY_TEASER_HANDLER))
+				.commit();
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
@@ -112,6 +118,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuySuccess() {
 		mPreferences.setAdFree(true);
 
+		mMessageQueue.removeHandler(KEY_TEASER_HANDLER);
 		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
 				.add(R.id.main_layout, BuyAdFreeThanksFragment.newInstance())
 				.commit();
@@ -120,6 +127,10 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onBuyRevert() {
 		mPreferences.setAdFree(false);
+		
+		if (!(mContentFragment instanceof BuyAdFreeTeaserFragment)) {
+			replaceWithTeaserFragment();
+		}
 
 		mMessageQueue.send(KEY_TEASER_HANDLER,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED);
@@ -141,7 +152,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuyClicked() {
 		mMessageQueue.send(KEY_TEASER_HANDLER,
 				BuyAdFreeTeaserFragment.MSG_BILLING_REQUESTED);
-		mMessageQueue.send(KEY_TEASER_HANDLER,
+		mMessageQueue.send(KEY_BILLING_HANDLER,
 				AdFreeBillingFragment.MSG_REQUEST_PURCHASE);
 	}
 
