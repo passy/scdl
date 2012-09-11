@@ -8,3 +8,4 @@ gen/
 tmp/
 libs/
 ./test/
+local.properties
