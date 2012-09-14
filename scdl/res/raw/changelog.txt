@@ -17,11 +17,15 @@
           font-size:0.8em;
           margin-bottom:1em;
           text-align:center }
-      div.freetext { color:#000 }
-      div.list     { color:#000 }
+      div.freetext { color:#fff }
+      div.list     { color:#fff }
     </style>
   </head>
   <body>
+$ 1.2.1
+  % Version 1.2.1
+  _ 2012-09-14
+    * Hotfix for Android 2 devices.
 $ 1.2
   % Version 1.2
   _ 2012-09-11
