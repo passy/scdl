@@ -192,10 +192,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	 * Update the button display based on the availability of mTrack.
 	 */
 	private void updateButtons() {
-		if (mTrack.isDownloadable() || mTrack.isPurchasable()) {
+		if (mTrack.isDownloadable()) {
 			mDownloadButton.setEnabled(true);
-		}
-		if (mTrack.isPurchasable()) {
+		} else if (mTrack.isPurchasable()) {
+			mDownloadButton.setEnabled(true);
 			final String title = mTrack.getPurchaseTitle();
 			if (title == null || title.isEmpty()) {
 				mDownloadButton.setText(R.string.lbl_purchase);
