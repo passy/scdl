@@ -135,13 +135,13 @@
             android:baselineAligned="false" >
 
             <Button
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_remove_ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="4dip"
                 android:layout_weight="0.5"
-                android:text="@string/cancel" />
+                android:text="@string/buy_remove_ads" />
 
             <Button
                 android:id="@+id/btn_download"

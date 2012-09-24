@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,8 +58,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	@InjectView(R.id.btn_download)
 	private Button mDownloadButton;
 
-	@InjectView(R.id.btn_cancel)
-	private Button mCancelButton;
+	@InjectView(R.id.btn_remove_ads)
+	private Button mRemoveAdsButton;
 
 	@InjectView(R.id.img_artwork)
 	private ImageView mArtworkImageView;
@@ -121,12 +122,13 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	private void bindButtons() {
 		mDownloadButton.setOnClickListener(new DownloadButtonClickListener());
-		mCancelButton.setOnClickListener(new View.OnClickListener() {
+		mRemoveAdsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(final View v) {
-				Ln.d("Canceling download. Bye, bye!");
-				finish();
+			public void onClick(View arg0) {
+				final Intent intent = new Intent(SelectTrackActivity.this,
+						BuyAdFreeActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
@@ -169,7 +171,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		mArtistView.setText(mTrack.getUser().getUsername());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
-		
+
 		updateTrackAvailability();
 		updateButtons();
 
@@ -201,39 +203,38 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	private void updateTrackAvailability() {
 		if (!mTrack.isDownloadable()) {
 			mTrackUnavailableView.setVisibility(View.VISIBLE);
-			
+
 			if (mTrack.isPurchasable()) {
-				mTrackUnavailableView.setText(R.string.track_error_unavailable_purchase);
+				mTrackUnavailableView
+						.setText(R.string.track_error_unavailable_purchase);
 			}
 		}
 	}
-	
-	
-	private class DownloadButtonClickListener implements View.OnClickListener {
-			private void startDownload() {
-				final DownloadTask task = new DownloadTask(
-						SelectTrackActivity.this,
-						String.valueOf(mTrack.getId()));
-				task.execute();
-			}
-			
-			private void startPurchase() {
-				Uri uri = Uri.parse(mTrack.getPurchaseUrl());
-				
-				final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-			}
 
-			@Override
-			public void onClick(final View v) {
-				if (mTrack.isDownloadable()) {
-					startDownload();
-					mDownloadButton.setEnabled(false);
-				} else if (mTrack.isPurchasable()) {
-					startPurchase();
-					// Keep download button enabled.
-				}
+	private class DownloadButtonClickListener implements View.OnClickListener {
+		private void startDownload() {
+			final DownloadTask task = new DownloadTask(
+					SelectTrackActivity.this, String.valueOf(mTrack.getId()));
+			task.execute();
+		}
+
+		private void startPurchase() {
+			Uri uri = Uri.parse(mTrack.getPurchaseUrl());
+
+			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
+		}
+
+		@Override
+		public void onClick(final View v) {
+			if (mTrack.isDownloadable()) {
+				startDownload();
+				mDownloadButton.setEnabled(false);
+			} else if (mTrack.isPurchasable()) {
+				startPurchase();
+				// Keep download button enabled.
 			}
+		}
 	}
 
 	/**

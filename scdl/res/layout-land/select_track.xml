@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -65,7 +64,6 @@
                 android:id="@+id/detail_container"
                 android:layout_width="match_parent"
                 android:layout_height="168dp"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -75,8 +73,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="Sorry, but this song is not available for download."
-                    android:textColor="#f00"
+                    android:text="@string/track_error_unavailable"
+                    android:textColor="@android:color/holo_orange_light"
                     android:visibility="gone" />
 
                 <TextView
@@ -108,9 +106,9 @@
                     android:id="@+id/track_artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_alignBottom="@+id/track_artist_label"
-                    android:layout_alignLeft="@+id/track_size" />
+                    android:layout_alignLeft="@+id/track_size"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/track_description_label"
@@ -134,24 +132,28 @@
             android:id="@+id/btn_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" >
+            android:layout_alignParentBottom="true"
+            android:baselineAligned="false" >
 
             <Button
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_remove_ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="4dip"
                 android:layout_weight="0.5"
-                android:text="@string/cancel" />
+                android:text="@string/buy_remove_ads" />
 
             <Button
                 android:id="@+id/btn_download"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="4dip"
                 android:layout_weight="0.5"
                 android:enabled="false"
                 android:text="@string/download" />
         </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

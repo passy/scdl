@@ -61,4 +61,5 @@
     <string name="lbl_download_size">Download Size:</string>
     <string name="lbl_description">Description:</string>
     <string name="lbl_purchase">Purchase</string>
+    <string name="buy_remove_ads">Remove Ads</string>
 </resources>
