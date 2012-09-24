@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_unavailable"
-                    android:text="Download Size:"
+                    android:text="@string/lbl_download_size"
                     android:textStyle="bold" />
 
                 <TextView
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_size_label"
-                    android:text="Artist:"
+                    android:text="@string/lbl_artist"
                     android:textStyle="bold" />
 
                 <TextView
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_artist_label"
-                    android:text="Description:"
+                    android:text="@string/lbl_description"
                     android:textStyle="bold" />
 
                 <TextView

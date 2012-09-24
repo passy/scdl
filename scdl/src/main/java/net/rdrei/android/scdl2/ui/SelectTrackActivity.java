@@ -49,7 +49,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	private View mDetailContainerView;
 
 	@InjectView(R.id.track_unavailable)
-	private View mTrackUnavailableView;
+	private TextView mTrackUnavailableView;
 
 	@InjectView(R.id.progress_bar)
 	private View mProgressBarView;
@@ -120,19 +120,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	}
 
 	private void bindButtons() {
-		mDownloadButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				final DownloadTask task = new DownloadTask(
-						SelectTrackActivity.this,
-						String.valueOf(mTrack.getId()));
-				task.execute();
-				mDownloadButton.setEnabled(false);
-			}
-
-		});
-
+		mDownloadButton.setOnClickListener(new DownloadButtonClickListener());
 		mCancelButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -168,7 +156,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 				Toast.LENGTH_SHORT).show();
 	}
 
-	protected void updateTrackDisplay() {
+	private void updateTrackDisplay() {
 		if (mTrack == null) {
 			return;
 		}
@@ -181,15 +169,66 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		mArtistView.setText(mTrack.getUser().getUsername());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
-		if (!mTrack.isDownloadable()) {
-			mTrackUnavailableView.setVisibility(View.VISIBLE);
-
-		}
+		
+		updateTrackAvailability();
+		updateButtons();
 
 		final ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
 				mTrack.getArtworkUrl());
 		artworkLoaderTask.execute();
-		mDownloadButton.setEnabled(mTrack.isDownloadable());
+	}
+
+	/**
+	 * Update the button display based on the availability of mTrack.
+	 */
+	private void updateButtons() {
+		if (mTrack.isDownloadable() || mTrack.isPurchasable()) {
+			mDownloadButton.setEnabled(true);
+		}
+		if (mTrack.isPurchasable()) {
+			mDownloadButton.setText(mTrack.getPurchaseTitle());
+		}
+	}
+
+	/**
+	 * Updates UI properties based on the availability of the song.
+	 */
+	private void updateTrackAvailability() {
+		if (!mTrack.isDownloadable()) {
+			mTrackUnavailableView.setVisibility(View.VISIBLE);
+			
+			if (mTrack.isPurchasable()) {
+				mTrackUnavailableView.setText(R.string.track_error_unavailable_purchase);
+			}
+		}
+	}
+	
+	
+	private class DownloadButtonClickListener implements View.OnClickListener {
+			private void startDownload() {
+				final DownloadTask task = new DownloadTask(
+						SelectTrackActivity.this,
+						String.valueOf(mTrack.getId()));
+				task.execute();
+			}
+			
+			private void startPurchase() {
+				Uri uri = Uri.parse(mTrack.getPurchaseUrl());
+				
+				final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+
+			@Override
+			public void onClick(final View v) {
+				if (mTrack.isDownloadable()) {
+					startDownload();
+					mDownloadButton.setEnabled(false);
+				} else if (mTrack.isPurchasable()) {
+					startPurchase();
+					// Keep download button enabled.
+				}
+			}
 	}
 
 	/**

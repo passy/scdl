@@ -63,7 +63,6 @@
                 android:id="@+id/detail_container"
                 android:layout_width="match_parent"
                 android:layout_height="168dp"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -73,8 +72,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="Sorry, but this song is not available for download."
-                    android:textColor="#f00"
+                    android:text="@string/track_error_unavailable"
+                    android:textColor="@android:color/holo_orange_light"
                     android:visibility="gone" />
 
                 <TextView
@@ -83,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_unavailable"
-                    android:text="Download Size:"
+                    android:text="@string/lbl_download_size"
                     android:textStyle="bold" />
 
                 <TextView
@@ -99,16 +98,16 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_size_label"
-                    android:text="Artist:"
+                    android:text="@string/lbl_artist"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/track_artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_alignBottom="@+id/track_artist_label"
-                    android:layout_alignLeft="@+id/track_size" />
+                    android:layout_alignLeft="@+id/track_size"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/track_description_label"
@@ -116,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/track_artist_label"
-                    android:text="Description:"
+                    android:text="@string/lbl_description"
                     android:textStyle="bold" />
 
                 <TextView
@@ -132,12 +131,14 @@
             android:id="@+id/btn_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" >
+            android:layout_alignParentBottom="true"
+            android:baselineAligned="false" >
 
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="4dip"
                 android:layout_weight="0.5"
                 android:text="@string/cancel" />
@@ -146,10 +147,12 @@
                 android:id="@+id/btn_download"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="4dip"
                 android:layout_weight="0.5"
                 android:enabled="false"
                 android:text="@string/download" />
         </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>
