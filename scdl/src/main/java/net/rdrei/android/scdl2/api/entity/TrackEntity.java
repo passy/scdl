@@ -21,12 +21,18 @@ import com.google.gson.annotations.SerializedName;
  * 
  */
 public class TrackEntity implements SoundcloudEntity, Parcelable {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 
 	private long id;
 	private long duration;
 	private String title;
 	private boolean downloadable;
+	
+	@SerializedName("purchase_url")
+	private String purchaseUrl;
+	
+	@SerializedName("purchase_title")
+	private String purchaseTitle;
 
 	@SerializedName("download_url")
 	private String downloadUrl;
@@ -60,6 +66,8 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		description = in.readString();
 		permalink = in.readString();
 		originalContentSize = in.readLong();
+		purchaseTitle = in.readString();
+		purchaseUrl = in.readString();
 		user = in.readParcelable(UserEntity.class.getClassLoader());
 	}
 
@@ -93,6 +101,8 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 		dest.writeString(description);
 		dest.writeString(permalink);
 		dest.writeLong(originalContentSize);
+		dest.writeString(getPurchaseTitle());
+		dest.writeString(getPurchaseUrl());
 		dest.writeParcelable(user, 0);
 	}
 
@@ -222,5 +232,17 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 
 	public void setUser(final UserEntity user) {
 		this.user = user;
+	}
+	
+	public boolean isPurchasable() {
+		return purchaseUrl != null;
+	}
+
+	public String getPurchaseUrl() {
+		return purchaseUrl;
+	}
+
+	public String getPurchaseTitle() {
+		return purchaseTitle;
 	}
 }

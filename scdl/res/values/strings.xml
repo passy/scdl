@@ -55,4 +55,11 @@
     <string name="buy_ad_free_thanks_text">Thank you for your support!</string>
     <string name="error_iab_connection">There was an error contacting the billing service. Please try again later.</string>
     <string name="error_iab_reverted">Your purchase has been reverted.</string>
+    <string name="track_error_unavailable">The artist does not allow downloads for this track. Sorry for this.</string>
+    <string name="track_error_unavailable_purchase">This artist doesn\'t allow downloads for this track, but provides a purchase option.</string>
+    <string name="lbl_artist">Artist:</string>
+    <string name="lbl_download_size">Download Size:</string>
+    <string name="lbl_description">Description:</string>
+    <string name="lbl_purchase">Purchase</string>
+    <string name="buy_remove_ads">Remove Ads</string>
 </resources>

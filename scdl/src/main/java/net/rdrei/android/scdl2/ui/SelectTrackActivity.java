@@ -2,6 +2,7 @@ package net.rdrei.android.scdl2.ui;
 
 import java.net.URL;
 
+import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ShareIntentResolver;
 import net.rdrei.android.scdl2.ShareIntentResolver.TrackNotFoundException;
@@ -27,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,7 +51,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	private View mDetailContainerView;
 
 	@InjectView(R.id.track_unavailable)
-	private View mTrackUnavailableView;
+	private TextView mTrackUnavailableView;
 
 	@InjectView(R.id.progress_bar)
 	private View mProgressBarView;
@@ -57,8 +59,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	@InjectView(R.id.btn_download)
 	private Button mDownloadButton;
 
-	@InjectView(R.id.btn_cancel)
-	private Button mCancelButton;
+	@InjectView(R.id.btn_remove_ads)
+	private Button mRemoveAdsButton;
 
 	@InjectView(R.id.img_artwork)
 	private ImageView mArtworkImageView;
@@ -80,6 +82,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@Inject
 	private AdViewManager mAdViewManager;
+	
+	@Inject
+	private ApplicationPreferences mPreferences;
 
 	private TrackEntity mTrack;
 
@@ -106,6 +111,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		bindButtons();
+		
+		if (mPreferences.isAdFree()) {
+			mRemoveAdsButton.setVisibility(View.GONE);
+		}
 		mAdViewManager.addToViewIfRequired(mMainLayout);
 	}
 
@@ -120,25 +129,14 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	}
 
 	private void bindButtons() {
-		mDownloadButton.setOnClickListener(new View.OnClickListener() {
+		mDownloadButton.setOnClickListener(new DownloadButtonClickListener());
+		mRemoveAdsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(final View v) {
-				final DownloadTask task = new DownloadTask(
-						SelectTrackActivity.this,
-						String.valueOf(mTrack.getId()));
-				task.execute();
-				mDownloadButton.setEnabled(false);
-			}
-
-		});
-
-		mCancelButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				Ln.d("Canceling download. Bye, bye!");
-				finish();
+			public void onClick(View arg0) {
+				final Intent intent = new Intent(SelectTrackActivity.this,
+						BuyAdFreeActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
@@ -168,7 +166,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 				Toast.LENGTH_SHORT).show();
 	}
 
-	protected void updateTrackDisplay() {
+	private void updateTrackDisplay() {
 		if (mTrack == null) {
 			return;
 		}
@@ -181,15 +179,70 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		mArtistView.setText(mTrack.getUser().getUsername());
 		mProgressBarView.setVisibility(View.GONE);
 		mDetailContainerView.setVisibility(View.VISIBLE);
-		if (!mTrack.isDownloadable()) {
-			mTrackUnavailableView.setVisibility(View.VISIBLE);
 
-		}
+		updateTrackAvailability();
+		updateButtons();
 
 		final ArtworkLoaderTask artworkLoaderTask = new ArtworkLoaderTask(
 				mTrack.getArtworkUrl());
 		artworkLoaderTask.execute();
-		mDownloadButton.setEnabled(mTrack.isDownloadable());
+	}
+
+	/**
+	 * Update the button display based on the availability of mTrack.
+	 */
+	private void updateButtons() {
+		if (mTrack.isDownloadable() || mTrack.isPurchasable()) {
+			mDownloadButton.setEnabled(true);
+		}
+		if (mTrack.isPurchasable()) {
+			final String title = mTrack.getPurchaseTitle();
+			if (title == null || title.isEmpty()) {
+				mDownloadButton.setText(R.string.lbl_purchase);
+			} else {
+				mDownloadButton.setText(title);
+			}
+		}
+	}
+
+	/**
+	 * Updates UI properties based on the availability of the song.
+	 */
+	private void updateTrackAvailability() {
+		if (!mTrack.isDownloadable()) {
+			mTrackUnavailableView.setVisibility(View.VISIBLE);
+
+			if (mTrack.isPurchasable()) {
+				mTrackUnavailableView
+						.setText(R.string.track_error_unavailable_purchase);
+			}
+		}
+	}
+
+	private class DownloadButtonClickListener implements View.OnClickListener {
+		private void startDownload() {
+			final DownloadTask task = new DownloadTask(
+					SelectTrackActivity.this, String.valueOf(mTrack.getId()));
+			task.execute();
+		}
+
+		private void startPurchase() {
+			Uri uri = Uri.parse(mTrack.getPurchaseUrl());
+
+			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
+		}
+
+		@Override
+		public void onClick(final View v) {
+			if (mTrack.isDownloadable()) {
+				startDownload();
+				mDownloadButton.setEnabled(false);
+			} else if (mTrack.isPurchasable()) {
+				startPurchase();
+				// Keep download button enabled.
+			}
+		}
 	}
 
 	/**
