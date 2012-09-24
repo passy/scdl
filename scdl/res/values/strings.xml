@@ -60,4 +60,5 @@
     <string name="lbl_artist">Artist:</string>
     <string name="lbl_download_size">Download Size:</string>
     <string name="lbl_description">Description:</string>
+    <string name="lbl_purchase">Purchase</string>
 </resources>

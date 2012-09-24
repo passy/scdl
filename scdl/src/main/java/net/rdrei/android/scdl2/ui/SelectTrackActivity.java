@@ -186,7 +186,12 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			mDownloadButton.setEnabled(true);
 		}
 		if (mTrack.isPurchasable()) {
-			mDownloadButton.setText(mTrack.getPurchaseTitle());
+			final String title = mTrack.getPurchaseTitle();
+			if (title == null || title.isEmpty()) {
+				mDownloadButton.setText(R.string.lbl_purchase);
+			} else {
+				mDownloadButton.setText(title);
+			}
 		}
 	}
 
