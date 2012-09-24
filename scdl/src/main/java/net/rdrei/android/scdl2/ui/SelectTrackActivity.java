@@ -2,6 +2,7 @@ package net.rdrei.android.scdl2.ui;
 
 import java.net.URL;
 
+import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ShareIntentResolver;
 import net.rdrei.android.scdl2.ShareIntentResolver.TrackNotFoundException;
@@ -81,6 +82,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@Inject
 	private AdViewManager mAdViewManager;
+	
+	@Inject
+	private ApplicationPreferences mPreferences;
 
 	private TrackEntity mTrack;
 
@@ -107,6 +111,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		bindButtons();
+		
+		if (mPreferences.isAdFree()) {
+			mRemoveAdsButton.setVisibility(View.GONE);
+		}
 		mAdViewManager.addToViewIfRequired(mMainLayout);
 	}
 
