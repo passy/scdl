@@ -14,15 +14,17 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
+import org.json.JSONObject;
 
 import com.google.inject.Inject;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 /**
  * This class acts as net.rdrei.android.mediator between the three different
  * fragments loaded into it that are responsible for a) the billing logic b) the
  * teaser view leading to a purchase, giving explanations c) the thanks view
  * after a successful purchase
- * 
+ *
  * @author pascal
  */
 public class BuyAdFreeActivity extends RoboFragmentActivity implements
@@ -31,6 +33,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	private static final String BILLING_FRAGMENT_TAG = "BILLING";
 	private static final String KEY_TEASER_HANDLER = "TEASER_HANDLER";
 	private static final String KEY_BILLING_HANDLER = "BILLING_HANDLER";
+
+	@Inject
+	private MixpanelAPI mMixpanel;
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -53,6 +58,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		if (savedInstanceState == null) {
 			loadFragments();
+			JSONObject properties = new JSONObject();
+			properties.put("activity", this.class.getName().toString());
+			mMixpanel.track(this, properties);
 		}
 	}
 
@@ -73,7 +81,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		transaction.add(R.id.main_layout, mContentFragment).commit();
 	}
-	
+
 	private void replaceWithTeaserFragment() {
 		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
 				.add(R.id.main_layout, BuyAdFreeTeaserFragment.newInstance(KEY_TEASER_HANDLER))
@@ -127,7 +135,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onBuyRevert() {
 		mPreferences.setAdFree(false);
-		
+
 		if (!(mContentFragment instanceof BuyAdFreeTeaserFragment)) {
 			replaceWithTeaserFragment();
 		}
@@ -168,7 +176,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	/**
 	 * Urgs, for testing only. I feel bad about this. Should use reflection at
 	 * some point for this hackery.
-	 * 
+	 *
 	 * @param queue
 	 */
 	public void setMessageQueue(final DelayedMessageQueue queue) {
