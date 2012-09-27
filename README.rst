@@ -16,17 +16,29 @@ Google Play
 Description
 -----------
 
+**Formerly Soundcloud Downloader**
+
 Download songs from SoundCloud to your phone. Enjoy all your favorite songs
 offline. No more laggy streams or exceeding your data plan. Just "share" your
-song from the SoundCloud app and start the download from your wifi at home.  If
-a download aborts repeatedly, make sure you have enough free disk space
-available.
+song from the SoundCloud app and start the download from your wifi at home.
 
-This app will only download songs that have been marked as available for
-download by the corresponding artist! Adding songs to the music library doesn't
-work automatically for some phones.
+DOWNLOADER FOR SOUNDCLOUD IS NOT AFFILIATED WITH OR ENDORSED BY SOUNDCLOUD.
 
-Please send bug reports via mail, Twitter or Google+, don't leave them in the
-review. I can't help you there.
+FAQ
+---
 
-Downloader for SoundCloud is not affiliated with or endorsed by SoundCloud.
+    * Will this download all songs on SoundCloud?
+        * No, you can only download those songs explicitly made available for
+          download by the artists. Please respect their choice.
+    * I keep getting "Loading Track" and nothing is happening. What's going on?
+        * Either your connection is flaky or your phone can't handle SSL
+          connections properly. Try unchecking "Use SSL" in the preferences.
+
+    * Why do my downloaded songs not show up in the music player?
+        * Some older phones don't support modifying the library. With a bit of
+          luck, after some time the music app will re-scan all media files on
+          your phone.  There's nothing more I can do, unfortunately.
+
+    * I found a bug/have a suggestion. How can I contact you?
+        * Please contact me via EMail, Twitter or Google+. DONT leave them in
+          the reviews.
