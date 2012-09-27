@@ -14,7 +14,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
-import org.json.JSONObject;
 
 import com.google.inject.Inject;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -58,9 +57,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		if (savedInstanceState == null) {
 			loadFragments();
-			JSONObject properties = new JSONObject();
-			properties.put("activity", this.class.getName().toString());
-			mMixpanel.track(this, properties);
+			mMixpanel.track("buy-adfree:start", null);
 		}
 	}
 
