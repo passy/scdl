@@ -3,11 +3,11 @@
     <configurations>
         <conf name="compile" visibility="public" description="Compile dependencies"/>
         <conf name="test" visibility="public" extends="compile" description="Compile tests"/>
-	</configurations>
-	
+    </configurations>
+
     <dependencies>
         <dependency org="org.roboguice" name="roboguice" rev="2.0" transitive="false">
-        	<artifact name="roboguice" ext="jar"></artifact>
+            <artifact name="roboguice" ext="jar"></artifact>
         </dependency>
         <dependency org="javax.inject" name="javax.inject" rev="1" transitive="false" />
         <dependency org="aopalliance" name="aopalliance" transitive="false" rev="1.0" />
@@ -15,16 +15,16 @@
             <artifact name="guice" ext="jar" url="http://repo1.maven.org/maven2/com/google/inject/guice/3.0/guice-3.0-no_aop.jar" />
         </dependency>
         <dependency org="com.google.inject.extensions" name="guice-assistedinject" transitive="false" rev="3.0">
-        	<artifact name="guice-assistedinject" ext="jar"></artifact>
+            <artifact name="guice-assistedinject" ext="jar"></artifact>
         </dependency>
         <dependency org="com.bugsense.android" name="bugsense-trace" transitive="false" rev="1.9.0" />
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.1" />
         <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.0.1-r6" />
-        
+
         <!--
-	        <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
+            <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
         -->
-        
+
         <!-- Test dependencies -->
         <dependency org="junit" name="junit" rev="4.10" conf="test->default"/>
         <dependency org="com.pivotallabs" name="robolectric" rev="1.2-SNAPSHOT" conf="test->default" />
