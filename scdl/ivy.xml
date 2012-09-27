@@ -20,6 +20,7 @@
         <dependency org="com.bugsense.android" name="bugsense-trace" transitive="false" rev="1.9.0" />
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.1" />
         <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.0.1-r6" />
+        <dependency org="com.mixpanel.android" name="mpmetrics" transitive="false" rev="2.1" />
 
         <!--
             <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
