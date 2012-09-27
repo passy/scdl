@@ -16,6 +16,7 @@ import net.rdrei.android.scdl2.ui.DownloadPreferencesDelegateFactory;
 import net.rdrei.android.scdl2.ui.DownloadPreferencesDelegateImpl;
 
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import android.app.ActionBar;
 import android.app.DownloadManager;
@@ -32,6 +33,7 @@ public class SCDLModule extends AbstractModule {
 				PinningTrustManagerProvider.class);
 		bind(DownloadManager.class).toProvider(DownloadManagerProvider.class);
 		bind(ActionBar.class).toProvider(ActionBarProvider.class);
+		bind(MixpanelAPI.class).toProvider(MixpanelAPIProvider.class);
 
 		install(new FactoryModuleBuilder().implement(URLWrapper.class,
 				URLWrapperImpl.class).build(URLWrapperFactory.class));

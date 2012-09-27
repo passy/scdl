@@ -2,17 +2,23 @@ package net.rdrei.android.scdl2;
 
 import net.robotmedia.billing.BillingController;
 import roboguice.util.Ln;
-import android.app.Application;
+import roboguice.app.RoboApplication;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
 
+import net.rdrei.android.scdl2.Config;
 import com.bugsense.trace.BugSenseHandler;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.google.inject.Inject;
 
-public class SCDLApplication extends Application {
+public class SCDLApplication extends RoboApplication {
+	@Inject
+	private MixpanelAPI mMixpanel;
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see android.app.Application#onCreate()
 	 */
 	@Override
@@ -30,6 +36,12 @@ public class SCDLApplication extends Application {
 		} else {
 			BugSenseHandler.setup(this, getString(R.string.bugsense_id));
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		mMixpanel.flush();
+		super.onDestroy();
 	}
 
 	public boolean isDebuggable() {
