@@ -17,9 +17,11 @@
         <dependency org="com.google.inject.extensions" name="guice-assistedinject" transitive="false" rev="3.0">
             <artifact name="guice-assistedinject" ext="jar"></artifact>
         </dependency>
-        <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.0.5" />
+        <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.0.5">
+            <artifact name="bugsense" ext="jar" url="https://s3.amazonaws.com/bugsenseplugins/bugsense3.0.5.jar" />
+        </dependency>
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.1" />
-        <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.2.0" />
+        <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.2.1" />
 
         <!--
             <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
