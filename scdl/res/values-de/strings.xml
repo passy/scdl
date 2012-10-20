@@ -61,5 +61,8 @@
     <string name="lbl_download_size">Download-Größe:</string>
     <string name="lbl_description">Beschreibung:</string>
     <string name="lbl_purchase">Kaufen</string>
-    <string name="buy_remove_ads">Werbung entfernen</string>
+    <string name="remove_ads">Werbung entfernen</string>
+    <string name="menu_preferences">Einstellungen</string>
+    <string name="menu_changelog">Änderungen</string>
+    <string name="menu_remove_ads">Werbung entfernen</string>
 </resources>
