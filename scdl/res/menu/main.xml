@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/preferences"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="Preferences" />
+        android:title="@string/menu_preferences" />
     <item android:id="@+id/changelog"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Changelog" />
+        android:title="@string/menu_changelog" />
     <item android:id="@+id/buy_adfree"
-        android:title="Remove Ads" />
+        android:title="@string/menu_remove_ads" />
 </menu>

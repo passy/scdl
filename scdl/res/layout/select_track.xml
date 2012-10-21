@@ -141,7 +141,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginRight="4dip"
                 android:layout_weight="0.5"
-                android:text="@string/buy_remove_ads" />
+                android:text="@string/remove_ads" />
 
             <Button
                 android:id="@+id/btn_download"

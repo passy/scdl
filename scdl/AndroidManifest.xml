@@ -118,7 +118,7 @@
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.BuyAdFreeActivity" android:label="Remove Ads"></activity>
+        <activity android:name=".ui.BuyAdFreeActivity" android:label="@string/remove_ads"></activity>
     </application>
 
 </manifest>
