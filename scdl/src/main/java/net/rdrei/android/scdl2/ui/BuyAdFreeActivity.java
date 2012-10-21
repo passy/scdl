@@ -143,7 +143,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mMessageQueue.removeHandler(KEY_TEASER_HANDLER);
 		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
 				.add(R.id.main_layout, BuyAdFreeThanksFragment.newInstance())
-				.commit();
+				.commitAllowingStateLoss();
 		mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
 	}
 
