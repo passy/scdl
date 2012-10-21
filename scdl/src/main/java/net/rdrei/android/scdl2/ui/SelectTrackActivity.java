@@ -246,7 +246,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 					SelectTrackActivity.this, String.valueOf(mTrack.getId()));
 			task.execute();
 			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "download",
-					mTrack.getTitle(), mTrack.getId());
+					mTrack.getTitle(), null);
 		}
 
 		private void startPurchase() {
@@ -255,7 +255,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
 			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "purchase",
-					uri.toString(), mTrack.getId());
+					uri.toString(), null);
 		}
 
 		@Override
