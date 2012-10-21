@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -61,6 +62,20 @@ public class MainActivity extends RoboFragmentActivity implements
 		if (savedInstanceState == null) {
 			CommonMenuFragment.injectMenu(this);
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		EasyTracker.getInstance().activityStart(this);
 	}
 
 	@Override

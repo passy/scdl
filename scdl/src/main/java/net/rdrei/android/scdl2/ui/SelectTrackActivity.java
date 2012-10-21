@@ -35,11 +35,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class SelectTrackActivity extends RoboFragmentActivity {
 
 	private static final String STATE_TRACK = "scdl:TRACK";
+	private static final String ANALYTICS_TAG = "SELECT_TRACK";
 
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;
@@ -82,9 +86,12 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@Inject
 	private AdViewManager mAdViewManager;
-	
+
 	@Inject
 	private ApplicationPreferences mPreferences;
+
+	@Inject
+	private Provider<Tracker> mTrackerProvider;
 
 	private TrackEntity mTrack;
 
@@ -111,7 +118,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		bindButtons();
-		
+
 		if (mPreferences.isAdFree()) {
 			mRemoveAdsButton.setVisibility(View.GONE);
 		}
@@ -126,6 +133,20 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			Ln.d("Saving instance state for track.");
 			outState.putParcelable(STATE_TRACK, mTrack);
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	private void bindButtons() {
@@ -224,6 +245,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			final DownloadTask task = new DownloadTask(
 					SelectTrackActivity.this, String.valueOf(mTrack.getId()));
 			task.execute();
+			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "download",
+					mTrack.getTitle(), mTrack.getId());
 		}
 
 		private void startPurchase() {
@@ -231,6 +254,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
+			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "purchase",
+					uri.toString(), mTrack.getId());
 		}
 
 		@Override
@@ -406,6 +431,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			} else {
 				errorCode = ErrorCode.UNKNOWN_ERROR;
 			}
+
+			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "error",
+					errorCode.toString(), null);
 
 			intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
 			startActivity(intent);

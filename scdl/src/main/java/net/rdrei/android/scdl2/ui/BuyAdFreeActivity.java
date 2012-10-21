@@ -15,6 +15,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 
 /**
@@ -28,6 +30,7 @@ import com.google.inject.Inject;
 public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		BuyAdFreeFragmentContract {
 
+	private static final String ANALYTICS_TAG = "ANALYTICS_TAG";
 	private static final String BILLING_FRAGMENT_TAG = "BILLING";
 	private static final String KEY_TEASER_HANDLER = "TEASER_HANDLER";
 	private static final String KEY_BILLING_HANDLER = "BILLING_HANDLER";
@@ -40,6 +43,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Inject
 	private DelayedMessageQueue mMessageQueue;
+	
+	@Inject
+	private Tracker mTracker;
 
 	private Fragment mContentFragment;
 	private AdFreeBillingFragment mBillingFragment;
@@ -54,6 +60,21 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (savedInstanceState == null) {
 			loadFragments();
 		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance().activityStart(this);
+		mTracker.trackEvent(ANALYTICS_TAG, "start", null, null);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	private void loadFragments() {
@@ -112,6 +133,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_ERROR));
+		mTracker.trackEvent(ANALYTICS_TAG, "error", response.toString(), null);
 	}
 
 	@Override
@@ -122,6 +144,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
 				.add(R.id.main_layout, BuyAdFreeThanksFragment.newInstance())
 				.commit();
+		mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
 	}
 
 	@Override
@@ -140,12 +163,14 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public void onBuyCancel() {
 		mMessageQueue.send(KEY_TEASER_HANDLER,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED);
+		mTracker.trackEvent(ANALYTICS_TAG, "cancel", null, null);
 	}
 
 	@Override
 	public void onPurchaseRequested() {
 		mMessageQueue.send(KEY_TEASER_HANDLER,
 				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED);
+		mTracker.trackEvent(ANALYTICS_TAG, "request", null, null);
 	}
 
 	@Override
