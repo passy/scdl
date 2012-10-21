@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		BuyAdFreeFragmentContract {
 
-	private static final String ANALYTICS_TAG = "ANALYTICS_TAG";
+	private static final String ANALYTICS_TAG = "BUY_ADFREE";
 	private static final String BILLING_FRAGMENT_TAG = "BILLING";
 	private static final String KEY_TEASER_HANDLER = "TEASER_HANDLER";
 	private static final String KEY_BILLING_HANDLER = "BILLING_HANDLER";
