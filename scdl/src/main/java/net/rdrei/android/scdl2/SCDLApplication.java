@@ -28,7 +28,8 @@ public class SCDLApplication extends Application {
 				this.enableStrictMode();
 			}
 		} else {
-			BugSenseHandler.setup(this, getString(R.string.bugsense_id));
+			BugSenseHandler.initAndStartSession(this,
+					getString(R.string.bugsense_id));
 		}
 	}
 

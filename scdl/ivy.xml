@@ -22,6 +22,7 @@
         </dependency>
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.1" />
         <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.2.1" />
+        <dependency org="com.google.analytics" name="tracking" transitive="false" rev="2.0beta3" />
 
         <!--
             <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />

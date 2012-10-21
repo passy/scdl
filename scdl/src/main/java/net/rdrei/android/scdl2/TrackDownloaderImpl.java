@@ -153,8 +153,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 			final Message msg;
 
 			if (handler == null) {
-				BugSenseHandler.log("Download request error without handler.",
-						e);
+				BugSenseHandler.sendExceptionMessage("DOWNLOAD_HANDLER_ERROR",
+						"Download request error without handler.", e);
 				return;
 			}
 
@@ -162,7 +162,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_STORAGE_ERROR);
 			} else {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_ERROR);
-				BugSenseHandler.log("Download request error.", e);
+				BugSenseHandler.sendExceptionMessage("DOWNLOAD_REQUEST_ERROR",
+						"Download request error.", e);
 			}
 
 			handler.sendMessage(msg);
