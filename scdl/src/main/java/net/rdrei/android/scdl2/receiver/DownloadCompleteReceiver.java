@@ -61,7 +61,6 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		 * 
 		 * @return
 		 */
-		@SuppressWarnings("unused")
 		public int getStatus() {
 			return mStatus;
 		}
@@ -180,6 +179,11 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			if (t == null) {
 				return;
 			}
+			
+			if (t.getStatus() == DownloadManager.STATUS_FAILED) {
+				handleFailure(t);
+				return;
+			}
 
 			if (shouldMoveFileToLocal(t)) {
 				Ln.d("Moving temporary file to local location.");
@@ -192,6 +196,10 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			context.startService(scanIntent);
 
 			showNotification(context, t.getTitle());
+		}
+
+		private void handleFailure(Download download) {
+			// TODO
 		}
 
 		protected boolean shouldMoveFileToLocal(final Download download) {
