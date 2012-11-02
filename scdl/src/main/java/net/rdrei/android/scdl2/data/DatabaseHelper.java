@@ -24,13 +24,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		Ln.d("Creating new database.");
 		
-		db.execSQL("CREATE TABLE " + DownloadsTable.TABLE_NAME + " ("
-				+ DownloadsTable.Columns._ID + " INTEGER PRIMARY KEY, "
-				+ DownloadsTable.Columns.SOUNDCLOUD_ID + " INTEGER NOT NULL, "
-				+ DownloadsTable.Columns.DOWNLOAD_ID + " INTEGER NOT NULL, "
-				+ DownloadsTable.Columns.STATUS + " INTEGER NOT NULL, "
-				+ DownloadsTable.Columns.TITLE + " TEXT, "
-				+ DownloadsTable.Columns.UPDATED + " INTEGER NOT NULL" +
+		db.execSQL("CREATE TABLE " + DownloadTable.TABLE_NAME + " ("
+				+ DownloadTable.Columns._ID + " INTEGER PRIMARY KEY, "
+				+ DownloadTable.Columns.SOUNDCLOUD_ID + " INTEGER NOT NULL, "
+				+ DownloadTable.Columns.DOWNLOAD_ID + " INTEGER NOT NULL, "
+				+ DownloadTable.Columns.STATUS + " INTEGER NOT NULL, "
+				+ DownloadTable.Columns.TITLE + " TEXT, "
+				+ DownloadTable.Columns.UPDATED + " INTEGER NOT NULL" +
 				")");
 	}
 
