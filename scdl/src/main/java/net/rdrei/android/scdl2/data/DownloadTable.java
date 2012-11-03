@@ -39,5 +39,6 @@ public class DownloadTable {
 		String STATUS = "status";
 		String SOUNDCLOUD_ID = "soundcloud_id";
 		String DOWNLOAD_ID = "download_id";
+		String DEFAULT_SORT_ORDER = "id ASC";
 	}
 }

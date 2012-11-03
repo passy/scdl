@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl2.ui;
 
 import java.net.URL;
+import java.util.Date;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
@@ -13,6 +14,7 @@ import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.TrackService;
+import net.rdrei.android.scdl2.data.DownloadTable;
 import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.ContextScope;
@@ -20,6 +22,8 @@ import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
 import roboguice.util.SafeAsyncTask;
+import android.content.AsyncQueryHandler;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -92,6 +96,9 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 	@Inject
 	private Provider<Tracker> mTrackerProvider;
+	
+	@Inject
+	private Provider<AsyncQueryHandler> mQueryHandlerProvider;
 
 	private TrackEntity mTrack;
 
@@ -183,8 +190,21 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 				mTrack, handler);
 		downloader.enqueue();
 
+		trackDownloadHistory();
 		Toast.makeText(SelectTrackActivity.this, "Download started.",
 				Toast.LENGTH_SHORT).show();
+	}
+
+	private void trackDownloadHistory() {
+		final Uri uri = DownloadTable.BASE_URI;
+		
+		final ContentValues values = new ContentValues();
+		values.put(DownloadTable.Columns.SOUNDCLOUD_ID, mTrack.getId());
+		values.put(DownloadTable.Columns.TITLE, mTrack.getTitle());
+		values.put(DownloadTable.Columns.UPDATED, new Date().getTime());
+		values.put(DownloadTable.Columns.STATUS, 0);
+		
+		mQueryHandlerProvider.get().startInsert(0, null, uri, values);
 	}
 
 	private void updateTrackDisplay() {

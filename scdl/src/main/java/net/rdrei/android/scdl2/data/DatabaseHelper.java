@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.inject.Inject;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	/**
@@ -16,7 +18,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public static final String DATABASE_NAME = "scdl";
 
-	public DatabaseHelper(Context context) {
+	@Inject
+	public DatabaseHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
