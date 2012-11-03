@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 
 import android.app.ActionBar;
 
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.AbstractModule;
 
 @RunWith(TestRunner.class)
@@ -15,12 +16,14 @@ public class BuyAdFreeActivityTest {
 	@Before
 	public void setup() {
 		final ActionBar actionbarStub = new ActionBarStub();
+		final Tracker trackerStub = new TrackerStub();
 		
 		TestRunner.overridenInjector(this, new AbstractModule() {
 			
 			@Override
 			protected void configure() {
 				bind(ActionBar.class).toInstance(actionbarStub);
+				bind(Tracker.class).toInstance(trackerStub);
 			}
 		});
 	}
