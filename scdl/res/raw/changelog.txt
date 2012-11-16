@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.4.1
+  % Version 1.4.1
+  _ 2012-11-16
+  * Added Android 4.2 support
 $ 1.4
   % Version 1.4
   _ 2012-10-21
