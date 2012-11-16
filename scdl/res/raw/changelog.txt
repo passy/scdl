@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.4.2
+  % Version 1.4.2
+  _ 2012-11-17
+  * Allow installation on SD card
 $ 1.4.1
   % Version 1.4.1
   _ 2012-11-16
@@ -54,48 +58,6 @@ $ 1.0
   % Version 1.0
   _ 2012-08-16
     * Rebranding to comply with Google Play program policies.
-$ 0.4
-  % Version 0.4
-  _ 2012-08-07
-    * Download path can be customized in the settings. (Thanks, m0nk and moumny!)
-$ 0.3.6
-  % Version 0.3.6
-  _ 2012-07-12
-    * Added support for Jelly Bean.
-    * Reduced package size substantially.
-$ 0.3.5
-  % Version 0.3.5
-  _ 2012-05-29
-    * Hotfix.
-$ 0.3.4
-  % Version 0.3.4
-  _ 2012-05-28
-    * Successful downloads are now instantly added to the music library. (Thanks, Clara!)
-$ 0.3.3
-  % Version 0.3.3
-  _ 2012-05-19
-    * Fixed a few crashes on certain devices.
-$ 0.3.2
-  % Version 0.3.2
-  _ 2012-05-17
-    * Fixed a potential bug when re-opening the app.
-$ 0.3.1
-  % Version 0.3.1
-  _ 2012-05-16
-    * Better error handling (you should see "Unknown Error" less often)
-    * Fixed crash when SD card is write-protected.
-    * Fixed crash when no App Market is installed.
-$ 0.3.0
-  % Version 0.3.0
-  _ 2012-05-15
-    * Added <span style="font-family: monospace">android-change-log</span> by Karsten Priegnitz.
-    * Better error reporting and notification if you encounter an error that got fixed with an update.
-    * Proper support for landscape orientation.
-    * Display of file size and artist in download preview.
-$ 0.2.1
-  % Version 0.2.1
-  _ 2012-05-10
-    * Display notification after download is finished.
 $ END_OF_CHANGE_LOG
   </body>
 </html>
