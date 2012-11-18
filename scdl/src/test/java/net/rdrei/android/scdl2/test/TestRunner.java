@@ -22,6 +22,13 @@ import com.xtremelabs.robolectric.util.DatabaseConfig.DatabaseMap;
 
 public class TestRunner extends RobolectricTestRunner {
 
+	@Override
+	protected void bindShadowClasses() {
+		super.bindShadowClasses();
+		
+		Robolectric.bindShadowClass(ShadowMessage.class);
+	}
+
 	public TestRunner(Class<?> arg0, ClassHandler arg1,
 			RobolectricClassLoader arg2, RobolectricConfig arg3,
 			DatabaseMap arg4) throws InitializationError {
