@@ -16,8 +16,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowActivity;
 import com.xtremelabs.robolectric.shadows.ShadowFragment;
-import com.xtremelabs.robolectric.shadows.ShadowFragmentActivity;
 import com.xtremelabs.robolectric.shadows.ShadowIntent;
 import com.xtremelabs.robolectric.tester.android.view.TestMenuItem;
 
@@ -32,7 +32,7 @@ public class PreferencesMenuTest {
 		final MenuItem item = new TestMenuItem(R.id.preferences);
 		fragment.onOptionsItemSelected(item);
 		
-		final ShadowFragmentActivity shadowActivity = Robolectric.shadowOf(activity);
+		final ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
 		final Intent startedActivity = shadowActivity.getNextStartedActivity();
 
 		// Intent was actually started
