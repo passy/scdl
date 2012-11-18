@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.4.3
+  % Version 1.4.3
+  _ 2012-11-19
+  * Added some high resolution graphics
 $ 1.4.2
   % Version 1.4.2
   _ 2012-11-17
