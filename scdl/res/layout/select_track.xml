@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dip"
-        android:layout_weight="0.9" >
+        android:layout_weight="0.9"
+        tools:ignore="UselessParent,InefficientWeight" >
 
         <ImageView
             android:id="@+id/img_artwork"
@@ -17,7 +19,9 @@
             android:layout_height="100px"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/soundcloud_logo_100" />
+            android:contentDescription="SoundCloud"
+            android:src="@drawable/soundcloud_logo_100"
+            tools:ignore="PxUsage,HardcodedText" />
 
         <TextView
             android:id="@+id/track_title"
@@ -49,7 +53,8 @@
             android:layout_width="100px"
             android:layout_height="100px"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            tools:ignore="PxUsage" />
 
         <ScrollView
             android:layout_width="match_parent"

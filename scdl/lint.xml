@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="BackButton" severity="warning" />
+    <issue id="FieldGetter" severity="informational" />
+    <issue id="IconExpectedSize" severity="warning" />
+    <issue id="IconLocation">
+        <ignore path="res/drawable/soundcloud_logo_100.png" />
+        <ignore path="res/drawable/youre_awesome.jpg" />
+    </issue>
+    <issue id="TypographyQuotes" severity="informational" />
+    <issue id="UnusedIds" severity="ignore" />
+    <issue id="UnusedResources">
+        <ignore path="res/values/analytics.xml" />
+    </issue>
 </lint>
