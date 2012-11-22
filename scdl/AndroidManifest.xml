@@ -115,7 +115,7 @@
 
         <receiver
             android:name="net.robotmedia.billing.BillingReceiver"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
                 <action android:name="com.android.vending.billing.RESPONSE_CODE" />
