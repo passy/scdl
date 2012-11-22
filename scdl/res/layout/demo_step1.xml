@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/imageView1"
@@ -12,7 +12,8 @@
         android:layout_height="240dip"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/demo_screen1" />
+        android:src="@drawable/demo_screen1"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView1"

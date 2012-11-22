@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="roboguice_modules">
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="roboguice_modules" translatable="false" tools:ignore="UnusedResources">
+
         <item >net.rdrei.android.scdl2.guice.SCDLModule</item>
     </string-array>
     

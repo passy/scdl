@@ -2,6 +2,7 @@ package net.rdrei.android.scdl2.api.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.api.SoundcloudEntity;
@@ -27,10 +28,10 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	private long duration;
 	private String title;
 	private boolean downloadable;
-	
+
 	@SerializedName("purchase_url")
 	private String purchaseUrl;
-	
+
 	@SerializedName("purchase_title")
 	private String purchaseTitle;
 
@@ -207,14 +208,15 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	public String getFormattedDuration() {
-		final SimpleDateFormat formatter = new SimpleDateFormat("m:ss");
+		final SimpleDateFormat formatter = new SimpleDateFormat("m:ss",
+				Locale.US);
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(getDuration());
 		return formatter.format(calendar.getTime());
 	}
 
 	public String getFormattedSize() {
-		return String.format("%.1fMB", this.getOriginalContentSize()
+		return String.format(Locale.US, "%.1fMB", this.getOriginalContentSize()
 				/ (1024f * 1024f));
 	}
 
@@ -233,7 +235,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	public void setUser(final UserEntity user) {
 		this.user = user;
 	}
-	
+
 	public boolean isPurchasable() {
 		return purchaseUrl != null;
 	}

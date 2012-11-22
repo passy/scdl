@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/icon_web" />
 
     <TextView

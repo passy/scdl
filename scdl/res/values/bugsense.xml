@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="bugsense_id">095a1488</string>
+    <string name="bugsense_id" translatable="false">095a1488</string>
     
 </resources>

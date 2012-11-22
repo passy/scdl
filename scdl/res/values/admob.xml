@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="admob_unit_id">a14fa64451cfd89</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="admob_unit_id" tools:ignore="MissingTranslation">a14fa64451cfd89</string>
 </resources>

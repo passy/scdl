@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFCECECE"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:ignore="Overdraw" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dip"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        tools:ignore="InefficientWeight,UselessParent" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -21,7 +24,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/sad_smiley" />
+            android:src="@drawable/sad_smiley"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/error_message"
@@ -34,7 +38,8 @@
             android:shadowDy="1.0"
             android:shadowRadius="1.0"
             android:text="ERROR_MESSAGE"
-            android:textColor="#FF646464" />
+            android:textColor="#FF646464"
+            tools:ignore="HardcodedText" />
     </RelativeLayout>
 
 </LinearLayout>

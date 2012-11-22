@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Downloader for SoundCloud</string>
     <string name="loading_track_title">Lade Track …</string>
-    <string name="cancel">Abbrechen</string>
     <string name="download">Download</string>
     <string name="demo_welcome">Erfahre in 4 einfachen Schritten, wie du Downloader for SoundCloud verwendest.</string>
     <string name="start">Start</string>
@@ -43,7 +42,7 @@
     <string name="storage_phone">Telefon</string>
     <string name="sd_custom">Eigener Pfad</string>
     <string name="custom_path_error_title">Konnte eigenen Pfad nicht setzen</string>
-    <string name="custom_path_error_insecure_path">Der eigene Pfad muss mit "/mnt/" beginnen!</string>
+    <string name="custom_path_error_insecure_path">Der eigene Pfad muss mit &#8220;/mnt/&#8221; beginnen!</string>
     <string name="custom_path_error_permission_denied">Wir haben keine Berechtigung dort zu schreiben.</string>
     <string name="custom_path_error_not_a_directory">Der eingegebene Pfad zeigt auf kein Verzeichnis.</string>
     <string name="custom_path_error_unknown">Ups! Etwas bei der Pfad-Eingabe ging schief. Bitte probiere es erneut oder schicke mir eine E-Mail.</string>
