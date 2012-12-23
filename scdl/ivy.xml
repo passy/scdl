@@ -7,7 +7,7 @@
 
     <dependencies>
         <dependency org="org.roboguice" name="roboguice" rev="2.0" transitive="false">
-            <artifact name="roboguice" ext="jar"></artifact>
+            <artifact name="roboguice" ext="jar" />
         </dependency>
         <dependency org="javax.inject" name="javax.inject" rev="1" transitive="false" />
         <dependency org="aopalliance" name="aopalliance" transitive="false" rev="1.0" />
@@ -15,16 +15,19 @@
             <artifact name="guice" ext="jar" url="http://repo1.maven.org/maven2/com/google/inject/guice/3.0/guice-3.0-no_aop.jar" />
         </dependency>
         <dependency org="com.google.inject.extensions" name="guice-assistedinject" transitive="false" rev="3.0">
-            <artifact name="guice-assistedinject" ext="jar"></artifact>
+            <artifact name="guice-assistedinject" ext="jar" />
         </dependency>
         <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.0.6">
             <artifact name="bugsense" ext="jar" url="https://s3.amazonaws.com/bugsenseplugins/bugsense3.0.6.jar" />
         </dependency>
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.2.2">
-            <artifact name="gson" ext="jar"></artifact>
+            <artifact name="gson" ext="jar" />
         </dependency>
         <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.2.1" />
         <dependency org="com.google.analytics" name="tracking" transitive="false" rev="2.0beta3" />
+        <dependency org="com.squareup" name="otto" rev="1.3.2">
+            <artifact name="otto" ext="jar" />
+        </dependency>
 
         <!--
             <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
