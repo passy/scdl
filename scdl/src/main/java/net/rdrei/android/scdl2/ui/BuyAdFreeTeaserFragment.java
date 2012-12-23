@@ -204,6 +204,6 @@ public class BuyAdFreeTeaserFragment extends
 		void onPurchaseRequested();
 
 		void registerMessageHandler(String key,
-				net.rdrei.android.mediator.DelayedMessageQueue.Handler handler);
+				DelayedMessageQueue.Handler handler);
 	}
 }
