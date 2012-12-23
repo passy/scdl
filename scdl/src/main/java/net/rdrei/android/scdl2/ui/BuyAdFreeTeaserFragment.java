@@ -1,7 +1,9 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
-import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabSetupFinished;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabSetupFinishedEvent;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseAdfreeRequestEvent;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -10,6 +12,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -32,27 +35,27 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 
 	@InjectView(R.id.progress_bar)
 	private ProgressBar mProgressBar;
-	
+
 	@Inject
 	private Bus mBus;
+
+	public static BuyAdFreeTeaserFragment newInstance() {
+		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
+		return fragment;
+	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		mBus.register(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		
-		mBus.unregister(this);
-	}
 
-	public static BuyAdFreeTeaserFragment newInstance() {
-		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
-		return fragment;
+		mBus.unregister(this);
 	}
 
 	@Override
@@ -62,6 +65,13 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 		final Spanned html = Html.fromHtml(getActivity().getString(
 				R.string.buy_ad_free_teaser_text));
 		mTeaserText.setText(html);
+
+		mButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				requestPurchase();
+			}
+		});
 	}
 
 	@Override
@@ -90,14 +100,25 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 		mButton.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
-	
+
 	private void setBillingEnabled(boolean billingEnabled) {
 		Ln.d("Setting new billing enabled state to %s.", billingEnabled);
 		mButton.setEnabled(billingEnabled);
 	}
 
+	private void requestPurchase() {
+		mBus.post(new PurchaseAdfreeRequestEvent());
+		showLoadingSpinner();
+	}
+	
 	@Subscribe
-	public void onIabStateChange(final IabSetupFinished event) {
+	public void onIabPurchaseResult(final PurchaseStateChangeEvent event) {
+		hideLoadingSpinner();
+	}
+
+	@Subscribe
+	public void onIabStateChange(final IabSetupFinishedEvent event) {
 		setBillingEnabled(event.enabled);
+		hideLoadingSpinner();
 	}
 }
