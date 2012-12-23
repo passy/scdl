@@ -1,8 +1,10 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabSetupFinished;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
+import roboguice.util.Ln;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -12,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.inject.Inject;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class BuyAdFreeTeaserFragment extends RoboFragment {
 
@@ -26,6 +32,23 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 
 	@InjectView(R.id.progress_bar)
 	private ProgressBar mProgressBar;
+	
+	@Inject
+	private Bus mBus;
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		mBus.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		mBus.unregister(this);
+	}
 
 	public static BuyAdFreeTeaserFragment newInstance() {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
@@ -66,5 +89,15 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 	public void hideLoadingSpinner() {
 		mButton.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
+	}
+	
+	private void setBillingEnabled(boolean billingEnabled) {
+		Ln.d("Setting new billing enabled state to %s.", billingEnabled);
+		mButton.setEnabled(billingEnabled);
+	}
+
+	@Subscribe
+	public void onIabStateChange(final IabSetupFinished event) {
+		setBillingEnabled(event.enabled);
 	}
 }
