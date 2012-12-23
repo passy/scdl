@@ -111,17 +111,6 @@
         </receiver>
 
         <service android:name=".service.MediaScannerService" />
-        <service android:name="net.robotmedia.billing.BillingService" />
-
-        <receiver
-            android:name="net.robotmedia.billing.BillingReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
-                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
-                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".ui.BuyAdFreeActivity"
