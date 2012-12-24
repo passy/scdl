@@ -38,7 +38,7 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 
 	@Inject
 	private Bus mBus;
-	
+
 	private boolean mInitialized = false;
 
 	public static BuyAdFreeTeaserFragment newInstance() {
@@ -110,15 +110,19 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 	}
 
 	private void requestPurchase() {
-		mBus.post(new PurchaseAdfreeRequestEvent());
+		Ln.d("Requesting purchase.");
 		showLoadingSpinner();
+
+		mBus.post(new PurchaseAdfreeRequestEvent());
 	}
-	
+
 	@Subscribe
 	public void onPurchasedFinished(PurchaseAdfreeFinishedEvent event) {
+		Ln.d("Received PurchaseAdfreeFinishedEvent with success=%s",
+				event.success);
 		hideLoadingSpinner();
 		clearError();
-		
+
 		if (!event.success) {
 			showError(getString(R.string.error_iab_connection));
 		}
@@ -129,7 +133,7 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 		Ln.d("Received iabStateChange: %s", event);
 		setBillingEnabled(event.enabled);
 		hideLoadingSpinner();
-		
+
 		if (event.enabled && !mInitialized) {
 			clearError();
 			mInitialized = true;

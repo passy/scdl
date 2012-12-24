@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
@@ -46,7 +47,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	/**
 	 * SKU used in the developer console to identify the item.
 	 */
-	public static final String ADFREE_SKU = "android.test.purchased";
+	public static final String ADFREE_SKU = "adfree";
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -62,6 +63,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Inject
 	private Bus mBus;
+
+	@Inject
+	private FragmentManager mFragmentManager;
 
 	private Fragment mContentFragment;
 
@@ -105,7 +109,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	private void loadFragments() {
-		final FragmentTransaction transaction = getSupportFragmentManager()
+		final FragmentTransaction transaction = mFragmentManager
 				.beginTransaction();
 
 		if (mPreferences.isAdFree()) {
@@ -115,6 +119,17 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		}
 
 		transaction.add(R.id.main_layout, mContentFragment).commit();
+	}
+
+	private void replaceWithThanksFragment() {
+		if (mContentFragment instanceof BuyAdFreeTeaserFragment) {
+			final Fragment newFragment = BuyAdFreeThanksFragment.newInstance();
+			mFragmentManager.beginTransaction().remove(mContentFragment)
+					.add(R.id.main_layout, newFragment)
+					.commitAllowingStateLoss();
+			
+			mContentFragment = newFragment;
+		}
 	}
 
 	@Override
@@ -176,7 +191,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mPreferences.setAdFree(event.purchased);
 
 		if (event.purchased) {
-			// TODO: Replace fragment.
+			mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
+			replaceWithThanksFragment();
 		}
 	}
 
@@ -195,8 +211,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (success) {
 			mBus.post(new PurchaseStateChangeEvent(true));
 		} else {
-			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(),
-					null);
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}
 
