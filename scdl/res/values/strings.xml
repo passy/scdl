@@ -52,8 +52,6 @@
     <string name="buy_ad_free_teaser_header">What You Get</string>
     <string name="buy_ad_free_teaser_button">Buy Now</string>
     <string name="buy_ad_free_thanks_text">Thank you for your support!</string>
-    <string name="buy_ad_free_error_title">Purchase failed</string>
-    <string name="buy_ad_free_error_message">Your purchase failed. I\'m terribly sorry about this. If this problem persists, please mail me at phartig@rdrei.</string>
     <string name="error_no_iab">Your device does not support In-App Billing.</string>
     <string name="error_iab_connection">There was an error contacting the billing service. Please try again later.</string>
     <string name="error_iab_reverted">Your purchase has been reverted.</string>
