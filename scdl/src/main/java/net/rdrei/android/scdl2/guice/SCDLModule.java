@@ -23,7 +23,9 @@ import android.app.DownloadManager;
 import com.android.vending.billing.IabHelper;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.squareup.otto.Bus;
 
 public class SCDLModule extends AbstractModule {
 
@@ -36,6 +38,9 @@ public class SCDLModule extends AbstractModule {
 		bind(ActionBar.class).toProvider(ActionBarProvider.class);
 		bind(Tracker.class).toProvider(TrackerProvider.class);
 		bind(IabHelper.class).toProvider(IabHelperProvider.class);
+		// Share one instance of the Bus across the application.
+		// If I ever need more than one, I could just use a Named() annotation.
+		bind(Bus.class).toProvider(BusProvider.class).in(Singleton.class);
 
 		install(new FactoryModuleBuilder().implement(URLWrapper.class,
 				URLWrapperImpl.class).build(URLWrapperFactory.class));

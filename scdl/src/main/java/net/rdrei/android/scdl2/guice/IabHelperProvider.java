@@ -17,7 +17,7 @@ public class IabHelperProvider implements Provider<IabHelper> {
 	public IabHelper get() {
 		final IabHelper helper = new IabHelper(mContext,
 				mContext.getString(R.string.iab_pubkey));
-
+		
 		if ((mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
 			helper.enableDebugLogging(true);
 		}

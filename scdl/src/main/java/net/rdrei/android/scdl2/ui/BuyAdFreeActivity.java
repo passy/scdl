@@ -5,7 +5,6 @@ import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.util.Ln;
 import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +22,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -46,7 +46,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	/**
 	 * SKU used in the developer console to identify the item.
 	 */
-	public static final String ADFREE_SKU = "adfree";
+	public static final String ADFREE_SKU = "android.test.purchased";
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -65,6 +65,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	private Fragment mContentFragment;
 
+	/**
+	 * Keeps track of whether the device supports IAB. Listen to
+	 * {@link IabSetupFinishedEvent} to be informed of changes.
+	 */
+	private boolean mIabSupported = false;
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +80,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mIabHelper.startSetup(this);
 
 		if (savedInstanceState == null) {
+			Ln.i("Loading fragments ...");
 			loadFragments();
 		}
 	}
@@ -84,6 +91,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		EasyTracker.getInstance().activityStart(this);
 		mTracker.trackEvent(ANALYTICS_TAG, "start", null, null);
+
+		mBus.register(this);
+		Ln.d("mBus @ activity: %s", System.identityHashCode(mBus));
 	}
 
 	@Override
@@ -91,19 +101,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		super.onStop();
 
 		EasyTracker.getInstance().activityStop(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		mBus.register(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
 		mBus.unregister(this);
 	}
 
@@ -136,6 +133,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onIabSetupFinished(IabResult result) {
 		Ln.d("onIabSetupFinished: %s", result);
+		mIabSupported = result.isSuccess();
 		mBus.post(new IabSetupFinishedEvent(result.isSuccess()));
 
 		if (result.isSuccess()) {
@@ -154,36 +152,51 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mBus.post(new PurchaseStateChangeEvent(inv.hasPurchase(ADFREE_SKU)));
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Ln.d("onActivityResult(" + requestCode + "," + resultCode + "," + data);
+
+		// Pass on the activity result to the helper for handling
+		if (!mIabHelper.handleActivityResult(requestCode, resultCode, data)) {
+			// not handled, so handle it ourselves (here's where you'd
+			// perform any handling of activity results not related to in-app
+			// billing...
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
 	@Subscribe
 	public void onPurchaseRequested(PurchaseAdfreeRequestEvent event) {
 		mIabHelper.launchPurchaseFlow(this, ADFREE_SKU, ADFREE_REQUEST_CODE,
 				this);
 	}
-	
+
 	@Subscribe
 	public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {
 		mPreferences.setAdFree(event.purchased);
-		
+
 		if (event.purchased) {
 			// TODO: Replace fragment.
 		}
 	}
 
+	@Produce
+	public IabSetupFinishedEvent produceIabSetupFinishedEvent() {
+		return new IabSetupFinishedEvent(mIabSupported);
+	}
+
 	@Override
 	public void onIabPurchaseFinished(IabResult result, Purchase info) {
-		Ln.d("onIabPurchaseFinished: ", result);
+		Ln.d("onIabPurchaseFinished: %s", result);
 		boolean success = result.isSuccess() && info.getSku() == ADFREE_SKU;
-		
+
 		mBus.post(new PurchaseAdfreeFinishedEvent(success));
-		
+
 		if (success) {
 			mBus.post(new PurchaseStateChangeEvent(true));
 		} else {
-			new AlertDialog.Builder(this)
-				.setTitle(R.string.buy_ad_free_error_title)
-				.setMessage(R.string.buy_ad_free_error_message)
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.create().show();
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(),
+					null);
 		}
 	}
 
@@ -206,7 +219,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	public static final class PurchaseAdfreeRequestEvent {
 	}
-	
+
 	public static final class PurchaseAdfreeFinishedEvent {
 		final public boolean success;
 

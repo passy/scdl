@@ -2,8 +2,8 @@ package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabSetupFinishedEvent;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseAdfreeFinishedEvent;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseAdfreeRequestEvent;
-import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -38,6 +38,8 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 
 	@Inject
 	private Bus mBus;
+	
+	private boolean mInitialized = false;
 
 	public static BuyAdFreeTeaserFragment newInstance() {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
@@ -45,14 +47,15 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 	}
 
 	@Override
-	public void onResume() {
+	public void onStart() {
 		super.onResume();
 
+		Ln.d("mBus @ fragment: %s", System.identityHashCode(mBus));
 		mBus.register(this);
 	}
 
 	@Override
-	public void onPause() {
+	public void onStop() {
 		super.onPause();
 
 		mBus.unregister(this);
@@ -112,13 +115,24 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 	}
 	
 	@Subscribe
-	public void onIabPurchaseResult(final PurchaseStateChangeEvent event) {
+	public void onPurchasedFinished(PurchaseAdfreeFinishedEvent event) {
 		hideLoadingSpinner();
+		clearError();
+		
+		if (!event.success) {
+			showError(getString(R.string.error_iab_connection));
+		}
 	}
 
 	@Subscribe
-	public void onIabStateChange(final IabSetupFinishedEvent event) {
+	public void onIabStateChange(IabSetupFinishedEvent event) {
+		Ln.d("Received iabStateChange: %s", event);
 		setBillingEnabled(event.enabled);
 		hideLoadingSpinner();
+		
+		if (event.enabled && !mInitialized) {
+			clearError();
+			mInitialized = true;
+		}
 	}
 }
