@@ -204,7 +204,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onIabPurchaseFinished(IabResult result, Purchase info) {
 		Ln.d("onIabPurchaseFinished: %s", result);
-		boolean success = result.isSuccess() && info.getSku() == ADFREE_SKU;
+		boolean success = result.isSuccess() && info.getSku().equals(ADFREE_SKU);
 
 		mBus.post(new PurchaseAdfreeFinishedEvent(success));
 
