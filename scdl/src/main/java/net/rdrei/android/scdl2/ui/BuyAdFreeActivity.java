@@ -184,6 +184,16 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (mIabHelper != null) {
+			mIabHelper.dispose();
+			mIabHelper = null;
+		}
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Ln.d("onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
