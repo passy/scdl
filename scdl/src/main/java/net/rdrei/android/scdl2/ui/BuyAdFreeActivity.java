@@ -194,15 +194,42 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		Ln.d("onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
-		// Pass on the activity result to the helper for handling
-		if (!mIabHelper.handleActivityResult(requestCode, resultCode, data)) {
-			// not handled, so handle it ourselves (here's where you'd
-			// perform any handling of activity results not related to in-app
-			// billing...
-			super.onActivityResult(requestCode, resultCode, data);
+		// Closure-style callback passing to avoid code duplication.
+		final Runnable handleResult = new Runnable() {
+			@Override
+			public void run() {
+				// Pass on the activity result to the helper for handling
+				if (!mIabHelper.handleActivityResult(requestCode, resultCode,
+						data)) {
+					// not handled, so handle it ourselves (here's where you'd
+					// perform any handling of activity results not related to
+					// in-app
+					// billing...
+					BuyAdFreeActivity.super.onActivityResult(requestCode,
+							resultCode, data);
+				}
+			}
+		};
+
+		if (mIabHelper.isSetupDone()) {
+			handleResult.run();
+		} else {
+			mIabHelper.startSetup(new OnIabSetupFinishedListener() {
+				@Override
+				public void onIabSetupFinished(IabResult result) {
+					if (result.isSuccess()) {
+						handleResult.run();
+					} else {
+						mTracker.trackEvent(ANALYTICS_TAG, "error",
+								result.toString(), null);
+						BugSenseHandler.sendException(new IabException(result));
+					}
+				}
+			});
 		}
 	}
 

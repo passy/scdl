@@ -90,7 +90,7 @@ public class IabHelper {
 	String mDebugTag = "IabHelper";
 
 	// Is setup done?
-	boolean mSetupDone = false;
+	private boolean mSetupDone = false;
 
 	// Is an asynchronous operation in progress?
 	// (only one at a time can be in progress)
@@ -210,7 +210,7 @@ public class IabHelper {
 	 */
 	public void startSetup(final OnIabSetupFinishedListener listener) {
 		// If already set up, can't do it again.
-		if (mSetupDone)
+		if (isSetupDone())
 			throw new IllegalStateException("IAB helper is already set up.");
 
 		// Connection to IAB service
@@ -779,7 +779,7 @@ public class IabHelper {
 
 	// Checks that setup was done; if not, throws an exception.
 	void checkSetupDone(String operation) {
-		if (!mSetupDone) {
+		if (!isSetupDone()) {
 			logError("Illegal state for operation (" + operation
 					+ "): IAB helper is not set up.");
 			throw new IllegalStateException(
@@ -842,6 +842,10 @@ public class IabHelper {
 		logDebug("Ending async operation: " + mAsyncOperation);
 		mAsyncOperation = "";
 		mAsyncInProgress = false;
+	}
+
+	public boolean isSetupDone() {
+		return mSetupDone;
 	}
 
 	int queryPurchases(Inventory inv) throws JSONException, RemoteException {
