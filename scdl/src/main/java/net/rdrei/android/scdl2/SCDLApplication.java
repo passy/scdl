@@ -1,6 +1,5 @@
 package net.rdrei.android.scdl2;
 
-import net.robotmedia.billing.BillingController;
 import roboguice.util.Ln;
 import android.annotation.TargetApi;
 import android.app.Application;
@@ -22,7 +21,6 @@ public class SCDLApplication extends Application {
 
 		if (isDebuggable()) {
 			Ln.d("Debug mode enabled.");
-			BillingController.setDebug(true);
 
 			// This is irrelevant on older platforms, anyway.
 			if (Build.VERSION.SDK_INT > 11) {

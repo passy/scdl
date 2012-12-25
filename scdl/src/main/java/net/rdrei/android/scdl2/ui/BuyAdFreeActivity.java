@@ -1,39 +1,55 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.mediator.DelayedMessageQueue;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
-import net.rdrei.android.scdl2.ui.BuyAdFreeTeaserFragment.BuyAdFreeFragmentContract;
-import net.robotmedia.billing.BillingRequest.ResponseCode;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.util.Ln;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import com.android.vending.billing.IabException;
+import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabHelper.OnIabPurchaseFinishedListener;
+import com.android.vending.billing.IabHelper.OnIabSetupFinishedListener;
+import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
+import com.android.vending.billing.IabResult;
+import com.android.vending.billing.Inventory;
+import com.android.vending.billing.Purchase;
+import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 /**
- * This class acts as net.rdrei.android.mediator between the three different
- * fragments loaded into it that are responsible for a) the billing logic b) the
- * teaser view leading to a purchase, giving explanations c) the thanks view
- * after a successful purchase
+ * This activity loads the appropriate fragments based on whether the user has
+ * done a purchase yet or not. It will also handle the payment processing via
+ * messages from the corresponding fragments.
  * 
  * @author pascal
  */
 public class BuyAdFreeActivity extends RoboFragmentActivity implements
-		BuyAdFreeFragmentContract {
+		OnIabSetupFinishedListener, QueryInventoryFinishedListener,
+		OnIabPurchaseFinishedListener {
 
 	private static final String ANALYTICS_TAG = "BUY_ADFREE";
-	private static final String BILLING_FRAGMENT_TAG = "BILLING";
-	private static final String KEY_TEASER_HANDLER = "TEASER_HANDLER";
-	private static final String KEY_BILLING_HANDLER = "BILLING_HANDLER";
+
+	/**
+	 * Request code to differentiate between different items.
+	 */
+	private static final int ADFREE_REQUEST_CODE = 0;
+
+	/**
+	 * SKU used in the developer console to identify the item.
+	 */
+	public static final String ADFREE_SKU = "adfree";
 
 	@Inject
 	private ApplicationPreferences mPreferences;
@@ -42,13 +58,25 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	private ActionBar mActionBar;
 
 	@Inject
-	private DelayedMessageQueue mMessageQueue;
-	
-	@Inject
 	private Tracker mTracker;
 
+	@Inject
+	private IabHelper mIabHelper;
+
+	@Inject
+	private Bus mBus;
+
+	@Inject
+	private FragmentManager mFragmentManager;
+
 	private Fragment mContentFragment;
-	private AdFreeBillingFragment mBillingFragment;
+	private boolean isBought = false;
+
+	/**
+	 * Keeps track of whether the device supports IAB. Listen to
+	 * {@link IabSetupFinishedEvent} to be informed of changes.
+	 */
+	private boolean mIabSupported = false;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -56,49 +84,63 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		setContentView(R.layout.buy_ad_free);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mIabHelper.startSetup(this);
 
 		if (savedInstanceState == null) {
 			loadFragments();
 		}
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
 		EasyTracker.getInstance().activityStart(this);
 		mTracker.trackEvent(ANALYTICS_TAG, "start", null, null);
+
+		mBus.register(this);
+		Ln.d("mBus @ activity: %s", System.identityHashCode(mBus));
 	}
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (isBought) {
+			replaceWithThanksFragment();
+		}
+	}
+
 	@Override
 	protected void onStop() {
 		super.onStop();
-		
+
 		EasyTracker.getInstance().activityStop(this);
+		mBus.unregister(this);
 	}
 
 	private void loadFragments() {
-		final FragmentTransaction transaction = getSupportFragmentManager()
+		final FragmentTransaction transaction = mFragmentManager
 				.beginTransaction();
 
 		if (mPreferences.isAdFree()) {
 			mContentFragment = BuyAdFreeThanksFragment.newInstance();
 		} else {
-			mBillingFragment = AdFreeBillingFragment
-					.newInstance(KEY_BILLING_HANDLER);
-			mContentFragment = BuyAdFreeTeaserFragment
-					.newInstance(KEY_TEASER_HANDLER);
-
-			transaction.add(mBillingFragment, BILLING_FRAGMENT_TAG);
+			mContentFragment = BuyAdFreeTeaserFragment.newInstance();
 		}
 
 		transaction.add(R.id.main_layout, mContentFragment).commit();
 	}
-	
-	private void replaceWithTeaserFragment() {
-		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
-				.add(R.id.main_layout, BuyAdFreeTeaserFragment.newInstance(KEY_TEASER_HANDLER))
-				.commit();
+
+	private void replaceWithThanksFragment() {
+		if (mContentFragment instanceof BuyAdFreeTeaserFragment) {
+			final Fragment newFragment = BuyAdFreeThanksFragment.newInstance();
+			mFragmentManager.beginTransaction().remove(mContentFragment)
+					.add(R.id.main_layout, newFragment)
+					.commitAllowingStateLoss();
+
+			mContentFragment = newFragment;
+		}
 	}
 
 	@Override
@@ -115,88 +157,117 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onBillingChecked(final boolean supported) {
-		final Message message = Message.obtain();
+	public void onIabSetupFinished(IabResult result) {
+		Ln.d("onIabSetupFinished: %s", result);
+		mIabSupported = result.isSuccess();
+		mBus.post(new IabSetupFinishedEvent(result.isSuccess()));
 
-		if (supported) {
-			message.what = BuyAdFreeTeaserFragment.MSG_BILLING_SUPPORTED;
+		if (result.isSuccess()) {
+			mIabHelper.queryInventoryAsync(this);
 		} else {
-			message.what = BuyAdFreeTeaserFragment.MSG_BILLING_UNSUPPORTED;
+			Ln.w("Can't connect to IAB: %s", result);
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+		}
+	}
+
+	@Override
+	public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+		Ln.d("onQueryInventoryFinished: %s", result);
+
+		if (result.isFailure()) {
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+			Ln.w("Failed to retrieve inventory!");
+			return;
 		}
 
-		mMessageQueue.send(KEY_TEASER_HANDLER, message);
+		mBus.post(new PurchaseStateChangeEvent(inv.hasPurchase(ADFREE_SKU)));
 	}
 
 	@Override
-	public void onBuyError(final ResponseCode response) {
-		Ln.e("IAB error: %s", response.toString());
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Ln.d("onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
-		mMessageQueue.send(KEY_TEASER_HANDLER, Message.obtain(null,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_ERROR));
-		mTracker.trackEvent(ANALYTICS_TAG, "error", response.toString(), null);
-	}
-
-	@Override
-	public void onBuySuccess() {
-		mPreferences.setAdFree(true);
-
-		mMessageQueue.removeHandler(KEY_TEASER_HANDLER);
-		getSupportFragmentManager().beginTransaction().remove(mContentFragment)
-				.add(R.id.main_layout, BuyAdFreeThanksFragment.newInstance())
-				.commitAllowingStateLoss();
-		mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
-	}
-
-	@Override
-	public void onBuyRevert() {
-		mPreferences.setAdFree(false);
-		
-		if (!(mContentFragment instanceof BuyAdFreeTeaserFragment)) {
-			replaceWithTeaserFragment();
+		// Pass on the activity result to the helper for handling
+		if (!mIabHelper.handleActivityResult(requestCode, resultCode, data)) {
+			// not handled, so handle it ourselves (here's where you'd
+			// perform any handling of activity results not related to in-app
+			// billing...
+			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
 
-		mMessageQueue.send(KEY_TEASER_HANDLER,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_REVERTED);
+	@Subscribe
+	public void onPurchaseRequested(PurchaseAdfreeRequestEvent event) {
+		mIabHelper.launchPurchaseFlow(this, ADFREE_SKU, ADFREE_REQUEST_CODE,
+				this);
+	}
+
+	@Subscribe
+	public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {
+		mPreferences.setAdFree(event.purchased);
+		Ln.i("Saving purchase state as %s.", event.purchased);
+
+		if (event.purchased) {
+			mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
+
+			isBought = true;
+			replaceWithThanksFragment();
+		}
+	}
+
+	@Produce
+	public IabSetupFinishedEvent produceIabSetupFinishedEvent() {
+		return new IabSetupFinishedEvent(mIabSupported);
 	}
 
 	@Override
-	public void onBuyCancel() {
-		mMessageQueue.send(KEY_TEASER_HANDLER,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_CANCELLED);
-		mTracker.trackEvent(ANALYTICS_TAG, "cancel", null, null);
+	public void onIabPurchaseFinished(IabResult result, Purchase info) {
+		Ln.d("onIabPurchaseFinished: %s", result);
+		boolean success = result.isSuccess()
+				&& info.getSku().equals(ADFREE_SKU);
+
+		mBus.post(new PurchaseAdfreeFinishedEvent(success));
+
+		if (success) {
+			mBus.post(new PurchaseStateChangeEvent(true));
+		} else {
+			// Make sure we inform Bugsense about this!
+			try {
+				BugSenseHandler.sendException(new IabException(result));
+			} catch (Exception e) {
+				// Fire and forget.
+				Ln.w(e);
+			}
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+		}
 	}
 
-	@Override
-	public void onPurchaseRequested() {
-		mMessageQueue.send(KEY_TEASER_HANDLER,
-				BuyAdFreeTeaserFragment.MSG_PURCHASE_REQUESTED);
-		mTracker.trackEvent(ANALYTICS_TAG, "request", null, null);
+	public static final class IabSetupFinishedEvent {
+		public final boolean enabled;
+
+		public IabSetupFinishedEvent(boolean enabled) {
+			this.enabled = enabled;
+		}
 	}
 
-	@Override
-	public void onBuyClicked() {
-		mMessageQueue.send(KEY_TEASER_HANDLER,
-				BuyAdFreeTeaserFragment.MSG_BILLING_REQUESTED);
-		mMessageQueue.send(KEY_BILLING_HANDLER,
-				AdFreeBillingFragment.MSG_REQUEST_PURCHASE);
+	public static final class PurchaseStateChangeEvent {
+		public final boolean purchased;
+
+		public PurchaseStateChangeEvent(boolean purchased) {
+			super();
+			this.purchased = purchased;
+		}
 	}
 
-	@Override
-	/**
-	 * Register and accept the message handler of a subordinate fragment.
-	 */
-	public void registerMessageHandler(final String key,
-			final DelayedMessageQueue.Handler handler) {
-		mMessageQueue.setHandler(key, handler);
+	public static final class PurchaseAdfreeRequestEvent {
 	}
 
-	/**
-	 * Urgs, for testing only. I feel bad about this. Should use reflection at
-	 * some point for this hackery.
-	 * 
-	 * @param queue
-	 */
-	public void setMessageQueue(final DelayedMessageQueue queue) {
-		mMessageQueue = queue;
+	public static final class PurchaseAdfreeFinishedEvent {
+		final public boolean success;
+
+		public PurchaseAdfreeFinishedEvent(boolean success) {
+			super();
+			this.success = success;
+		}
 	}
 }
