@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import com.android.vending.billing.IabException;
 import com.android.vending.billing.IabHelper;
 import com.android.vending.billing.IabHelper.OnIabPurchaseFinishedListener;
 import com.android.vending.billing.IabHelper.OnIabSetupFinishedListener;
@@ -19,6 +20,7 @@ import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
 import com.android.vending.billing.IabResult;
 import com.android.vending.billing.Inventory;
 import com.android.vending.billing.Purchase;
+import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
@@ -224,6 +226,13 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (success) {
 			mBus.post(new PurchaseStateChangeEvent(true));
 		} else {
+			// Make sure we inform Bugsense about this!
+			try {
+				BugSenseHandler.sendException(new IabException(result));
+			} catch (Exception e) {
+				// Fire and forget.
+				Ln.w(e);
+			}
 			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}

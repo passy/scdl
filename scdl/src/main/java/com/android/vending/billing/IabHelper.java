@@ -226,6 +226,18 @@ public class IabHelper {
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				logDebug("Billing service connected.");
 				mService = IInAppBillingService.Stub.asInterface(service);
+
+				if (mService == null) {
+					logError("Service is null!");
+
+					if (listener != null) {
+						listener.onIabSetupFinished(new IabResult(
+								IABHELPER_UNKNOWN_ERROR,
+								"NullPointerException while setting up in-app billing."));
+					}
+					return;
+				}
+
 				String packageName = mContext.getPackageName();
 				try {
 					logDebug("Checking for in-app billing 3 support.");
