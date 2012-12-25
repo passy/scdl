@@ -68,6 +68,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	private FragmentManager mFragmentManager;
 
 	private Fragment mContentFragment;
+	private boolean isBought = false;
 
 	/**
 	 * Keeps track of whether the device supports IAB. Listen to
@@ -84,7 +85,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mIabHelper.startSetup(this);
 
 		if (savedInstanceState == null) {
-			Ln.i("Loading fragments ...");
 			loadFragments();
 		}
 	}
@@ -98,6 +98,15 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		mBus.register(this);
 		Ln.d("mBus @ activity: %s", System.identityHashCode(mBus));
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (isBought) {
+			replaceWithThanksFragment();
+		}
 	}
 
 	@Override
@@ -127,7 +136,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 			mFragmentManager.beginTransaction().remove(mContentFragment)
 					.add(R.id.main_layout, newFragment)
 					.commitAllowingStateLoss();
-			
+
 			mContentFragment = newFragment;
 		}
 	}
@@ -189,9 +198,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Subscribe
 	public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {
 		mPreferences.setAdFree(event.purchased);
+		Ln.i("Saving purchase state as %s.", event.purchased);
 
 		if (event.purchased) {
 			mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
+
+			isBought = true;
 			replaceWithThanksFragment();
 		}
 	}
@@ -204,7 +216,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onIabPurchaseFinished(IabResult result, Purchase info) {
 		Ln.d("onIabPurchaseFinished: %s", result);
-		boolean success = result.isSuccess() && info.getSku().equals(ADFREE_SKU);
+		boolean success = result.isSuccess()
+				&& info.getSku().equals(ADFREE_SKU);
 
 		mBus.post(new PurchaseAdfreeFinishedEvent(success));
 
