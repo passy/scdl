@@ -164,13 +164,18 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		if (result.isSuccess()) {
 			mIabHelper.queryInventoryAsync(this);
+		} else {
+			Ln.w("Can't connect to IAB: %s", result);
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}
 
 	@Override
 	public void onQueryInventoryFinished(IabResult result, Inventory inv) {
 		Ln.d("onQueryInventoryFinished: %s", result);
+
 		if (result.isFailure()) {
+			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
 			Ln.w("Failed to retrieve inventory!");
 			return;
 		}

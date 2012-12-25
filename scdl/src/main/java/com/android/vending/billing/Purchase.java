@@ -35,7 +35,13 @@ public class Purchase {
 	public Purchase(String jsonPurchaseInfo, String signature)
 			throws JSONException {
 		mOriginalJson = jsonPurchaseInfo;
-		JSONObject o = new JSONObject(mOriginalJson);
+		mSignature = signature;
+
+		unmarshallJSON();
+	}
+
+	protected void unmarshallJSON() throws JSONException {
+		final JSONObject o = new JSONObject(mOriginalJson);
 		mOrderId = o.optString("orderId");
 		mPackageName = o.optString("packageName");
 		mSku = o.optString("productId");
@@ -43,7 +49,6 @@ public class Purchase {
 		mPurchaseState = o.optInt("purchaseState");
 		mDeveloperPayload = o.optString("developerPayload");
 		mToken = o.optString("token", o.optString("purchaseToken"));
-		mSignature = signature;
 	}
 
 	public String getOrderId() {
