@@ -39,6 +39,14 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		OnIabSetupFinishedListener, QueryInventoryFinishedListener,
 		OnIabPurchaseFinishedListener {
 
+	public static enum PaymentStatus {
+		BOUGHT, NOT_BOUGHT, UNKNOWN
+	}
+
+	public static enum IabStatus {
+		ENABLED, DISABLED, UNKNOWN
+	}
+
 	private static final String ANALYTICS_TAG = "BUY_ADFREE";
 
 	/**
@@ -70,13 +78,14 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	private FragmentManager mFragmentManager;
 
 	private Fragment mContentFragment;
-	private boolean isBought = false;
+
+	private PaymentStatus mBought;
 
 	/**
 	 * Keeps track of whether the device supports IAB. Listen to
 	 * {@link IabSetupFinishedEvent} to be informed of changes.
 	 */
-	private boolean mIabSupported = false;
+	private IabStatus mIabSupported;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -85,6 +94,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		setContentView(R.layout.buy_ad_free);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mIabHelper.startSetup(this);
+
+		mBought = PaymentStatus.UNKNOWN;
+		mIabSupported = IabStatus.UNKNOWN;
 
 		if (savedInstanceState == null) {
 			loadFragments();
@@ -106,7 +118,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 
-		if (isBought) {
+		if (mBought == PaymentStatus.BOUGHT) {
 			replaceWithThanksFragment();
 		}
 	}
@@ -159,8 +171,8 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Override
 	public void onIabSetupFinished(IabResult result) {
 		Ln.d("onIabSetupFinished: %s", result);
-		mIabSupported = result.isSuccess();
-		mBus.post(new IabSetupFinishedEvent(result.isSuccess()));
+		mIabSupported = result.isSuccess() ? IabStatus.ENABLED : IabStatus.DISABLED;
+		mBus.post(new IabSetupFinishedEvent(mIabSupported));
 
 		if (result.isSuccess()) {
 			mIabHelper.queryInventoryAsync(this);
@@ -180,7 +192,10 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 			return;
 		}
 
-		mBus.post(new PurchaseStateChangeEvent(inv.hasPurchase(ADFREE_SKU)));
+		final boolean hasItem = inv.hasPurchase(ADFREE_SKU);
+		final PurchaseStateChangeEvent event = new PurchaseStateChangeEvent(
+				hasItem ? PaymentStatus.BOUGHT : PaymentStatus.NOT_BOUGHT);
+		mBus.post(event);
 	}
 
 	@Override
@@ -241,13 +256,13 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 	@Subscribe
 	public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {
-		mPreferences.setAdFree(event.purchased);
 		Ln.i("Saving purchase state as %s.", event.purchased);
 
-		if (event.purchased) {
+		if (event.purchased == PaymentStatus.BOUGHT) {
+			mPreferences.setAdFree(true);
 			mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
 
-			isBought = true;
+			mBought = PaymentStatus.BOUGHT;
 			replaceWithThanksFragment();
 		}
 	}
@@ -255,6 +270,11 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	@Produce
 	public IabSetupFinishedEvent produceIabSetupFinishedEvent() {
 		return new IabSetupFinishedEvent(mIabSupported);
+	}
+
+	@Produce
+	public PurchaseStateChangeEvent producePurchaseStateChangeEvent() {
+		return new PurchaseStateChangeEvent(mBought);
 	}
 
 	@Override
@@ -266,7 +286,10 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mBus.post(new PurchaseAdfreeFinishedEvent(success));
 
 		if (success) {
-			mBus.post(new PurchaseStateChangeEvent(true));
+			mBus.post(new PurchaseStateChangeEvent(PaymentStatus.BOUGHT));
+		} else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED) {
+			mTracker.trackEvent(ANALYTICS_TAG, "cancel", result.toString(),
+					null);
 		} else {
 			// Make sure we inform Bugsense about this!
 			try {
@@ -280,17 +303,17 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	public static final class IabSetupFinishedEvent {
-		public final boolean enabled;
+		public final IabStatus enabled;
 
-		public IabSetupFinishedEvent(boolean enabled) {
+		public IabSetupFinishedEvent(IabStatus enabled) {
 			this.enabled = enabled;
 		}
 	}
 
 	public static final class PurchaseStateChangeEvent {
-		public final boolean purchased;
+		public final PaymentStatus purchased;
 
-		public PurchaseStateChangeEvent(boolean purchased) {
+		public PurchaseStateChangeEvent(PaymentStatus purchased) {
 			super();
 			this.purchased = purchased;
 		}

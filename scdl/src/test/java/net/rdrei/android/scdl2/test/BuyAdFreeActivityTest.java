@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PaymentStatus;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
 
 import org.json.JSONException;
@@ -75,7 +76,7 @@ public class BuyAdFreeActivityTest {
 
 		activity.onQueryInventoryFinished(result, inv);
 
-		assertThat(subscriber.purchased, is(true));
+		assertThat(subscriber.purchased, is(PaymentStatus.BOUGHT));
 	}
 
 	public class MyInventory extends Inventory {
@@ -108,7 +109,7 @@ public class BuyAdFreeActivityTest {
 	}
 
 	public class PurchaseChangeSubscriber {
-		boolean purchased = false;
+		PaymentStatus purchased = PaymentStatus.UNKNOWN;
 
 		@Subscribe
 		public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {

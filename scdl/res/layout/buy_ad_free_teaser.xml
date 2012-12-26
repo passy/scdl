@@ -25,21 +25,22 @@
         android:layout_marginBottom="16dp"
         android:text="@string/error_no_iab"
         android:textColor="@color/error"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/buy_ad_free_teaser_button"
         style="@style/BuyButton"
         android:layout_gravity="center"
         android:enabled="false"
-        android:text="@string/buy_ad_free_teaser_button" />
+        android:text="@string/buy_ad_free_teaser_button"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_gravity="center" />
 
 </LinearLayout>

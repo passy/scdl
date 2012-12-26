@@ -2,8 +2,11 @@ package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabSetupFinishedEvent;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.IabStatus;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PaymentStatus;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseAdfreeFinishedEvent;
 import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseAdfreeRequestEvent;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -39,7 +42,8 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 	@Inject
 	private Bus mBus;
 
-	private boolean mInitialized = false;
+	private IabStatus mInitialized = IabStatus.UNKNOWN;
+	private PaymentStatus mBought = PaymentStatus.UNKNOWN;
 
 	public static BuyAdFreeTeaserFragment newInstance() {
 		final BuyAdFreeTeaserFragment fragment = new BuyAdFreeTeaserFragment();
@@ -116,10 +120,32 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 		mBus.post(new PurchaseAdfreeRequestEvent());
 	}
 
+	/**
+	 * Updates the UI according to the current state of Play initialization and
+	 * synchronization.
+	 */
+	private void updateState() {
+		if (mInitialized == IabStatus.ENABLED
+				&& mBought == PaymentStatus.NOT_BOUGHT) {
+			hideLoadingSpinner();
+			clearError();
+			setBillingEnabled(true);
+		} else if (mInitialized == IabStatus.DISABLED
+				|| mInitialized == IabStatus.UNKNOWN) {
+			// This should better only be shown in case Status is DISABLED,
+			// but at the momenet, we don't get any response if there is no
+			// Google Play. :/
+			hideLoadingSpinner();
+			setBillingEnabled(false);
+			showError(getString(R.string.error_no_iab));
+		}
+	}
+
 	@Subscribe
 	public void onPurchasedFinished(PurchaseAdfreeFinishedEvent event) {
 		Ln.d("Received PurchaseAdfreeFinishedEvent with success=%s",
 				event.success);
+
 		hideLoadingSpinner();
 		clearError();
 
@@ -130,13 +156,17 @@ public class BuyAdFreeTeaserFragment extends RoboFragment {
 
 	@Subscribe
 	public void onIabStateChange(IabSetupFinishedEvent event) {
-		Ln.d("Received iabStateChange: %s", event);
-		setBillingEnabled(event.enabled);
-		hideLoadingSpinner();
+		Ln.d("Received IabSetupFinishedEvent: %s", event.enabled.toString());
 
-		if (event.enabled && !mInitialized) {
-			clearError();
-			mInitialized = true;
-		}
+		mInitialized = event.enabled;
+		updateState();
+	}
+
+	@Subscribe
+	public void onPurchaseStateChange(PurchaseStateChangeEvent event) {
+		Ln.d("Received PurchaseStateChangeEvent: %s", event);
+
+		mBought = event.purchased;
+		updateState();
 	}
 }
