@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.WebView;
@@ -135,8 +136,7 @@ public class ChangeLog {
 
 	private AlertDialog getDialog(final boolean full) {
 		final WebView wv = new WebView(context);
-		wv.setBackgroundColor(0); // transparent
-		// wv.getSettings().setDefaultTextEncodingName("utf-8");
+		wv.setBackgroundColor(Color.WHITE);
 		wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
 				null);
 
