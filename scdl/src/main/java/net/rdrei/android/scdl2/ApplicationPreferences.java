@@ -71,7 +71,11 @@ public class ApplicationPreferences {
 	}
 
 	public boolean isAdFree() {
-		return mPreferences.getBoolean(KEY_ADS_REMOVED, false);
+		/**
+		 * Checks both the preferences and the build status which may be paid.
+		 */
+		return mPreferences.getBoolean(KEY_ADS_REMOVED, false)
+				|| Config.PAID_BUILD;
 	}
 
 	public void setAdFree(final boolean value) {
