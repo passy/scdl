@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.R;
 import sheetrock.panda.changelog.ChangeLog;
 import android.content.Intent;
@@ -37,6 +38,17 @@ public class CommonMenuFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 
 		inflater.inflate(R.menu.main, menu);
+
+		if (Config.PAID_BUILD) {
+			removeAdfreeItem(menu);
+		}
+	}
+
+	private void removeAdfreeItem(final Menu menu) {
+		MenuItem menuItem = menu.findItem(R.id.buy_adfree);
+		if (menuItem != null) {
+			menuItem.setVisible(false);
+		}
 	}
 
 	@Override
