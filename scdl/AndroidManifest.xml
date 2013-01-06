@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    
+
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <uses-sdk
@@ -108,6 +108,13 @@
         <receiver android:name=".receiver.DownloadCompleteReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Used for install referrer tracking-->
+        <receiver android:name="com.google.analytics.tracking.android.AnalyticsReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
