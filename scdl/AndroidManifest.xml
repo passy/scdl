@@ -13,7 +13,6 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <uses-sdk
-        android:maxSdkVersion="17"
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
