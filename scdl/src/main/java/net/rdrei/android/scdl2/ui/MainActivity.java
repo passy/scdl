@@ -1,18 +1,10 @@
 package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.R;
-import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import sheetrock.panda.changelog.ChangeLog;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -25,12 +17,11 @@ import com.viewpagerindicator.CirclePageIndicator;
 public class MainActivity extends RoboFragmentActivity implements
 		DemoFragment.DemoActionListenerContract {
 
-	private static final String SOUNDCLOUD_PACKAGE = "com.soundcloud.android";
-
-	private static final String SOUNDCLOUD_MARKET_URI = "market://details?id=com.soundcloud.android";
-
 	@Inject
 	private FragmentManager mFragmentManager;
+	
+	@Inject
+	private SoundcloudLauncher mSoundcloudLauncher;
 
 	@InjectView(R.id.pager)
 	private ViewPager mPager;
@@ -86,8 +77,8 @@ public class MainActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onStartSoundcloud() {
-		Ln.d("Next page requested.");
-		launchSoundcloud();
+		Ln.d("SoundCloud launch requested.");
+		mSoundcloudLauncher.launch();
 	}
 
 	/**
@@ -97,64 +88,6 @@ public class MainActivity extends RoboFragmentActivity implements
 		final ChangeLog cl = new ChangeLog(this);
 		if (cl.firstRun()) {
 			cl.getLogDialog().show();
-		}
-	}
-
-	/**
-	 * Launches the soundcloud app via a launch intent.
-	 */
-	private void launchSoundcloud() {
-		final PackageManager packageManager = this.getPackageManager();
-		final Intent intent = packageManager
-				.getLaunchIntentForPackage(SOUNDCLOUD_PACKAGE);
-
-		// Soundcloud is not yet installed.
-		if (intent == null) {
-			askForSoundcloudDownload();
-			return;
-		}
-
-		startActivity(intent);
-	}
-
-	private void askForSoundcloudDownload() {
-		final Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(R.string.dialog_install_soundcloud)
-				.setCancelable(true)
-				.setPositiveButton(R.string.dialog_yes,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int which) {
-
-								startSoundcloudMarketActivity();
-							}
-						})
-				.setNegativeButton(R.string.dialog_no,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int which) {
-								dialog.cancel();
-							}
-						}).show();
-	}
-
-	/**
-	 * Start the market intent to install Soundcloud.
-	 */
-	private void startSoundcloudMarketActivity() {
-		final Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(SOUNDCLOUD_MARKET_URI));
-		try {
-			startActivity(intent);
-		} catch (final ActivityNotFoundException e) {
-			final Intent errorIntent = new Intent(this,
-					TrackErrorActivity.class);
-			errorIntent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE,
-					ErrorCode.NO_MARKET);
-
-			startActivity(errorIntent);
 		}
 	}
 }
