@@ -6,7 +6,8 @@
     <string name="demo_welcome">Erfahre in 4 einfachen Schritten, wie du Downloader for SoundCloud verwendest.</string>
     <string name="start">Start</string>
     <string name="next">Weiter</string>
-    <string name="dialog_install_soundcloud">Du hast die SoundCloud-App nicht installiert, welche für diese App benötigt wird. Möchtest du Sie jetzt von Google Play herunterladen?</string>
+    <string name="dialog_install_soundcloud_play">Du hast die SoundCloud-App nicht installiert, welche für diese App benötigt wird. Möchtest du Sie jetzt von Google Play herunterladen?</string>
+    <string name="dialog_install_soundcloud_amazon">Du hast die SoundCloud-App nicht installiert, welche für diese App benötigt wird. Möchtest du Sie jetzt aus dem Amazon Appstore herunterladen?</string>
     <string name="dialog_yes">Na klar</string>
     <string name="dialog_no">Nö</string>
     <string name="demo_step1_title">Track auswählen</string>
@@ -20,7 +21,7 @@
     <string name="track_error_unsupported_url">\'tschuldigung, diese Art von URL wird nicht unterstützt</string>
     <string name="track_error_unknown">Unbekannter Fehler</string>
     <string name="track_error_no_write_permission">Entschuldigung, aber wir können nicht auf den externen Speicher schreiben.</string>
-    <string name="track_error_no_market">Google Play konnte auf deinem Smartphone nicht gefunden werden. Bitte installiere SoundCloud manuell.</string>
+    <string name="track_error_no_market">Es konnte keine App-Market-App auf deinem Smartphone gefunden werden. Bitte installiere SoundCloud manuell.</string>
     <string name="track_error_not_found">Der Track konnte leider nicht gefunden werden. Vielleicht wurde er gelöscht.</string>
     <string name="track_error_network">Es konnte keine Verbindung zu SoundCloud aufgebaut werden. Bitte überprüfe deine Verbindung.</string>
     <string name="track_error">Download-Fehler</string>
