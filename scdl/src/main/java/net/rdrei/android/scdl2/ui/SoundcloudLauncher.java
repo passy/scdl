@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
 import android.app.AlertDialog;
@@ -16,6 +17,7 @@ import com.google.inject.Inject;
 public class SoundcloudLauncher {
 	private static final String SOUNDCLOUD_PACKAGE = "com.soundcloud.android";
 	private static final String SOUNDCLOUD_PLAY_URI = "market://details?id=com.soundcloud.android";
+	private static final String SOUNDCLOUD_AMAZON_URI = "http://www.amazon.com/gp/mas/dl/android?p=com.soundcloud.android";
 
 	final private Context mContext;
 	final private Intent mLaunchIntent;
@@ -54,13 +56,9 @@ public class SoundcloudLauncher {
 	 * SoundCloud from their play store or equivalent.
 	 */
 	public void askForDownload() {
-		// TODO!
-		showDownloadDialog();
-	}
-
-	private void showDownloadDialog() {
 		final Builder builder = new AlertDialog.Builder(mContext);
-		builder.setMessage(R.string.dialog_install_soundcloud)
+		final int dialogMessage = getDialogMessage();
+		builder.setMessage(dialogMessage)
 				.setCancelable(true)
 				.setPositiveButton(R.string.dialog_yes,
 						new DialogInterface.OnClickListener() {
@@ -81,12 +79,39 @@ public class SoundcloudLauncher {
 						}).show();
 	}
 
+	private int getDialogMessage() {
+		switch (Config.STORE) {
+		case AMAZON:
+			return R.string.dialog_install_soundcloud_amazon;
+		case GOOGLE_PLAY:
+			return R.string.dialog_install_soundcloud_play;
+		default:
+			throw new IllegalStateException("Invalid STORE specified.");
+		}
+	}
+
+	private Intent getMarketIntent() {
+		String uri;
+
+		switch (Config.STORE) {
+		case AMAZON:
+			uri = SOUNDCLOUD_AMAZON_URI;
+			break;
+		case GOOGLE_PLAY:
+			uri = SOUNDCLOUD_PLAY_URI;
+			break;
+		default:
+			throw new IllegalStateException("Invalid STORE specified.");
+		}
+
+		return new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+	}
+
 	/**
 	 * Start the market intent to install Soundcloud.
 	 */
 	public void startSoundcloudMarketActivity() {
-		final Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(SOUNDCLOUD_PLAY_URI));
+		final Intent intent = getMarketIntent();
 		try {
 			mContext.startActivity(intent);
 		} catch (final ActivityNotFoundException e) {
