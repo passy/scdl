@@ -8,6 +8,7 @@ import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.IOUtil;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.service.MediaScannerService;
+import net.rdrei.android.scdl2.ui.DownloadPreferencesActivity;
 import roboguice.receiver.RoboBroadcastReceiver;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
@@ -63,7 +64,6 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		 * 
 		 * @return
 		 */
-		@SuppressWarnings("unused")
 		public int getStatus() {
 			return mStatus;
 		}
@@ -136,6 +136,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	private void showErrorNotification(final Context context, final int reason,
 			final String title) {
 		final String errorMessage = getDownloadErrorMessage(context, reason);
+		final Intent downloadIntent = new Intent(context, DownloadPreferencesActivity.class);
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
@@ -149,7 +150,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 								R.string.notification_download_failed_ticker,
 								title))
 				.setSmallIcon(android.R.drawable.stat_notify_error)
-				.setAutoCancel(true)
+				.setContentIntent(
+						PendingIntent
+								.getActivity(context, 0, downloadIntent, 0))
 				.getNotification();
 
 		mNotificationManager.notify(0, notification);
