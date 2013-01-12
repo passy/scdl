@@ -65,5 +65,8 @@
     <string name="menu_preferences">Preferences</string>
     <string name="menu_changelog">Changelog</string>
     <string name="menu_remove_ads">Remove Ads</string>
+    <string name="pref_custom_folder_location">Custom folder location</string>
+    <string name="pref_use_ssl">Use SSL</string>
+    <string name="pref_use_ssl_summary">Use encrypted network communication</string>
 
 </resources>

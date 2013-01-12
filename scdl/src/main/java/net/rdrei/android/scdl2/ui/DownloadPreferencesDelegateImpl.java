@@ -1,23 +1,25 @@
 package net.rdrei.android.scdl2.ui;
 
+import net.rdrei.android.dirchooser.DirectoryChooserActivity;
+import net.rdrei.android.scdl2.ActivityStarter;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl2.DownloadPathValidator;
 import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
 import net.rdrei.android.scdl2.PreferenceManagerWrapper;
 import net.rdrei.android.scdl2.R;
+import roboguice.util.Ln;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Environment;
 import android.os.StatFs;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.text.InputType;
-import android.widget.EditText;
+import android.preference.Preference.OnPreferenceClickListener;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -25,11 +27,12 @@ import com.google.inject.assistedinject.Assisted;
 public class DownloadPreferencesDelegateImpl implements
 		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
-	private static final String DEFAULT_CUSTOM_PATH = "/mnt/sdcard/SoundcloudDownloader/";
+	private static final String DOWNLOAD_DIRECTORY_NAME = "SoundCloud";
+	private static final int REQUEST_DOWNLOAD_DIRECTORY_CHOOSER = 0;
 
 	private ListPreference mTypePreference;
 
-	private EditTextPreference mPathPreference;
+	private Preference mPathPreference;
 
 	@Inject
 	private ApplicationPreferences mAppPreferences;
@@ -42,6 +45,7 @@ public class DownloadPreferencesDelegateImpl implements
 
 	@Inject
 	private Context mContext;
+	private ActivityStarter mActivityStarter;
 
 	private final PreferenceManagerWrapper mPreferenceManager;
 
@@ -57,19 +61,32 @@ public class DownloadPreferencesDelegateImpl implements
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onCreate()
 	 */
 	@Override
-	public void onCreate() {
+	public void onCreate(final ActivityStarter activityStarter) {
 		mTypePreference = (ListPreference) mPreferenceManager
 				.findPreference(ApplicationPreferences.KEY_STORAGE_TYPE);
-		mPathPreference = (EditTextPreference) mPreferenceManager
+		mPathPreference = mPreferenceManager
 				.findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
-		// Enable "enter" to submit.
-		final EditText pathEditText = mPathPreference.getEditText();
-		pathEditText.setSingleLine(true);
-		pathEditText.setHint(DEFAULT_CUSTOM_PATH);
-		pathEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
+		mPathPreference
+				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						startDownloadDirectoryChooser();
+						return true;
+					}
+				});
 
 		loadStorageTypeOptions();
+		mActivityStarter = activityStarter;
+	}
+
+	private void startDownloadDirectoryChooser() {
+		final Intent chooseIntent = new Intent(mContext,
+				DirectoryChooserActivity.class);
+		chooseIntent.putExtra(DirectoryChooserActivity.EXTRA_NEW_DIR_NAME,
+				DOWNLOAD_DIRECTORY_NAME);
+		mActivityStarter.startActivityForResult(chooseIntent,
+				REQUEST_DOWNLOAD_DIRECTORY_CHOOSER);
 	}
 
 	/*
@@ -202,6 +219,23 @@ public class DownloadPreferencesDelegateImpl implements
 			builder.setMessage(errorMsgId)
 					.setTitle(R.string.custom_path_error_title)
 					.setIcon(android.R.drawable.ic_dialog_alert).show();
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Ln.i("onActivityResult: %d, %d, %s", requestCode, resultCode, data);
+		if (requestCode == REQUEST_DOWNLOAD_DIRECTORY_CHOOSER
+				&& resultCode == DirectoryChooserActivity.RESULT_CODE_DIR_SELECTED) {
+			final String directory = data
+					.getStringExtra(DirectoryChooserActivity.RESULT_SELECTED_DIR);
+			mPathPreference
+					.getEditor()
+					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
+							directory).commit();
+
+			Ln.i("New custom download path: %s",
+					mAppPreferences.getCustomPath());
 		}
 	}
 }

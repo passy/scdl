@@ -65,4 +65,7 @@
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_changelog">Änderungen</string>
     <string name="menu_remove_ads">Werbung entfernen</string>
+    <string name="pref_custom_folder_location">Pfad zum eigenen Verzeichnis</string>
+    <string name="pref_use_ssl">Verwende SSL</string>
+    <string name="pref_use_ssl_summary">Verwende verschlüsselte Netzwerkkommunikation</string>
 </resources>

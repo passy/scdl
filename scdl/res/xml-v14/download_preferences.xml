@@ -7,17 +7,16 @@
             android:defaultValue="EXTERNAL"
             android:title="@string/download_preferences_storage_type_title" />
 
-        <EditTextPreference
-            android:name="Storage Folder"
+        <Preference
             android:key="download_preferences_storage_custom_path"
             android:summary=""
-            android:title="Custom folder location" />
+            android:title="@string/pref_custom_folder_location" />
         
         <SwitchPreference
             android:defaultValue="true"
-            android:title="Use SSL"
+            android:title="@string/pref_use_ssl"
             android:key="download_preferences_enable_ssl"
-            android:summary="Use encrypted network communication" />
+            android:summary="@string/pref_use_ssl_summary" />
     </PreferenceCategory>
 
 </PreferenceScreen>
