@@ -29,6 +29,8 @@
     <string name="download_description">From soundcloud.com</string>
     <string name="notification_download_finished">Download finished</string>
     <string name="notification_download_finished_ticker">%s was downloaded</string>
+    <string name="notification_download_failed">Download failed: %s</string>
+    <string name="notification_download_failed_ticker">%s failed to download</string>
     <string name="changelog_full_title">Change Log</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_ok_button">Cool!</string>
@@ -55,6 +57,10 @@
     <string name="buy_ad_free_thanks_text">Thank you for your support!</string>
     <string name="error_no_iab">Your device does not support In-App Billing.</string>
     <string name="error_iab_connection">There was an error contacting the billing service. Please try again later.</string>
+    <string name="error_cant_write">Can\'t write download. Check your SD card or storage settings.</string>
+    <string name="error_already_exists">Can\'t write the file, because it already exists.</string>
+    <string name="error_insufficient_space">Can\'t write file due to insufficient space.</string>
+    <string name="error_unknown">Unknown error with code %d</string>
     <string name="track_error_unavailable">The artist does not allow downloads for this track. Sorry for this.</string>
     <string name="track_error_unavailable_purchase">The artist doesn\'t allow free downloads for this track, but provides a purchase option.</string>
     <string name="lbl_artist">Artist:</string>
@@ -65,5 +71,7 @@
     <string name="menu_preferences">Preferences</string>
     <string name="menu_changelog">Changelog</string>
     <string name="menu_remove_ads">Remove Ads</string>
-
+    <string name="pref_custom_folder_location">Custom folder location</string>
+    <string name="pref_use_ssl">Use SSL</string>
+    <string name="pref_use_ssl_summary">Use encrypted network communication</string>
 </resources>

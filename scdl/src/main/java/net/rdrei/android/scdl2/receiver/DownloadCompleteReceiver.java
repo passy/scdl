@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.google.inject.Inject;
 
 /**
@@ -46,6 +47,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		private String mTitle;
 		private String mPath;
 		private int mStatus;
+		private int mReason;
 
 		public String getTitle() {
 			return mTitle;
@@ -77,6 +79,14 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		public void setPath(final String path) {
 			mPath = path;
 		}
+
+		public int getReason() {
+			return mReason;
+		}
+
+		public void setReason(int reason) {
+			mReason = reason;
+		}
 	}
 
 	@Override
@@ -92,7 +102,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	 * @param context
 	 * @param title
 	 */
-	private void showNotification(final Context context, final String title) {
+	private void showSuccessNotification(final Context context,
+			final String title) {
 		final Intent downloadIntent = new Intent(
 				DownloadManager.ACTION_VIEW_DOWNLOADS);
 
@@ -103,8 +114,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 						context.getString(R.string.notification_download_finished))
 				.setContentText(title)
 				.setTicker(
-						String.format(
-								context.getString(R.string.notification_download_finished_ticker),
+						context.getString(
+								R.string.notification_download_finished_ticker,
 								title))
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setContentIntent(
@@ -113,6 +124,56 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				.getNotification();
 
 		mNotificationManager.notify(0, notification);
+	}
+
+	/**
+	 * Create a notification indicating a download error.
+	 *
+	 * @param context
+	 * @param reason
+	 *            The error code provided by {@link DownloadManager}
+	 */
+	private void showErrorNotification(final Context context, final int reason,
+			final String title) {
+		final String errorMessage = getDownloadErrorMessage(context, reason);
+
+		@SuppressWarnings("deprecation")
+		final Notification notification = new Notification.Builder(context)
+				.setAutoCancel(true)
+				.setContentTitle(
+						context.getString(
+								R.string.notification_download_failed, title))
+				.setContentText(errorMessage)
+				.setTicker(
+						context.getString(
+								R.string.notification_download_failed_ticker,
+								title))
+				.setSmallIcon(android.R.drawable.stat_notify_error)
+				.setAutoCancel(true)
+				.getNotification();
+
+		mNotificationManager.notify(0, notification);
+	}
+
+	private String getDownloadErrorMessage(final Context context,
+			final int reason) {
+		final int messageId;
+
+		switch (reason) {
+		case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+			messageId = R.string.error_cant_write;
+			break;
+		case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+			messageId = R.string.error_already_exists;
+			break;
+		case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+			messageId = R.string.error_insufficient_space;
+			break;
+		default:
+			messageId = R.string.error_unknown;
+		}
+
+		return context.getString(messageId, reason);
 	}
 
 	private class ResolveDownloadTask extends RoboAsyncTask<Download> {
@@ -162,10 +223,15 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 						.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
 				final String downloadUri = cursor.getString(localUriIndex);
 
+				final int reasonIndex = cursor
+						.getColumnIndex(DownloadManager.COLUMN_REASON);
+				final int reason = cursor.getInt(reasonIndex);
+
 				final Download download = new Download();
 				download.setTitle(title);
 				download.setStatus(status);
 				download.setPath(downloadUri);
+				download.setReason(reason);
 
 				return download;
 			} finally {
@@ -178,6 +244,16 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			super.onSuccess(t);
 
 			if (t == null) {
+				BugSenseHandler.sendException(new NullPointerException(
+						"Received null-pointer in "
+								+ "DownloadCompleteReceiver.onSuccess()"));
+				return;
+			}
+
+			if (t.getStatus() == DownloadManager.STATUS_FAILED) {
+				Ln.e("Download of '%s' failed with reason %d", t.getTitle(),
+						t.getReason());
+				showErrorNotification(context, t.getReason(), t.getTitle());
 				return;
 			}
 
@@ -191,7 +267,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			scanIntent.putExtra(MediaScannerService.EXTRA_PATH, t.getPath());
 			context.startService(scanIntent);
 
-			showNotification(context, t.getTitle());
+			showSuccessNotification(context, t.getTitle());
 		}
 
 		protected boolean shouldMoveFileToLocal(final Download download) {

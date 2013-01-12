@@ -121,8 +121,8 @@
 
         <activity
             android:name=".ui.BuyAdFreeActivity"
-            android:label="@string/remove_ads" >
-        </activity>
+            android:label="@string/remove_ads" />
+        <activity android:name="net.rdrei.android.dirchooser.DirectoryChooserActivity" />
     </application>
 
 </manifest>

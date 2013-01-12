@@ -59,7 +59,7 @@ public class DownloadPreferencesDelegateTest {
 	
 	@Test
 	public void testPreferenceEditSetup() {
-		mDelegate.onCreate();
+		mDelegate.onCreate(null);
 		
 		mPreferenceManager.preferences.get(ApplicationPreferences.KEY_STORAGE_TYPE);
 	}
