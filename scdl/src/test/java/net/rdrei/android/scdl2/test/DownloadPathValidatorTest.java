@@ -31,7 +31,7 @@ public class DownloadPathValidatorTest {
 		thrown.expect(DownloadPathValidationException.class);
 		thrown.expect(hasErrorCode(ErrorCode.INSECURE_PATH));
 
-		mValidator.validateCustomPathOrThrow("/data/data/");
+		mValidator.validateCustomPathOrThrow("../root/");
 	}
 
 	@Test

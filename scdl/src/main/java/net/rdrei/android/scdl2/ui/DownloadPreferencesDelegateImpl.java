@@ -178,6 +178,30 @@ public class DownloadPreferencesDelegateImpl implements
 		return statFs.getAvailableBlocks() * statFs.getBlockSize();
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Ln.i("onActivityResult: %d, %d, %s", requestCode, resultCode, data);
+		if (requestCode == REQUEST_DOWNLOAD_DIRECTORY_CHOOSER
+				&& resultCode == DirectoryChooserActivity.RESULT_CODE_DIR_SELECTED) {
+			final String directory = data
+					.getStringExtra(DirectoryChooserActivity.RESULT_SELECTED_DIR);
+
+			updateCustomPath(directory);
+
+			Ln.i("New custom download path: %s",
+					mAppPreferences.getCustomPath());
+		}
+	}
+
+	private void updateCustomPath(String directory) {
+		if (mCustomPathValidator.onPreferenceChange(mPathPreference, directory)) {
+			mPathPreference
+					.getEditor()
+					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
+							directory).commit();
+		}
+	}
+
 	private static class CustomPathChangeValidator implements
 			Preference.OnPreferenceChangeListener {
 
@@ -219,23 +243,6 @@ public class DownloadPreferencesDelegateImpl implements
 			builder.setMessage(errorMsgId)
 					.setTitle(R.string.custom_path_error_title)
 					.setIcon(android.R.drawable.ic_dialog_alert).show();
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Ln.i("onActivityResult: %d, %d, %s", requestCode, resultCode, data);
-		if (requestCode == REQUEST_DOWNLOAD_DIRECTORY_CHOOSER
-				&& resultCode == DirectoryChooserActivity.RESULT_CODE_DIR_SELECTED) {
-			final String directory = data
-					.getStringExtra(DirectoryChooserActivity.RESULT_SELECTED_DIR);
-			mPathPreference
-					.getEditor()
-					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
-							directory).commit();
-
-			Ln.i("New custom download path: %s",
-					mAppPreferences.getCustomPath());
 		}
 	}
 }
