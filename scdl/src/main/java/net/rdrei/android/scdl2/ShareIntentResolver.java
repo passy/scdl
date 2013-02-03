@@ -123,7 +123,8 @@ public class ShareIntentResolver {
 			return matcher.group(1);
 		}
 
-		throw new ShareIntentResolverException("Could not parse ID from URL.");
+		throw new ShareIntentResolverException(String.format(
+				"Could not parse ID from URL '%s'.", url));
 	}
 
 	protected boolean isValidUri(final Uri uri) {

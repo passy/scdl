@@ -60,6 +60,7 @@
     <string name="error_cant_write">Can\'t write download. Check your SD card or storage settings.</string>
     <string name="error_already_exists">Can\'t write the file, because it already exists.</string>
     <string name="error_insufficient_space">Can\'t write file due to insufficient space.</string>
+    <string name="error_download_expired">Your download expired.</string>
     <string name="error_unknown">Unknown error with code %d</string>
     <string name="track_error_unavailable">The artist does not allow downloads for this track. Sorry for this.</string>
     <string name="track_error_unavailable_purchase">The artist doesn\'t allow free downloads for this track, but provides a purchase option.</string>
