@@ -58,7 +58,7 @@ public class ApplicationPreferences {
 	}
 
 	public boolean getSSLEnabled() {
-		return mPreferences.getBoolean(KEY_SSL_ENABLED, true);
+		return mPreferences.getBoolean(KEY_SSL_ENABLED, false);
 	}
 
 	public StorageType getStorageType() {
