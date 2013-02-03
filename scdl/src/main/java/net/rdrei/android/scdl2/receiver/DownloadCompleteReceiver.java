@@ -7,6 +7,7 @@ import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.IOUtil;
 import net.rdrei.android.scdl2.R;
+import net.rdrei.android.scdl2.guice.TrackerProvider;
 import net.rdrei.android.scdl2.service.MediaScannerService;
 import net.rdrei.android.scdl2.ui.DownloadPreferencesActivity;
 import roboguice.receiver.RoboBroadcastReceiver;
@@ -32,11 +33,18 @@ import com.google.inject.Inject;
  */
 public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
+	private static final int HTTP_ERROR_FORBIDDEN = 403;
+
+	private static final String ANALYTICS_TAG = "DOWNLOAD_COMPLETED_RECEIVER";
+
 	@Inject
 	private DownloadManager mDownloadManager;
 
 	@Inject
 	private NotificationManager mNotificationManager;
+
+	@Inject
+	private TrackerProvider mTrackerProvider;
 
 	/**
 	 * Simple POJO for passing around download information.
@@ -128,7 +136,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 	/**
 	 * Create a notification indicating a download error.
-	 *
+	 * 
 	 * @param context
 	 * @param reason
 	 *            The error code provided by {@link DownloadManager}
@@ -136,7 +144,10 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	private void showErrorNotification(final Context context, final int reason,
 			final String title) {
 		final String errorMessage = getDownloadErrorMessage(context, reason);
-		final Intent downloadIntent = new Intent(context, DownloadPreferencesActivity.class);
+		final Intent preferencesIntent = new Intent(context,
+				DownloadPreferencesActivity.class);
+		preferencesIntent.putExtra(
+				DownloadPreferencesActivity.EXTRA_DOWNLOAD_ERROR, reason);
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
@@ -151,11 +162,12 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 								title))
 				.setSmallIcon(android.R.drawable.stat_notify_error)
 				.setContentIntent(
-						PendingIntent
-								.getActivity(context, 0, downloadIntent, 0))
-				.getNotification();
+						PendingIntent.getActivity(context, 0,
+								preferencesIntent, 0)).getNotification();
 
 		mNotificationManager.notify(0, notification);
+		mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "error",
+				String.format("code:%d", reason), null);
 	}
 
 	private String getDownloadErrorMessage(final Context context,
@@ -171,6 +183,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			break;
 		case DownloadManager.ERROR_INSUFFICIENT_SPACE:
 			messageId = R.string.error_insufficient_space;
+			break;
+		case HTTP_ERROR_FORBIDDEN:
+			messageId = R.string.error_download_expired;
 			break;
 		default:
 			messageId = R.string.error_unknown;
@@ -207,9 +222,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				if (!cursor.getString(descriptionIndex).equals(
 						context.getString(R.string.download_description))) {
 					// Download doesn't belong to us. Weird way to check, but
-					// way,
-					// way
-					// easier than keeping track of the IDs.
+					// way, way easier than keeping track of the IDs.
 					Ln.d("Description did not match SCDL default description.");
 					return null;
 				}
@@ -299,6 +312,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				IOUtil.copyFile(path, newPath);
 			} catch (final IOException err) {
 				Ln.w(err, "Failed to rename download.");
+				BugSenseHandler.sendException(err);
 				return;
 			}
 

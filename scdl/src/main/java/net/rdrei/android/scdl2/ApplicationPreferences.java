@@ -11,9 +11,9 @@ import com.google.inject.Inject;
 
 @ContextSingleton
 public class ApplicationPreferences {
-	private static final String KEY_SSL_ENABLED = "download_preferences_enable_ssl";
-
 	private static final String KEY_ADS_REMOVED = "adfree_please_actually_buy_this";
+
+	public static final String KEY_SSL_ENABLED = "download_preferences_enable_ssl";
 
 	public static final String DEFAULT_STORAGE_DIRECTORY = "Soundcloud";
 
@@ -58,7 +58,7 @@ public class ApplicationPreferences {
 	}
 
 	public boolean getSSLEnabled() {
-		return mPreferences.getBoolean(KEY_SSL_ENABLED, true);
+		return mPreferences.getBoolean(KEY_SSL_ENABLED, false);
 	}
 
 	public StorageType getStorageType() {

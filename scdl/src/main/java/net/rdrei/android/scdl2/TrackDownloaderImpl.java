@@ -133,11 +133,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		public Void call() throws Exception {
 			Ln.d("Starting download of %s.", mUri.toString());
 			final Request request;
-			try {
-				request = createDownloadRequest(mUri);
-			} catch (final IOException e) {
-				throw new IOException(e);
-			}
+			request = createDownloadRequest(mUri);
 
 			mDownloadManager.enqueue(request);
 			return null;
@@ -152,6 +148,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 			super.onException(e);
 			final Message msg;
 
+			Ln.i("Track download exception encountered.", e);
 			if (handler == null) {
 				BugSenseHandler.sendExceptionMessage("DOWNLOAD_HANDLER_ERROR",
 						"Download request error without handler.", e);
