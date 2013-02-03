@@ -21,6 +21,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -28,6 +29,7 @@ public class DownloadPreferencesDelegateImpl implements
 		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	private static final String DOWNLOAD_DIRECTORY_NAME = "SoundCloud";
+	private static final String ANALYTICS_TAG = "DOWNLOAD_PREFERENCES";
 	private static final int REQUEST_DOWNLOAD_DIRECTORY_CHOOSER = 0;
 
 	private ListPreference mTypePreference;
@@ -46,6 +48,9 @@ public class DownloadPreferencesDelegateImpl implements
 	@Inject
 	private Context mContext;
 	private ActivityStarter mActivityStarter;
+
+	@Inject
+	Tracker mTracker;
 
 	private final PreferenceManagerWrapper mPreferenceManager;
 
@@ -78,6 +83,7 @@ public class DownloadPreferencesDelegateImpl implements
 
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
+		mTracker.trackEvent(ANALYTICS_TAG, "create", null, null);
 	}
 
 	private void startDownloadDirectoryChooser() {
@@ -99,10 +105,34 @@ public class DownloadPreferencesDelegateImpl implements
 	@Override
 	public void onSharedPreferenceChanged(
 			final SharedPreferences sharedPreferences, final String key) {
+
+		trackChange(sharedPreferences, key);
 		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
 		mPathPreference.setSummary(mAppPreferences.getCustomPath());
 		mPathPreference
 				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
+	}
+
+	/**
+	 * Let analytics know that there was a change.
+	 *
+	 * @param sharedPreferences
+	 * @param key
+	 */
+	private void trackChange(SharedPreferences sharedPreferences, String key) {
+		String value = null;
+
+		if (key == ApplicationPreferences.KEY_SSL_ENABLED) {
+			value = String.valueOf(sharedPreferences.getBoolean(key, false));
+		} else if (key == ApplicationPreferences.KEY_STORAGE_TYPE
+				|| key == ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH) {
+			value = sharedPreferences.getString(key, "<undef>");
+		}
+
+		if (value != null) {
+			mTracker.trackEvent(ANALYTICS_TAG, "change",
+					String.format("%s:%s", key, value), null);
+		}
 	}
 
 	/*

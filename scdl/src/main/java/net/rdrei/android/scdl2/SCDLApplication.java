@@ -10,11 +10,6 @@ import android.os.StrictMode;
 import com.bugsense.trace.BugSenseHandler;
 
 public class SCDLApplication extends Application {
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Application#onCreate()
-	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
