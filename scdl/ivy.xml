@@ -17,14 +17,14 @@
         <dependency org="com.google.inject.extensions" name="guice-assistedinject" transitive="false" rev="3.0">
             <artifact name="guice-assistedinject" ext="jar" />
         </dependency>
-        <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.1">
-            <artifact name="bugsense" ext="jar" url="https://s3.amazonaws.com/bugsenseplugins/bugsense3.1.jar" />
+        <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.2">
+            <artifact name="bugsense" ext="jar" url="https://s3.amazonaws.com/bugsenseplugins/bugsense3.2.jar" />
         </dependency>
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.2.2">
             <artifact name="gson" ext="jar" />
         </dependency>
-        <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.2.1" />
-        <dependency org="com.google.analytics" name="tracking" transitive="false" rev="2.0beta3" />
+        <dependency org="com.google.android.admob" name="admob" transitive="false" rev="6.3.0" />
+        <dependency org="com.google.analytics" name="tracking" transitive="false" rev="2.0beta4" />
         <dependency org="com.squareup" name="otto" rev="1.3.2">
             <artifact name="otto" ext="jar" />
         </dependency>
