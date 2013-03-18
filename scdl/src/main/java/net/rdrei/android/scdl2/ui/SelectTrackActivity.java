@@ -245,7 +245,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			final DownloadTask task = new DownloadTask(
 					SelectTrackActivity.this, String.valueOf(mTrack.getId()));
 			task.execute();
-			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "download",
+			mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "download",
 					mTrack.getTitle(), mTrack.getId());
 		}
 
@@ -254,7 +254,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
-			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "purchase",
+			mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "purchase",
 					uri.toString(), mTrack.getId());
 		}
 
@@ -432,7 +432,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 				errorCode = ErrorCode.UNKNOWN_ERROR;
 			}
 
-			mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "error",
+			mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
 					errorCode.toString(), null);
 
 			intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);

@@ -166,7 +166,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 								preferencesIntent, 0)).getNotification();
 
 		mNotificationManager.notify(0, notification);
-		mTrackerProvider.get().trackEvent(ANALYTICS_TAG, "error",
+		mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
 				String.format("code:%d", reason), null);
 	}
 

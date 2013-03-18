@@ -108,7 +108,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		super.onStart();
 
 		EasyTracker.getInstance().activityStart(this);
-		mTracker.trackEvent(ANALYTICS_TAG, "start", null, null);
+		mTracker.sendEvent(ANALYTICS_TAG, "start", null, null);
 
 		mBus.register(this);
 		Ln.d("mBus @ activity: %s", System.identityHashCode(mBus));
@@ -178,7 +178,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 			mIabHelper.queryInventoryAsync(this);
 		} else {
 			Ln.w("Can't connect to IAB: %s", result);
-			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+			mTracker.sendEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}
 
@@ -187,7 +187,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		Ln.d("onQueryInventoryFinished: %s", result);
 
 		if (result.isFailure()) {
-			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+			mTracker.sendEvent(ANALYTICS_TAG, "error", result.toString(), null);
 			Ln.w("Failed to retrieve inventory!");
 			return;
 		}
@@ -239,7 +239,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 					if (result.isSuccess()) {
 						handleResult.run();
 					} else {
-						mTracker.trackEvent(ANALYTICS_TAG, "error",
+						mTracker.sendEvent(ANALYTICS_TAG, "error",
 								result.toString(), null);
 						BugSenseHandler.sendException(new IabException(result));
 					}
@@ -260,7 +260,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 
 		if (event.purchased == PaymentStatus.BOUGHT) {
 			mPreferences.setAdFree(true);
-			mTracker.trackEvent(ANALYTICS_TAG, "success", null, null);
+			mTracker.sendEvent(ANALYTICS_TAG, "success", null, null);
 
 			mBought = PaymentStatus.BOUGHT;
 			replaceWithThanksFragment();
@@ -288,7 +288,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (success) {
 			mBus.post(new PurchaseStateChangeEvent(PaymentStatus.BOUGHT));
 		} else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED) {
-			mTracker.trackEvent(ANALYTICS_TAG, "cancel", result.toString(),
+			mTracker.sendEvent(ANALYTICS_TAG, "cancel", result.toString(),
 					null);
 		} else {
 			// Make sure we inform Bugsense about this!
@@ -298,7 +298,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 				// Fire and forget.
 				Ln.w(e);
 			}
-			mTracker.trackEvent(ANALYTICS_TAG, "error", result.toString(), null);
+			mTracker.sendEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}
 

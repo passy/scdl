@@ -83,7 +83,7 @@ public class DownloadPreferencesDelegateImpl implements
 
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
-		mTracker.trackEvent(ANALYTICS_TAG, "create", null, null);
+		mTracker.sendEvent(ANALYTICS_TAG, "create", null, null);
 	}
 
 	private void startDownloadDirectoryChooser() {
@@ -130,7 +130,7 @@ public class DownloadPreferencesDelegateImpl implements
 		}
 
 		if (value != null) {
-			mTracker.trackEvent(ANALYTICS_TAG, "change",
+			mTracker.sendEvent(ANALYTICS_TAG, "change",
 					String.format("%s:%s", key, value), null);
 		}
 	}
