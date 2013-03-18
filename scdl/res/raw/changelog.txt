@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.6.2
+  % Version 1.6.2
+  _ 2013-03-18
+  * Various bugfixes
 $ 1.6.1
   % Version 1.6.1
   _ 2013-02-03
