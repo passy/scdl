@@ -107,7 +107,9 @@ public class DownloadPreferencesDelegateImpl implements
 			final SharedPreferences sharedPreferences, final String key) {
 
 		trackChange(sharedPreferences, key);
-		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
+		mTypePreference.setSummary(String.format("%s (%s)",
+				mAppPreferences.getStorageTypeDisplay(),
+				mAppPreferences.getStorageDirectory()));
 		mPathPreference.setSummary(mAppPreferences.getCustomPath());
 		mPathPreference
 				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);

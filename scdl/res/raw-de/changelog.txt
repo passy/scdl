@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.6.4
+  % Version 1.6.4
+  _ 2013-xx-xx
+  * In den Einstellungen wird jetzt der Download-Pfad angezeigt.
 $ 1.6.3
   % Version 1.6.3
   _ 2013-03-19
