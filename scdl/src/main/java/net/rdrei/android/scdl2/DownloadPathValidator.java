@@ -37,8 +37,7 @@ public class DownloadPathValidator {
 
 	public void validateCustomPathOrThrow(final String path)
 			throws DownloadPathValidationException {
-		// This also checks if the path is relative
-		if (!path.startsWith("/mnt/")) {
+		if (path.contains("..")) {
 			throw new DownloadPathValidationException(ErrorCode.INSECURE_PATH);
 		}
 

@@ -46,7 +46,7 @@
     <string name="storage_phone">Phone</string>
     <string name="sd_custom">Custom Path</string>
     <string name="custom_path_error_title">Couldn\'t set custom path</string>
-    <string name="custom_path_error_insecure_path">The custom path must start with &#8220;/mnt/&#8221;!</string>
+    <string name="custom_path_error_insecure_path">The custom path must start be absolute!</string>
     <string name="custom_path_error_permission_denied">We don\'t have permission to write to this location.</string>
     <string name="custom_path_error_not_a_directory">The given path doesn\'t point to a directory.</string>
     <string name="custom_path_error_unknown">Blyme! Something went wrong. Please choose a different path.</string>
