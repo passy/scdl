@@ -321,8 +321,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		 * @param download
 		 */
 		protected void moveFileToLocal(final Download download) {
-			final File path = new File(download.getPath().substring(
-					"file:".length()));
+			final File path = new File(download.getNormalizedPath());
 			final String filename = path.getName();
 			@SuppressWarnings("deprecation")
 			final File newDir = context.getDir(
