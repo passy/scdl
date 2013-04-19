@@ -14,7 +14,7 @@ public class DownloadPathValidator {
 
 	/**
 	 * Using a single class to catch all validation related errors is a
-	 * deliberate choice. It reducesd boilerplate a lot as exceptions are all
+	 * deliberate choice. It reduces boilerplate a lot as exceptions are all
 	 * caught in one place and handled the same way except for the error message
 	 * provided.
 	 * 
