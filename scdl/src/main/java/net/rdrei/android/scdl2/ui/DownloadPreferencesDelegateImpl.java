@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class DownloadPreferencesDelegateImpl implements
-OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
+		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	private static final String DOWNLOAD_DIRECTORY_NAME = "SoundCloud";
 	private static final String ANALYTICS_TAG = "DOWNLOAD_PREFERENCES";
@@ -62,7 +62,7 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onCreate()
 	 */
 	@Override
@@ -73,13 +73,13 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 				.findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
 		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
 		mPathPreference
-		.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(final Preference preference) {
-				startDownloadDirectoryChooser();
-				return true;
-			}
-		});
+				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(final Preference preference) {
+						startDownloadDirectoryChooser();
+						return true;
+					}
+				});
 
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
@@ -97,7 +97,7 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#
 	 * onSharedPreferenceChanged(android.content.SharedPreferences,
 	 * java.lang.String)
@@ -110,7 +110,7 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 		updateStorageTypeSummary();
 		mPathPreference.setSummary(mAppPreferences.getCustomPath());
 		mPathPreference
-		.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
+				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
 	}
 
 	private void updateStorageTypeSummary() {
@@ -148,7 +148,7 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onPause()
 	 */
 	@Override
@@ -158,7 +158,7 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.rdrei.android.scdl2.ui.DownloadPreferencesDelegate#onResume()
 	 */
 	@Override
@@ -238,14 +238,14 @@ OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 	private void updateCustomPath(final String directory) {
 		if (mCustomPathValidator.onPreferenceChange(mPathPreference, directory)) {
 			mPathPreference
-			.getEditor()
-			.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
-					directory).commit();
+					.getEditor()
+					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
+							directory).commit();
 		}
 	}
 
 	private static class CustomPathChangeValidator implements
-	Preference.OnPreferenceChangeListener {
+			Preference.OnPreferenceChangeListener {
 
 		@Inject
 		private DownloadPathValidator mValidator;
