@@ -15,6 +15,8 @@ import net.rdrei.android.scdl2.ui.DownloadPreferencesDelegateImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import android.app.Activity;
 import android.os.Environment;
@@ -23,6 +25,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.widget.EditText;
 
+import com.google.analytics.tracking.android.Tracker;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.internal.Implementation;
@@ -35,16 +39,26 @@ public class DownloadPreferencesDelegateTest {
 	@Inject
 	private DownloadPreferencesDelegateFactory mDelegateFactory;
 	
+	@Mock
+	Tracker mTracker;
+
 	private FakePreferenceManagerWrapperImpl mPreferenceManager;
 	private DownloadPreferencesDelegate mDelegate;
 	private Activity mActivity;
 	
 	@Before
 	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+
 		Robolectric.bindShadowClass(ShadowEditTextPreference.class);
 		Robolectric.bindShadowClass(ShadowEnvironment2.class);
 		mActivity = new Activity();
-		TestRunner.getInjector().injectMembers(this);
+		TestRunner.overridenInjector(this, new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(Tracker.class).toInstance(mTracker);
+			}
+		});
 		mPreferenceManager = new FakePreferenceManagerWrapperImpl();
 		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH, new EditTextPreference(mActivity));
 		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_TYPE, new ListPreference(mActivity));
