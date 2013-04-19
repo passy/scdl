@@ -26,6 +26,7 @@ $ 1.6.4
   % Version 1.6.4
   _ 2013-xx-xx
   * Preferences now show the full path where downloads are saved.
+  * Fixed one potential cause for duplicate files on SD Card. Thanks for the hint, Ugo!
 $ 1.6.3
   % Version 1.6.3
   _ 2013-03-19
