@@ -5,6 +5,9 @@ import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.util.Ln;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +35,7 @@ import com.squareup.otto.Subscribe;
  * This activity loads the appropriate fragments based on whether the user has
  * done a purchase yet or not. It will also handle the payment processing via
  * messages from the corresponding fragments.
- * 
+ *
  * @author pascal
  */
 public class BuyAdFreeActivity extends RoboFragmentActivity implements
@@ -169,9 +172,18 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onIabSetupFinished(IabResult result) {
+	public void onIabSetupFinished(final IabResult result) {
 		Ln.d("onIabSetupFinished: %s", result);
-		mIabSupported = result.isSuccess() ? IabStatus.ENABLED : IabStatus.DISABLED;
+
+		if (result == null) {
+			mTracker.sendEvent(ANALYTICS_TAG, "error",
+					"onIabSetupFinished: null result", null);
+			finishWithSorry();
+			return;
+		}
+
+		mIabSupported = result.isSuccess() ? IabStatus.ENABLED
+				: IabStatus.DISABLED;
 		mBus.post(new IabSetupFinishedEvent(mIabSupported));
 
 		if (result.isSuccess()) {
@@ -182,8 +194,22 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		}
 	}
 
+	private void finishWithSorry() {
+		new AlertDialog.Builder(this)
+				.setMessage(
+						"There was an error connecting to the Play Store. I'm really sorry about that. Would you mind trying again?")
+				.setPositiveButton(android.R.string.ok, new OnClickListener() {
+
+					@Override
+					public void onClick(final DialogInterface arg0,
+							final int arg1) {
+						finish();
+					}
+				}).create().show();
+	}
+
 	@Override
-	public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+	public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
 		Ln.d("onQueryInventoryFinished: %s", result);
 
 		if (result.isFailure()) {
@@ -235,7 +261,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		} else {
 			mIabHelper.startSetup(new OnIabSetupFinishedListener() {
 				@Override
-				public void onIabSetupFinished(IabResult result) {
+				public void onIabSetupFinished(final IabResult result) {
 					if (result.isSuccess()) {
 						handleResult.run();
 					} else {
@@ -249,13 +275,13 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Subscribe
-	public void onPurchaseRequested(PurchaseAdfreeRequestEvent event) {
+	public void onPurchaseRequested(final PurchaseAdfreeRequestEvent event) {
 		mIabHelper.launchPurchaseFlow(this, ADFREE_SKU, ADFREE_REQUEST_CODE,
 				this);
 	}
 
 	@Subscribe
-	public void onPurchaseStateChanged(PurchaseStateChangeEvent event) {
+	public void onPurchaseStateChanged(final PurchaseStateChangeEvent event) {
 		Ln.i("Saving purchase state as %s.", event.purchased);
 
 		if (event.purchased == PaymentStatus.BOUGHT) {
@@ -278,9 +304,9 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onIabPurchaseFinished(IabResult result, Purchase info) {
+	public void onIabPurchaseFinished(final IabResult result, final Purchase info) {
 		Ln.d("onIabPurchaseFinished: %s", result);
-		boolean success = result.isSuccess()
+		final boolean success = result.isSuccess()
 				&& info.getSku().equals(ADFREE_SKU);
 
 		mBus.post(new PurchaseAdfreeFinishedEvent(success));
@@ -288,13 +314,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		if (success) {
 			mBus.post(new PurchaseStateChangeEvent(PaymentStatus.BOUGHT));
 		} else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED) {
-			mTracker.sendEvent(ANALYTICS_TAG, "cancel", result.toString(),
-					null);
+			mTracker.sendEvent(ANALYTICS_TAG, "cancel", result.toString(), null);
 		} else {
 			// Make sure we inform Bugsense about this!
 			try {
 				BugSenseHandler.sendException(new IabException(result));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Fire and forget.
 				Ln.w(e);
 			}
@@ -305,7 +330,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public static final class IabSetupFinishedEvent {
 		public final IabStatus enabled;
 
-		public IabSetupFinishedEvent(IabStatus enabled) {
+		public IabSetupFinishedEvent(final IabStatus enabled) {
 			this.enabled = enabled;
 		}
 	}
@@ -313,7 +338,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public static final class PurchaseStateChangeEvent {
 		public final PaymentStatus purchased;
 
-		public PurchaseStateChangeEvent(PaymentStatus purchased) {
+		public PurchaseStateChangeEvent(final PaymentStatus purchased) {
 			super();
 			this.purchased = purchased;
 		}
@@ -325,7 +350,7 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 	public static final class PurchaseAdfreeFinishedEvent {
 		final public boolean success;
 
-		public PurchaseAdfreeFinishedEvent(boolean success) {
+		public PurchaseAdfreeFinishedEvent(final boolean success) {
 			super();
 			this.success = success;
 		}
