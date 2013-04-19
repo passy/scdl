@@ -29,9 +29,9 @@ import com.google.inject.Inject;
 
 /**
  * Broadcast receiver reacting on download finished events.
- * 
+ *
  * @author pascal
- * 
+ *
  */
 public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
@@ -50,9 +50,9 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 	/**
 	 * Simple POJO for passing around download information.
-	 * 
+	 *
 	 * @author pascal
-	 * 
+	 *
 	 */
 	public static class Download {
 		private String mTitle;
@@ -71,7 +71,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		/**
 		 * This is not used right now, but should be to customize the
 		 * notification in case of an error.
-		 * 
+		 *
 		 * @return
 		 */
 		public int getStatus() {
@@ -101,7 +101,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		/**
 		 * Returns the normalized path to the downloaded file, i.e. without
 		 * leading protocol specifier.
-		 * 
+		 *
 		 * @return String
 		 */
 		public String getNormalizedPath() {
@@ -140,26 +140,26 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
-		.setAutoCancel(true)
-		.setContentTitle(
-				context.getString(R.string.notification_download_finished))
+				.setAutoCancel(true)
+				.setContentTitle(
+						context.getString(R.string.notification_download_finished))
 				.setContentText(title)
 				.setTicker(
 						context.getString(
 								R.string.notification_download_finished_ticker,
 								title))
-								.setSmallIcon(android.R.drawable.stat_sys_download_done)
-								.setContentIntent(
-										PendingIntent
-										.getActivity(context, 0, downloadIntent, 0))
-										.getNotification();
+				.setSmallIcon(android.R.drawable.stat_sys_download_done)
+				.setContentIntent(
+						PendingIntent
+								.getActivity(context, 0, downloadIntent, 0))
+				.getNotification();
 
 		mNotificationManager.notify(0, notification);
 	}
 
 	/**
 	 * Create a notification indicating a download error.
-	 * 
+	 *
 	 * @param context
 	 * @param reason
 	 *            The error code provided by {@link DownloadManager}
@@ -174,19 +174,19 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
-		.setAutoCancel(true)
-		.setContentTitle(
-				context.getString(
-						R.string.notification_download_failed, title))
-						.setContentText(errorMessage)
-						.setTicker(
-								context.getString(
-										R.string.notification_download_failed_ticker,
-										title))
-										.setSmallIcon(android.R.drawable.stat_notify_error)
-										.setContentIntent(
-												PendingIntent.getActivity(context, 0,
-														preferencesIntent, 0)).getNotification();
+				.setAutoCancel(true)
+				.setContentTitle(
+						context.getString(
+								R.string.notification_download_failed, title))
+				.setContentText(errorMessage)
+				.setTicker(
+						context.getString(
+								R.string.notification_download_failed_ticker,
+								title))
+				.setSmallIcon(android.R.drawable.stat_notify_error)
+				.setContentIntent(
+						PendingIntent.getActivity(context, 0,
+								preferencesIntent, 0)).getNotification();
 
 		mNotificationManager.notify(0, notification);
 		mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
@@ -317,7 +317,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		/**
 		 * Moves a download to a local location and removes the temporary path
 		 * suffix.
-		 * 
+		 *
 		 * @param download
 		 */
 		protected void moveFileToLocal(final Download download) {
