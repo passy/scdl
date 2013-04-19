@@ -2,6 +2,8 @@ package net.rdrei.android.scdl2.receiver;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.Config;
@@ -52,7 +54,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	 * @author pascal
 	 * 
 	 */
-	private class Download {
+	public static class Download {
 		private String mTitle;
 		private String mPath;
 		private int mStatus;
@@ -92,8 +94,29 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			return mReason;
 		}
 
-		public void setReason(int reason) {
+		public void setReason(final int reason) {
 			mReason = reason;
+		}
+
+		/**
+		 * Returns the normalized path to the downloaded file, i.e. without
+		 * leading protocol specifier.
+		 * 
+		 * @return String
+		 */
+		public String getNormalizedPath() {
+			if (mPath == null) {
+				throw new NullPointerException(
+						"Path wasn't set when requesting normalizedPath.");
+			}
+
+			try {
+				return new File(new URI(mPath)).getAbsolutePath();
+			} catch (final URISyntaxException e) {
+				throw new RuntimeException(
+						"Parsing path URI from DownloadManager failed horribly.",
+						e);
+			}
 		}
 	}
 
@@ -117,19 +140,19 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
-				.setAutoCancel(true)
-				.setContentTitle(
-						context.getString(R.string.notification_download_finished))
+		.setAutoCancel(true)
+		.setContentTitle(
+				context.getString(R.string.notification_download_finished))
 				.setContentText(title)
 				.setTicker(
 						context.getString(
 								R.string.notification_download_finished_ticker,
 								title))
-				.setSmallIcon(android.R.drawable.stat_sys_download_done)
-				.setContentIntent(
-						PendingIntent
-								.getActivity(context, 0, downloadIntent, 0))
-				.getNotification();
+								.setSmallIcon(android.R.drawable.stat_sys_download_done)
+								.setContentIntent(
+										PendingIntent
+										.getActivity(context, 0, downloadIntent, 0))
+										.getNotification();
 
 		mNotificationManager.notify(0, notification);
 	}
@@ -151,19 +174,19 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 		@SuppressWarnings("deprecation")
 		final Notification notification = new Notification.Builder(context)
-				.setAutoCancel(true)
-				.setContentTitle(
-						context.getString(
-								R.string.notification_download_failed, title))
-				.setContentText(errorMessage)
-				.setTicker(
-						context.getString(
-								R.string.notification_download_failed_ticker,
-								title))
-				.setSmallIcon(android.R.drawable.stat_notify_error)
-				.setContentIntent(
-						PendingIntent.getActivity(context, 0,
-								preferencesIntent, 0)).getNotification();
+		.setAutoCancel(true)
+		.setContentTitle(
+				context.getString(
+						R.string.notification_download_failed, title))
+						.setContentText(errorMessage)
+						.setTicker(
+								context.getString(
+										R.string.notification_download_failed_ticker,
+										title))
+										.setSmallIcon(android.R.drawable.stat_notify_error)
+										.setContentIntent(
+												PendingIntent.getActivity(context, 0,
+														preferencesIntent, 0)).getNotification();
 
 		mNotificationManager.notify(0, notification);
 		mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
@@ -280,7 +303,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 			final Intent scanIntent = new Intent(context,
 					MediaScannerService.class);
-			scanIntent.putExtra(MediaScannerService.EXTRA_PATH, t.getPath());
+			scanIntent.putExtra(MediaScannerService.EXTRA_PATH,
+					t.getNormalizedPath());
 			context.startService(scanIntent);
 
 			showSuccessNotification(context, t.getTitle());
@@ -300,6 +324,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			final File path = new File(download.getPath().substring(
 					"file:".length()));
 			final String filename = path.getName();
+			@SuppressWarnings("deprecation")
 			final File newDir = context.getDir(
 					ApplicationPreferences.DEFAULT_STORAGE_DIRECTORY,
 					Context.MODE_WORLD_READABLE);
