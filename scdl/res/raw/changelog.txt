@@ -24,7 +24,7 @@
   <body>
 $ 1.6.4
   % Version 1.6.4
-  _ 2013-xx-xx
+  _ 2013-04-20
   * Preferences now show the full path where downloads are saved.
   * Fixed one potential cause for duplicate files on SD Card. Thanks for the hint, Ugo!
   * Fixed custom directory chooser for phones without SD Card.

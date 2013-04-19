@@ -24,7 +24,7 @@
   <body>
 $ 1.6.4
   % Version 1.6.4
-  _ 2013-xx-xx
+  _ 2013-04-20
   * In den Einstellungen wird jetzt der Download-Pfad angezeigt.
   * Eine mögliche Ursache für doppelte Dateien auf der SD-Card behoben.
   * Bugfix für Verzeichnisauswahl auf Geräten ohne SD-Card.
