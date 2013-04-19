@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class DownloadPreferencesDelegateImpl implements
-		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
+OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
 
 	private static final String DOWNLOAD_DIRECTORY_NAME = "SoundCloud";
 	private static final String ANALYTICS_TAG = "DOWNLOAD_PREFERENCES";
@@ -73,13 +73,13 @@ public class DownloadPreferencesDelegateImpl implements
 				.findPreference(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH);
 		mPathPreference.setOnPreferenceChangeListener(mCustomPathValidator);
 		mPathPreference
-				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference preference) {
-						startDownloadDirectoryChooser();
-						return true;
-					}
-				});
+		.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(final Preference preference) {
+				startDownloadDirectoryChooser();
+				return true;
+			}
+		});
 
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
@@ -107,12 +107,20 @@ public class DownloadPreferencesDelegateImpl implements
 			final SharedPreferences sharedPreferences, final String key) {
 
 		trackChange(sharedPreferences, key);
-		mTypePreference.setSummary(String.format("%s (%s)",
-				mAppPreferences.getStorageTypeDisplay(),
-				mAppPreferences.getStorageDirectory()));
+		updateStorageTypeSummary();
 		mPathPreference.setSummary(mAppPreferences.getCustomPath());
 		mPathPreference
-				.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
+		.setEnabled(mAppPreferences.getStorageType() == StorageType.CUSTOM);
+	}
+
+	private void updateStorageTypeSummary() {
+		if (mAppPreferences.getStorageType() == StorageType.EXTERNAL) {
+			mTypePreference.setSummary(String.format("%s (%s)",
+					mAppPreferences.getStorageTypeDisplay(),
+					mAppPreferences.getStorageDirectory()));
+		} else {
+			mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
+		}
 	}
 
 	/**
@@ -121,7 +129,8 @@ public class DownloadPreferencesDelegateImpl implements
 	 * @param sharedPreferences
 	 * @param key
 	 */
-	private void trackChange(SharedPreferences sharedPreferences, String key) {
+	private void trackChange(final SharedPreferences sharedPreferences,
+			final String key) {
 		String value = null;
 
 		if (key == ApplicationPreferences.KEY_SSL_ENABLED) {
@@ -167,7 +176,7 @@ public class DownloadPreferencesDelegateImpl implements
 				StorageType.EXTERNAL.toString(), StorageType.LOCAL.toString(),
 				StorageType.CUSTOM.toString(), });
 
-		mTypePreference.setSummary(mAppPreferences.getStorageTypeDisplay());
+		updateStorageTypeSummary();
 	}
 
 	private String getExternalLabel() {
@@ -211,7 +220,8 @@ public class DownloadPreferencesDelegateImpl implements
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(final int requestCode, final int resultCode,
+			final Intent data) {
 		Ln.i("onActivityResult: %d, %d, %s", requestCode, resultCode, data);
 		if (requestCode == REQUEST_DOWNLOAD_DIRECTORY_CHOOSER
 				&& resultCode == DirectoryChooserActivity.RESULT_CODE_DIR_SELECTED) {
@@ -225,17 +235,17 @@ public class DownloadPreferencesDelegateImpl implements
 		}
 	}
 
-	private void updateCustomPath(String directory) {
+	private void updateCustomPath(final String directory) {
 		if (mCustomPathValidator.onPreferenceChange(mPathPreference, directory)) {
 			mPathPreference
-					.getEditor()
-					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
-							directory).commit();
+			.getEditor()
+			.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
+					directory).commit();
 		}
 	}
 
 	private static class CustomPathChangeValidator implements
-			Preference.OnPreferenceChangeListener {
+	Preference.OnPreferenceChangeListener {
 
 		@Inject
 		private DownloadPathValidator mValidator;
