@@ -1,2 +1,5 @@
 .project
 .settings/
+*.log
+build-log.xml
+out/

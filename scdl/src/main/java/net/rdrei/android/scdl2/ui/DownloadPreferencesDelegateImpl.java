@@ -1,14 +1,5 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.dirchooser.DirectoryChooserActivity;
-import net.rdrei.android.scdl2.ActivityStarter;
-import net.rdrei.android.scdl2.ApplicationPreferences;
-import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
-import net.rdrei.android.scdl2.DownloadPathValidator;
-import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
-import net.rdrei.android.scdl2.PreferenceManagerWrapper;
-import net.rdrei.android.scdl2.R;
-import roboguice.util.Ln;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -20,10 +11,14 @@ import android.os.StatFs;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import net.rdrei.android.dirchooser.DirectoryChooserActivity;
+import net.rdrei.android.scdl2.*;
+import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
+import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
+import roboguice.util.Ln;
 
 public class DownloadPreferencesDelegateImpl implements
 		OnSharedPreferenceChangeListener, DownloadPreferencesDelegate {
