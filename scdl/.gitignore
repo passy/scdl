@@ -9,3 +9,4 @@ tmp/
 libs/
 ./test/
 local.properties
+.idea/
