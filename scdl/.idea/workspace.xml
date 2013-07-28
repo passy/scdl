@@ -25,10 +25,8 @@
     <list default="true" id="72babdbb-9f64-4e1f-bdf3-df47c697146d" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/libs/android-support-v4.jar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/sample/libs/android-support-v4.jar" afterPath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/sample/libs/android-support-v4.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/project.properties" afterPath="$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/project.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scdl.iml" afterPath="$PROJECT_DIR$/scdl.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -99,10 +97,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SCDLApplication.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SCDLApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/rdrei/android/scdl2/SCDLApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="4" selection-start="657" selection-end="657" vertical-scroll-proportion="0.8189655" vertical-offset="0" max-vertical-offset="615">
+            <state line="17" column="12" selection-start="408" selection-end="408" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="35" selection-start="507" selection-end="507" vertical-scroll-proportion="0.31120333" vertical-offset="0" max-vertical-offset="2085">
               <folding />
             </state>
           </provider>
@@ -139,9 +146,9 @@
         <option value="$PROJECT_DIR$/src/main/java/net/rdrei/android/scdl2/ui/BuyAdFreeActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/rdrei/android/scdl2/ui/DownloadPreferencesDelegateImpl.java" />
         <option value="$PROJECT_DIR$/src/test/java/net/rdrei/android/scdl2/test/BuyAdFreeActivityTest.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/gen/net/rdrei/android/scdl2/R.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/rdrei/android/scdl2/SCDLApplication.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -493,7 +500,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1878" y="89" width="1536" height="926" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -507,12 +514,12 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26075268" sideWeight="0.2866324" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IvyIDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816538" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3268734" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5116279" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3385013" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6709511" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26010782" sideWeight="0.4883721" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26010782" sideWeight="0.6614987" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29586563" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -640,13 +647,6 @@
         <state line="112" column="20" selection-start="4930" selection-end="4930" vertical-scroll-proportion="1.5478723" vertical-offset="21" max-vertical-offset="7785" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="37" selection-start="792" selection-end="792" vertical-scroll-proportion="0.2393617" vertical-offset="135" max-vertical-offset="2085">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/src/com/actionbarsherlock/app/SherlockActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="22" selection-start="883" selection-end="883" vertical-scroll-proportion="0.119521916" vertical-offset="0" max-vertical-offset="3990" />
@@ -670,7 +670,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/rdrei/android/scdl2/SCDLApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="4" selection-start="657" selection-end="657" vertical-scroll-proportion="0.8189655" vertical-offset="0" max-vertical-offset="615">
+        <state line="17" column="12" selection-start="408" selection-end="408" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="35" selection-start="507" selection-end="507" vertical-scroll-proportion="0.31120333" vertical-offset="0" max-vertical-offset="2085">
           <folding />
         </state>
       </provider>
@@ -715,7 +722,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>Android 4.2.2 Platform</last-edited>
+          <last-edited>Android 4.3 Platform</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -727,7 +734,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>scdl</last-edited>
+          <last-edited>viewpager-library</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
