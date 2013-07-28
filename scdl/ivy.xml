@@ -29,9 +29,7 @@
             <artifact name="otto" ext="jar" />
         </dependency>
 
-        <!--
-            <dependency org="com.google.android" name="support-v4" transitive="false" rev="r7" />
-        -->
+        <dependency org="com.android.support" name="support-v4" transitive="false" rev="18.0.0" />
 
         <!-- Test dependencies -->
         <dependency org="junit" name="junit" rev="4.10" conf="test->default"/>

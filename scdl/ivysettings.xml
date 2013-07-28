@@ -7,8 +7,14 @@
             <artifact pattern="${user.home}/.m2/repository/[organization]/[module]/[revision]/[module]-[revision].jar" />
         </filesystem>
 
+        <filesystem name="android" m2compatible="true">
+            <ivy pattern="${sdk.dir}/extras/android/m2repository/[organization]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            <artifact pattern="${sdk.dir}/extras/android/m2repository/[organization]/[module]/[revision]/[artifact]-[revision].[ext]" />
+        </filesystem>
+
         <chain name="chained" returnFirst="true">
             <resolver ref="local" />
+            <resolver ref="android" />
             <resolver ref="maven2" />
         </chain>
     </resolvers>
