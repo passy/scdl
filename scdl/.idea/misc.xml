@@ -4,6 +4,7 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="android" url="file://$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock" />
     <file type="android" url="file://$PROJECT_DIR$/../../Android-DirectoryChooser/library" />
   </component>
   <component name="IvyIDEA.ProjectSettings">
@@ -18,15 +19,17 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/../../Android-DirectoryChooser/library/pom.xml" />
+        <option value="$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/pom.xml" />
         <option value="$PROJECT_DIR$/../../Android-DirectoryChooser/library/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="Android 4.2.2" project-jdk-type="Android SDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="Android 4.2.2 Platform" project-jdk-type="Android SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

@@ -6,6 +6,8 @@
       <directory url="file://$PROJECT_DIR$/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../../Android-DirectoryChooser/library/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../../Android-ViewPagerIndicator/library/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/gen/com/actionbarsherlock/BuildConfig.java" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../../ActionBarSherlock/actionbarsherlock/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
@@ -27,10 +29,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="dirchooser-library" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="library" target="1.7" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="actionbarsherlock" target="1.7" />
+      <module name="dirchooser-library" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
