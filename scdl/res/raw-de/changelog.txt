@@ -22,6 +22,11 @@
     </style>
   </head>
   <body>
+$ 1.7.1
+  % Version 1.7.1
+  _ 2013-08-10
+  * Auffälligere Benachrichtigungen falls kein Download verfügbar ist.
+  * Farbdarstellung korrigiert für Fehlermeldungen auf pre-ICS-Geräten.
 $ 1.7.0
   % Version 1.7
   _ 2013-08-09
@@ -33,20 +38,6 @@ $ 1.6.4
   * In den Einstellungen wird jetzt der Download-Pfad angezeigt.
   * Eine mögliche Ursache für doppelte Dateien auf der SD-Card behoben.
   * Bugfix für Verzeichnisauswahl auf Geräten ohne SD-Card.
-$ 1.6.3
-  % Version 1.6.3
-  _ 2013-03-19
-  * Hotfix
-$ 1.6.2
-  % Version 1.6.2
-  _ 2013-03-18
-  * Fehlerbehebung
-$ 1.6.1
-  % Version 1.6.1
-  _ 2013-02-03
-  * Verbesserungen für Download-Fehler 403
-  * Besseres Fehler-Tracking
-  * Deutsche Übersetzung aktualisiert.
 $ END_OF_CHANGE_LOG
   </body>
 </html>
