@@ -77,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
+                    android:paddingBottom="8dip"
                     android:text="@string/track_error_unavailable"
                     android:textColor="@android:color/holo_orange_light"
                     android:visibility="gone" />

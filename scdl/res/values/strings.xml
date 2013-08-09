@@ -75,4 +75,6 @@
     <string name="pref_custom_folder_location">Custom folder location</string>
     <string name="pref_use_ssl">Use SSL</string>
     <string name="pref_use_ssl_summary">Use encrypted network communication</string>
+    <string name="track_crouton_unavilable_purchase">This track cannot directly be downloaded.</string>
+    <string name="track_crouton_unavilable">This track isn\'t available for download.</string>
 </resources>

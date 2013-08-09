@@ -14,12 +14,16 @@ import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.service.DownloadService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 import net.rdrei.android.scdl2.ui.TrackErrorActivity.ErrorCode;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.ContextScope;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
 import roboguice.util.SafeAsyncTask;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -165,7 +169,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	/**
 	 * Show error activity with the given error code and exit the current
 	 * activity.
-	 * 
+	 *
 	 * @param errorCode
 	 */
 	protected void startErrorActivity(
@@ -234,8 +238,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 			mTrackUnavailableView.setVisibility(View.VISIBLE);
 
 			if (mTrack.isPurchasable()) {
-				mTrackUnavailableView
-						.setText(R.string.track_error_unavailable_purchase);
+				Crouton.showText(this, getString(R.string.track_crouton_unavilable_purchase), Style.INFO);
+				mTrackUnavailableView.setText(R.string.track_error_unavailable_purchase);
+			} else {
+				Crouton.showText(this, getString(R.string.track_crouton_unavilable), Style.ALERT);
 			}
 		}
 	}
