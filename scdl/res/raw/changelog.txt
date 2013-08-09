@@ -22,11 +22,11 @@
     </style>
   </head>
   <body>
-$ 1.7
+$ 1.7.0
   % Version 1.7
   _ 2013-08-09
   * New logo
-  * Upgraded wizard screenshots
+  * Updated wizard screenshots
 $ 1.6.4
   % Version 1.6.4
   _ 2013-04-20

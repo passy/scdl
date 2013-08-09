@@ -22,7 +22,7 @@
     </style>
   </head>
   <body>
-$ 1.7
+$ 1.7.0
   % Version 1.7
   _ 2013-08-09
   * Neues Logo.
