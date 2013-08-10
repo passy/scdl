@@ -1,12 +1,7 @@
 target/
 bin/
 gen/
-.classpath
-.project
-.settings/
-.project
 tmp/
 libs/
 ./test/
 local.properties
-.idea/
