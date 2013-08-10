@@ -1,13 +1,12 @@
 package net.rdrei.android.scdl2;
 
-import roboguice.util.Ln;
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
 
-import com.bugsense.trace.BugSenseHandler;
+import roboguice.util.Ln;
 
 public class SCDLApplication extends Application {
 	@Override
@@ -21,8 +20,6 @@ public class SCDLApplication extends Application {
 			if (Build.VERSION.SDK_INT > 11) {
 				this.enableStrictMode();
 			}
-		} else {
-			BugSenseHandler.initAndStartSession(this, getString(R.string.bugsense_id));
 		}
 	}
 

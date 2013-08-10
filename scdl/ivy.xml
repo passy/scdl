@@ -17,9 +17,6 @@
         <dependency org="com.google.inject.extensions" name="guice-assistedinject" transitive="false" rev="3.0">
             <artifact name="guice-assistedinject" ext="jar" />
         </dependency>
-        <dependency org="com.bugsense" name="bugsense" transitive="false" rev="3.4">
-            <artifact name="bugsense" ext="jar" url="https://s3.amazonaws.com/bugsenseplugins/bugsense3.4.jar" />
-        </dependency>
         <dependency org="com.google.code.gson" name="gson" transitive="false" rev="2.2.4">
             <artifact name="gson" ext="jar" />
         </dependency>
