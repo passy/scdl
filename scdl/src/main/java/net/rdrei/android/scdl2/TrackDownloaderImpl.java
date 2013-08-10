@@ -16,7 +16,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
-import com.bugsense.trace.BugSenseHandler;
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -36,6 +36,9 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 	@Inject
 	private ApplicationPreferences mPreferences;
+
+	@Inject
+	private Tracker mTracker;
 
 	private final Uri mUri;
 	private final TrackEntity mTrack;
@@ -150,8 +153,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 			Ln.i("Track download exception encountered.", e);
 			if (handler == null) {
-				BugSenseHandler.sendExceptionMessage("DOWNLOAD_HANDLER_ERROR",
-						"Download request error without handler.", e);
+				mTracker.sendException("DOWNLOAD_HANDLER_ERROR", e, false);
 				return;
 			}
 
@@ -159,8 +161,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_STORAGE_ERROR);
 			} else {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_ERROR);
-				BugSenseHandler.sendExceptionMessage("DOWNLOAD_REQUEST_ERROR",
-						"Download request error.", e);
+				mTracker.sendException("DOWNLOAD_REQUEST_ERROR", e, false);
 			}
 
 			handler.sendMessage(msg);

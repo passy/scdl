@@ -37,7 +37,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="viewpager-library" />
     <orderEntry type="module" module-name="dirchooser-library" />
-    <orderEntry type="module" module-name="actionbarsherlock" />
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" scope="TEST" name="libs1" level="project" />

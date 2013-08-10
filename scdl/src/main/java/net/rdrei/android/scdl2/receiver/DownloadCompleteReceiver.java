@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.google.inject.Inject;
 
 /**
@@ -36,89 +35,13 @@ import com.google.inject.Inject;
 public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 
 	private static final int HTTP_ERROR_FORBIDDEN = 403;
-
 	private static final String ANALYTICS_TAG = "DOWNLOAD_COMPLETED_RECEIVER";
-
 	@Inject
 	private DownloadManager mDownloadManager;
-
 	@Inject
 	private NotificationManager mNotificationManager;
-
 	@Inject
 	private TrackerProvider mTrackerProvider;
-
-	/**
-	 * Simple POJO for passing around download information.
-	 *
-	 * @author pascal
-	 *
-	 */
-	public static class Download {
-		private String mTitle;
-		private String mPath;
-		private int mStatus;
-		private int mReason;
-
-		public String getTitle() {
-			return mTitle;
-		}
-
-		public void setTitle(final String title) {
-			mTitle = title;
-		}
-
-		/**
-		 * This is not used right now, but should be to customize the
-		 * notification in case of an error.
-		 *
-		 * @return
-		 */
-		public int getStatus() {
-			return mStatus;
-		}
-
-		public void setStatus(final int status) {
-			mStatus = status;
-		}
-
-		public String getPath() {
-			return mPath;
-		}
-
-		public void setPath(final String path) {
-			mPath = path;
-		}
-
-		public int getReason() {
-			return mReason;
-		}
-
-		public void setReason(final int reason) {
-			mReason = reason;
-		}
-
-		/**
-		 * Returns the normalized path to the downloaded file, i.e. without
-		 * leading protocol specifier.
-		 *
-		 * @return String
-		 */
-		public String getNormalizedPath() {
-			if (mPath == null) {
-				throw new NullPointerException(
-						"Path wasn't set when requesting normalizedPath.");
-			}
-
-			try {
-				return new File(new URI(mPath)).getAbsolutePath();
-			} catch (final URISyntaxException e) {
-				throw new RuntimeException(
-						"Parsing path URI from DownloadManager failed horribly.",
-						e);
-			}
-		}
-	}
 
 	@Override
 	public void handleReceive(final Context context, final Intent intent) {
@@ -217,6 +140,78 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 		return context.getString(messageId, reason);
 	}
 
+	/**
+	 * Simple POJO for passing around download information.
+	 *
+	 * @author pascal
+	 *
+	 */
+	public static class Download {
+		private String mTitle;
+		private String mPath;
+		private int mStatus;
+		private int mReason;
+
+		public String getTitle() {
+			return mTitle;
+		}
+
+		public void setTitle(final String title) {
+			mTitle = title;
+		}
+
+		/**
+		 * This is not used right now, but should be to customize the
+		 * notification in case of an error.
+		 *
+		 * @return
+		 */
+		public int getStatus() {
+			return mStatus;
+		}
+
+		public void setStatus(final int status) {
+			mStatus = status;
+		}
+
+		public String getPath() {
+			return mPath;
+		}
+
+		public void setPath(final String path) {
+			mPath = path;
+		}
+
+		public int getReason() {
+			return mReason;
+		}
+
+		public void setReason(final int reason) {
+			mReason = reason;
+		}
+
+		/**
+		 * Returns the normalized path to the downloaded file, i.e. without
+		 * leading protocol specifier.
+		 *
+		 * @return String
+		 */
+		public String getNormalizedPath() {
+			if (mPath == null) {
+				throw new NullPointerException(
+						"Path wasn't set when requesting normalizedPath.");
+			}
+
+			try {
+				return new File(new URI(mPath)).getAbsolutePath();
+			} catch (final URISyntaxException e) {
+				throw new RuntimeException(
+						"Parsing path URI from DownloadManager failed horribly.",
+						e);
+			}
+		}
+	}
+
 	private class ResolveDownloadTask extends RoboAsyncTask<Download> {
 		private final long mDownloadId;
 
@@ -283,9 +278,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			super.onSuccess(t);
 
 			if (t == null) {
-				BugSenseHandler.sendException(new NullPointerException(
-						"Received null-pointer in "
-								+ "DownloadCompleteReceiver.onSuccess()"));
+				mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error", "Received null-pointer in " +
+						"DownloadCompleteReceiver.onSuccess()", null);
 				return;
 			}
 
@@ -336,7 +330,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				IOUtil.copyFile(path, newPath);
 			} catch (final IOException err) {
 				Ln.w(err, "Failed to rename download.");
-				BugSenseHandler.sendException(err);
+				mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
+						"Failed to rename download: " + err.toString(), null);
 				return;
 			}
 

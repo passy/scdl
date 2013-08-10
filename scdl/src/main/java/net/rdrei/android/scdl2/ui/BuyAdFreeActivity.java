@@ -23,7 +23,6 @@ import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
 import com.android.vending.billing.IabResult;
 import com.android.vending.billing.Inventory;
 import com.android.vending.billing.Purchase;
-import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
@@ -267,7 +266,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 					} else {
 						mTracker.sendEvent(ANALYTICS_TAG, "error",
 								result.toString(), null);
-						BugSenseHandler.sendException(new IabException(result));
 					}
 				}
 			});
@@ -316,13 +314,6 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		} else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED) {
 			mTracker.sendEvent(ANALYTICS_TAG, "cancel", result.toString(), null);
 		} else {
-			// Make sure we inform Bugsense about this!
-			try {
-				BugSenseHandler.sendException(new IabException(result));
-			} catch (final Exception e) {
-				// Fire and forget.
-				Ln.w(e);
-			}
 			mTracker.sendEvent(ANALYTICS_TAG, "error", result.toString(), null);
 		}
 	}
