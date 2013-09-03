@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.2
+  % Version 1.7.2
+  _ 2013-09-03
+  * Fix für Verbindungsprobleme mit SoundCloud.
 $ 1.7.1
   % Version 1.7.1
   _ 2013-08-10
