@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.3
+  % Version 1.7.3
+  _ 2013-10-23
+  * Fix for an issue with In-App-Purchases.
 $ 1.7.2
   % Version 1.7.2
   _ 2013-09-03
