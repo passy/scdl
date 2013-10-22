@@ -11,7 +11,6 @@
       <root url="jar://$PROJECT_DIR$/libs/gson-2.2.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/tracking-2.0beta5.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/crouton-1.8.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/roboguice-sherlock-1.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
