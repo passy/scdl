@@ -3,7 +3,10 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$/../../Android-DirectoryChooser" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Android-DirectoryChooser" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../Android-ViewPagerIndicator" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Android-ViewPagerIndicator" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
 </project>

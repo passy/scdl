@@ -2,7 +2,5 @@ target/
 bin/
 gen/
 tmp/
-libs/
-./test/
 local.properties
 .idea/workspace.xml

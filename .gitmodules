@@ -1,0 +1,3 @@
+[submodule "scdl/thirdparty/Android-ViewPagerIndicator"]
+	path = scdl/thirdparty/Android-ViewPagerIndicator
+	url = https://github.com/JakeWharton/Android-ViewPagerIndicator.git
