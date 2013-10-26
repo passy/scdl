@@ -52,7 +52,7 @@ android {
     signingConfigs {
         release {
             storeFile file(System.getenv('ANDROID_KEYSTORE'))
-            storePassword System.console().readLine("\n\$ Enter keystore path: ")
+            storePassword System.console().readLine("\n\$ Enter store password: ")
             keyAlias System.getenv('ANDROID_KEY_ALIAS')
             keyPassword System.console().readLine("\n\$ Enter key password: ")
         }

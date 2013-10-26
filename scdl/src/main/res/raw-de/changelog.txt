@@ -22,6 +22,11 @@
     </style>
   </head>
   <body>
+$ 1.7.4
+  % Version 1.7.4
+  _ 2013-10-26
+  * Verbesserterte Download-Ordner-Auswahl
+  * Fix für Startbutton-Crash auf manchen Geräten
 $ 1.7.3
   % Version 1.7.3
   _ 2013-10-23
