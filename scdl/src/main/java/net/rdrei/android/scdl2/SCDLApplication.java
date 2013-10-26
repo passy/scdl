@@ -14,9 +14,6 @@ public class SCDLApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-        Ln.d("Setting up Crashlytics.");
-        Crashlytics.start(this);
-
 		if (isDebuggable()) {
 			Ln.d("Debug mode enabled.");
 
@@ -24,7 +21,10 @@ public class SCDLApplication extends Application {
 			if (Build.VERSION.SDK_INT > 11) {
 				this.enableStrictMode();
 			}
-		}
+		} else {
+            Ln.d("Setting up Crashlytics.");
+            Crashlytics.start(this);
+        }
 	}
 
 	public boolean isDebuggable() {

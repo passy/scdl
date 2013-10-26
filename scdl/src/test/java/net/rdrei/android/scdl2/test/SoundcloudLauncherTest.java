@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import net.rdrei.android.scdl2.ui.SoundcloudInstallAsker;
 import net.rdrei.android.scdl2.ui.SoundcloudLauncher;
 
 import org.junit.Before;
@@ -37,7 +39,7 @@ public class SoundcloudLauncherTest {
 		when(packageManager.getLaunchIntentForPackage("com.soundcloud.android"))
 				.thenReturn(launchIntent);
 		SoundcloudLauncher launcher = new SoundcloudLauncher(context,
-				packageManager);
+				packageManager, new SoundcloudInstallAsker(context));
 
 		assertThat(launcher.isInstalled(), is(true));
 	}
@@ -52,7 +54,7 @@ public class SoundcloudLauncherTest {
 		when(packageManager.getLaunchIntentForPackage("com.soundcloud.android"))
 				.thenReturn(launchIntent);
 		SoundcloudLauncher launcher = new SoundcloudLauncher(context,
-				packageManager);
+				packageManager, new SoundcloudInstallAsker(context));
 
 		assertThat(launcher.isInstalled(), is(false));
 	}
@@ -66,9 +68,25 @@ public class SoundcloudLauncherTest {
 		when(packageManager.getLaunchIntentForPackage("com.soundcloud.android"))
 				.thenReturn(launchIntent);
 		SoundcloudLauncher launcher = new SoundcloudLauncher(context,
-				packageManager);
+				packageManager, new SoundcloudInstallAsker(context));
 		launcher.launch();
 		
 		verify(context).startActivity(launchIntent);
 	}
+
+    @Test
+    public void testSoundcloudActivityRegression() {
+        final PackageManager packageManager = mock(PackageManager.class);
+        final Context context = mock(Context.class);
+        final Intent launchIntent = new Intent("com.example.doesnotexist");
+        final SoundcloudInstallAsker asker = mock(SoundcloudInstallAsker.class);
+
+        when(packageManager.getLaunchIntentForPackage("com.soundcloud.android"))
+                .thenReturn(launchIntent);
+        when(asker.ask).doNothing();
+        SoundcloudLauncher launcher = new SoundcloudLauncher(context,
+                packageManager);
+
+        assertThat(asker, times(1)).ask();
+    }
 }
