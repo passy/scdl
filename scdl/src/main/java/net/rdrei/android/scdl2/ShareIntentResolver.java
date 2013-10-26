@@ -1,18 +1,19 @@
 package net.rdrei.android.scdl2;
 
-import java.net.HttpURLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import net.rdrei.android.scdl2.api.APIException;
-import net.rdrei.android.scdl2.api.ServiceManager;
-import net.rdrei.android.scdl2.api.entity.ResolveEntity;
-import net.rdrei.android.scdl2.api.service.ResolveService;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
 import com.google.inject.Inject;
+
+import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.ServiceManager;
+import net.rdrei.android.scdl2.api.entity.ResolveEntity;
+import net.rdrei.android.scdl2.api.service.ResolveService;
+
+import java.net.HttpURLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShareIntentResolver {
 
@@ -22,11 +23,13 @@ public class ShareIntentResolver {
 	@Inject
 	private ServiceManager mServiceManager;
 
-	public static final Pattern URL_ID_PATTERN = Pattern
-			.compile("^https?://api.soundcloud.com/tracks/(\\d+)\\.json");
+	public static final Pattern URL_ID_PATTERN = Pattern.compile(
+			"^https?://api.soundcloud.com/tracks/(\\d+)\\.json");
 
-	private static final String[] ALLOWED_HOSTS = { "soundcloud.com", "snd.sc",
-			"m.soundcloud.com" };
+	public static final Pattern URL_PLAYLIST_PATTERN = Pattern.compile(
+			"https?://api.soundcloud.com/playlists/(\\d+)\\.json");
+
+	private static final String[] ALLOWED_HOSTS = {"soundcloud.com", "snd.sc", "m.soundcloud.com"};
 
 	public static class ShareIntentResolverException extends APIException {
 		private static final long serialVersionUID = 1L;
@@ -35,14 +38,12 @@ public class ShareIntentResolver {
 			super(detailMessage, -1);
 		}
 
-		public ShareIntentResolverException(final String detailMessage,
-				final Throwable throwable) {
+		public ShareIntentResolverException(final String detailMessage, final Throwable throwable) {
 			super(detailMessage, throwable, -1);
 		}
 	}
 
-	public static class UnsupportedUrlException extends
-			ShareIntentResolverException {
+	public static class UnsupportedUrlException extends ShareIntentResolverException {
 		public UnsupportedUrlException(final String detailMessage) {
 			super(detailMessage);
 		}
@@ -50,11 +51,9 @@ public class ShareIntentResolver {
 		private static final long serialVersionUID = 1L;
 	}
 
-	public static class TrackNotFoundException extends
-			ShareIntentResolverException {
+	public static class TrackNotFoundException extends ShareIntentResolverException {
 
-		public TrackNotFoundException(final String detailMessage,
-				final Throwable throwable) {
+		public TrackNotFoundException(final String detailMessage, final Throwable throwable) {
 			super(detailMessage, throwable);
 		}
 
@@ -62,12 +61,19 @@ public class ShareIntentResolver {
 
 	}
 
+	public static class UnsupportedPlaylistUrlException extends ShareIntentResolverException {
+
+		public UnsupportedPlaylistUrlException(String detailMessage) {
+			super(detailMessage);
+		}
+	}
+
 	/**
-	 * Resolves the Intent to a canonical URL for the track or raise a
-	 * {@link ShareIntentResolverException}.
-	 * 
+	 * Resolves the Intent to a canonical URL for the track or raise a {@link
+	 * ShareIntentResolverException}.
+	 * <p/>
 	 * <b>This is blocking the current thread!</b>
-	 * 
+	 *
 	 * @return Canonical Track URL
 	 * @throws ShareIntentResolverException
 	 */
@@ -93,38 +99,44 @@ public class ShareIntentResolver {
 				final int code = e.getCode();
 
 				if (code == HttpURLConnection.HTTP_NOT_FOUND) {
-					throw new TrackNotFoundException(String.format(
-							"The given track could not be resolved for URL %s",
-							uri.toString()), e);
+					throw new TrackNotFoundException(
+							String.format("The given track could not be resolved for URL %s",
+									uri.toString()), e);
 				}
 
-				throw new ShareIntentResolverException(String.format(
-						"Could not resolve URL: %s", uri.toString()), e);
+				throw new ShareIntentResolverException(
+						String.format("Could not resolve URL: %s", uri.toString()), e);
 			}
 		}
 
-		throw new UnsupportedUrlException(String.format(
-				"Given URL '%s' is not a valid soundcloud URL.",
-				(uri == null) ? "unknown" : uri.toString()));
+		throw new UnsupportedUrlException(
+				String.format("Given URL '%s' is not a valid soundcloud URL.",
+						(uri == null) ? "unknown" : uri.toString()));
 	}
 
 	/**
 	 * Same as resolve(), but returns the ID only.
-	 * 
-	 * @return ID as a String (even though it's a number, but who knows if that
-	 *         changes)
+	 *
+	 * @return ID as a String (even though it's a number, but who knows if that changes)
 	 * @throws ShareIntentResolverException
 	 */
 	public String resolveId() throws ShareIntentResolverException {
 		final String url = resolve();
-		final Matcher matcher = URL_ID_PATTERN.matcher(url);
+		final Matcher idMatcher = URL_ID_PATTERN.matcher(url);
+		final Matcher playlistMatcher = URL_PLAYLIST_PATTERN.matcher(url);
 
-		if (matcher.find()) {
-			return matcher.group(1);
+		if (playlistMatcher.find()) {
+			// For now, we don't support it.
+			throw new UnsupportedPlaylistUrlException(
+					mActivity.getString(R.string.track_error_unsupported_playlist));
 		}
 
-		throw new ShareIntentResolverException(String.format(
-				"Could not parse ID from URL '%s'.", url));
+		if (idMatcher.find()) {
+			return idMatcher.group(1);
+		}
+
+		throw new ShareIntentResolverException(
+				String.format("Could not parse ID from URL '%s'.", url));
 	}
 
 	protected boolean isValidUri(final Uri uri) {

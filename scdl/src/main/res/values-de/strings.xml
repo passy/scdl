@@ -76,4 +76,5 @@
     <string name="pref_use_ssl_summary">Verwende verschlüsselte Netzwerkkommunikation</string>
     <string name="track_crouton_unavilable_purchase">Dieser Track kann nicht direkt heruntergeladen werden.</string>
     <string name="track_crouton_unavilable">Dieser Titel ist nicht zum Download verfügbar.</string>
+    <string name="track_error_unsupported_playlist">Sorry, but downloading playlists isn\'t supported yet.</string>
 </resources>

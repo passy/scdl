@@ -44,7 +44,9 @@ public class ShareIntentResolverTest {
 			public ResolveEntity resolve(String string) throws APIException {
 				ResolveEntity entity = new ResolveEntity();
 				entity.setStatus("302 - Found");
-				if (string.startsWith("https://")) {
+				if (string.contains("/sets/")) {
+					entity.setLocation("https://api.soundcloud.com/playlists/13028824.json?client_id=429caab2811564cb27f52a7a4964269b");
+				} else if (string.startsWith("https://")) {
 					entity.setLocation("https://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
 				} else {
 					entity.setLocation("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b");
@@ -76,8 +78,7 @@ public class ShareIntentResolverTest {
 				.getInstance(ShareIntentResolver.class);
 
 		final String result = resolver.resolve();
-		assertThat(
-				result,
+		assertThat(result,
 				equalTo("http://api.soundcloud.com/tracks/44276907.json?client_id=429caab2811564cb27f52a7a4964269b"));
 	}
 
@@ -85,8 +86,7 @@ public class ShareIntentResolverTest {
 	public void testShouldAcceptDataUri() throws ShareIntentResolverException {
 
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
-		intent.setData(Uri
-				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
+		intent.setData(Uri.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
 		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
@@ -151,5 +151,15 @@ public class ShareIntentResolverTest {
 				.getInstance(ShareIntentResolver.class);
 
 		resolver.resolve();
+	}
+
+	@Test(expected = ShareIntentResolver.UnsupportedPlaylistUrlException.class)
+	public void testFailWithPlaylistUrl() throws ShareIntentResolverException {
+		ShadowIntent intent = Robolectric.shadowOf(mIntent);
+		intent.setData(Uri.parse("https://soundcloud.com/revealed-recordings/sets/3lau-paris-simo-feat-bright"));
+		final ShareIntentResolver resolver = TestHelper.getInjector()
+				.getInstance(ShareIntentResolver.class);
+
+		resolver.resolveId();
 	}
 }
