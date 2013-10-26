@@ -48,6 +48,22 @@ android {
         minSdkVersion 14
         targetSdkVersion 18
     }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('ANDROID_KEYSTORE'))
+            storePassword System.console().readLine("\n\$ Enter keystore path: ")
+            keyAlias System.getenv('ANDROID_KEY_ALIAS')
+            keyPassword System.console().readLine("\n\$ Enter key password: ")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 dependencies {
