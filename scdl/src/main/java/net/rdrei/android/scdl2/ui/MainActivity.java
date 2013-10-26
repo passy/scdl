@@ -78,7 +78,8 @@ public class MainActivity extends RoboFragmentActivity implements
 	@Override
 	public void onStartSoundcloud() {
 		Ln.d("SoundCloud launch requested.");
-		mSoundcloudLauncher.launch();
+		//mSoundcloudLauncher.launch();
+        throw new RuntimeException("Crashlytics, are you there?");
 	}
 
 	/**

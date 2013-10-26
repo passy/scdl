@@ -3,13 +3,16 @@ version "2.0"
 buildscript {
     repositories {
         mavenCentral()
+        maven { url 'http://download.crashlytics.com/maven' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
     }
 }
 
 apply plugin: 'android'
+apply plugin: 'crashlytics'
 
 repositories {
     mavenCentral()
@@ -26,6 +29,10 @@ repositories {
     maven {
         url 'https://oss.sonatype.org/content/groups/staging/'
     }
+
+    maven {
+        url 'http://download.crashlytics.com/maven'
+    }
 }
 
 android {
@@ -33,8 +40,8 @@ android {
     buildToolsVersion "18.1.1"
 
     defaultConfig {
-        versionCode 50
-        versionName "2.0"
+        versionCode 1049
+        versionName "1.7.4"
         minSdkVersion 14
         targetSdkVersion 18
     }
@@ -50,6 +57,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'net.rdrei.android.dirchooser:library:1.1-SNAPSHOT@aar'
     compile 'javax.inject:javax.inject:1'
+    compile 'com.crashlytics.android:crashlytics:1.+'
 
     compile files('libs/guice-3.0-no_aop.jar')
     compile('org.roboguice:roboguice:2.0') {

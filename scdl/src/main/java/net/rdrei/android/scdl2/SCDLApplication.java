@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
+import com.crashlytics.android.Crashlytics;
 
 import roboguice.util.Ln;
 
@@ -12,6 +13,9 @@ public class SCDLApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+        Ln.d("Setting up Crashlytics.");
+        Crashlytics.start(this);
 
 		if (isDebuggable()) {
 			Ln.d("Debug mode enabled.");

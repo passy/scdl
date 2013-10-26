@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.rdrei.android.scdl2"
-    android:installLocation="auto"
-    android:versionCode="1048"
-    android:versionName="1.7.3" >
+    android:installLocation="auto" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -129,6 +127,10 @@
             android:name=".ui.BuyAdFreeActivity"
             android:label="@string/remove_ads" />
         <activity android:name="net.rdrei.android.dirchooser.DirectoryChooserActivity" />
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="42446155f2e89a20e92b7053916b90dd9faccbc4"/>
     </application>
 
 </manifest>
