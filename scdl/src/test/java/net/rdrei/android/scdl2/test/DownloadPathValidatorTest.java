@@ -10,10 +10,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import com.google.inject.Inject;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class DownloadPathValidatorTest {
 	@Inject
 	private DownloadPathValidator mValidator;
@@ -23,7 +24,7 @@ public class DownloadPathValidatorTest {
 
 	@Before
 	public void inject() {
-		TestRunner.getInjector().injectMembers(this);
+		TestHelper.getInjector().injectMembers(this);
 	}
 
 	@Test

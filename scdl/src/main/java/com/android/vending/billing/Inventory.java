@@ -31,6 +31,11 @@ public class Inventory {
     Inventory() {
     }
 
+    public Inventory(Map<String, SkuDetails> skuMap, Map<String, Purchase> purchaseMap) {
+        mSkuMap = skuMap;
+        mPurchaseMap = purchaseMap;
+    }
+
     /** Returns the listing details for an in-app product. */
     public SkuDetails getSkuDetails(String sku) {
         return mSkuMap.get(sku);

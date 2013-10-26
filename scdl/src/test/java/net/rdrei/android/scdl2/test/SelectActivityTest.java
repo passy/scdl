@@ -5,8 +5,9 @@ import net.rdrei.android.scdl2.ui.SelectTrackActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class SelectActivityTest {
 
 	@Test

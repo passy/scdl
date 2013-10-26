@@ -7,11 +7,12 @@ import net.rdrei.android.scdl2.ApplicationPreferences;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ApplicationPreferenceTest {
 	
 	@Inject
@@ -19,7 +20,7 @@ public class ApplicationPreferenceTest {
 	
 	@Before
 	public void inject() {
-		final Injector injector = TestRunner.getInjector();
+		final Injector injector = TestHelper.getInjector();
 		injector.injectMembers(this);
 	}
 	

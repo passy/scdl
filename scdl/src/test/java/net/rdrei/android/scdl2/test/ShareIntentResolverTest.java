@@ -17,10 +17,11 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.google.inject.AbstractModule;
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowIntent;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowIntent;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ShareIntentResolverTest {
 
 	private Activity mActivity;
@@ -60,7 +61,7 @@ public class ShareIntentResolverTest {
 			}
 		};
 
-		TestRunner.overridenInjector(this, module);
+		TestHelper.overridenInjector(this, module);
 	}
 
 	@Test
@@ -71,7 +72,7 @@ public class ShareIntentResolverTest {
 		intent.putExtra(Intent.EXTRA_TEXT,
 				"http://soundcloud.com/dj-newklear/newklear-contaminated-2");
 
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		final String result = resolver.resolve();
@@ -87,7 +88,7 @@ public class ShareIntentResolverTest {
 		intent.setData(Uri
 				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		final String result = resolver.resolve();
@@ -103,7 +104,7 @@ public class ShareIntentResolverTest {
 		intent.setData(Uri
 				.parse("https://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		final String result = resolver.resolveId();
@@ -117,7 +118,7 @@ public class ShareIntentResolverTest {
 		intent.setData(Uri
 				.parse("http://soundcloud.com/dj-newklear/newklear-contaminated-2"));
 
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		final String result = resolver.resolveId();
@@ -126,7 +127,7 @@ public class ShareIntentResolverTest {
 
 	@Test(expected = ShareIntentResolverException.class)
 	public void testFailWithNullValue() throws ShareIntentResolverException {
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		resolver.resolve();
@@ -136,7 +137,7 @@ public class ShareIntentResolverTest {
 	public void testFailWithInvalidUrl() throws ShareIntentResolverException {
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
 		intent.setData(Uri.parse("https://yoosello.de/"));
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		resolver.resolve();
@@ -146,7 +147,7 @@ public class ShareIntentResolverTest {
 	public void testFailWithSuperInvalidUrl() throws ShareIntentResolverException {
 		ShadowIntent intent = Robolectric.shadowOf(mIntent);
 		intent.setData(Uri.parse("//nope"));
-		final ShareIntentResolver resolver = TestRunner.getInjector()
+		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
 		resolver.resolve();

@@ -15,20 +15,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowActivity;
-import com.xtremelabs.robolectric.shadows.ShadowFragment;
-import com.xtremelabs.robolectric.shadows.ShadowIntent;
-import com.xtremelabs.robolectric.tester.android.view.TestMenuItem;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowIntent;
+import org.robolectric.tester.android.view.TestMenuItem;
+import org.robolectric.util.ActivityController;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class PreferencesMenuTest {
 
 	private void shouldStartPreferencesInActivity(Fragment fragment) {
-		final FragmentActivity activity = new FragmentActivity();
-		final ShadowFragment shadowFragment = Robolectric.shadowOf(fragment);
-		shadowFragment.setActivity(activity);
-		
+        final ActivityController<FragmentActivity> controller = Robolectric.buildActivity(FragmentActivity.class);
+        controller.create().start().resume();
+        final FragmentActivity activity = controller.get();
+        activity.getSupportFragmentManager().beginTransaction()
+            .add(fragment, null)
+            .commit();
+
 		final MenuItem item = new TestMenuItem(R.id.preferences);
 		fragment.onOptionsItemSelected(item);
 		

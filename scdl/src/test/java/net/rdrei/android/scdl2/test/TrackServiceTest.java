@@ -12,12 +12,13 @@ import net.rdrei.android.scdl2.api.service.TrackService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class TrackServiceTest {
 
 	@Inject
@@ -42,7 +43,7 @@ public class TrackServiceTest {
 			}
 		};
 
-		TestRunner.overridenInjector(this, module);
+		TestHelper.overridenInjector(this, module);
 	}
 
 	@Test

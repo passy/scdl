@@ -6,15 +6,21 @@ import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.entity.UserEntity;
 import android.os.Parcel;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
+@RunWith(RobolectricTestRunner.class)
 public class TrackEntityParcelTest {
 
+	@Test
 	public void testNestedTrackMarshallUnmarshall() {
 		final UserEntity user = new UserEntity();
-		user.setId(23);
+		user.setId(23l);
 		user.setUsername("passy");
 
 		final TrackEntity entity = new TrackEntity();
-		entity.setId(200);
+		entity.setId(200l);
 		entity.setTitle("Hello, World.");
 		entity.setUser(user);
 
@@ -32,15 +38,15 @@ public class TrackEntityParcelTest {
 		try {
 			parcel2.unmarshall(bytes, 0, bytes.length);
 			parcel2.setDataPosition(0);
-			newEntity = (TrackEntity) parcel2.readValue(TrackEntity.class
-					.getClassLoader());
+			newEntity = (TrackEntity) parcel2.readValue(TrackEntity.class.getClassLoader());
 		} finally {
 			parcel2.recycle();
 		}
 		
-		assertThat(newEntity.getId(), equalTo(23l));
+		assertThat(newEntity.getId(), equalTo(200l));
 		assertThat(newEntity.getTitle(), equalTo("Hello, World."));
 		assertThat(newEntity.getUser().getUsername(), equalTo("passy"));
+		assertThat(newEntity.getUser().getId(), equalTo(23l));
 	}
 
 }

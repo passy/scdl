@@ -48,7 +48,7 @@ public class UserEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	private UserEntity(final Parcel in) {
-		id = in.readInt();
+		id = in.readLong();
 		username = in.readString();
 		uri = in.readString();
 	}

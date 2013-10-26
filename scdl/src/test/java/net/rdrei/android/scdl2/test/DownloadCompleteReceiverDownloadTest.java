@@ -8,7 +8,6 @@ import net.rdrei.android.scdl2.receiver.DownloadCompleteReceiver.Download;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(TestRunner.class)
 public class DownloadCompleteReceiverDownloadTest {
 
 	@Test

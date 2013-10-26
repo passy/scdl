@@ -1,22 +1,5 @@
 package net.rdrei.android.scdl2.test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import net.rdrei.android.scdl2.ui.BuyAdFreeActivity;
-import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PaymentStatus;
-import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
-
-import org.json.JSONException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import android.app.ActionBar;
 
 import com.android.vending.billing.IabHelper;
@@ -29,7 +12,27 @@ import com.google.inject.AbstractModule;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-@RunWith(TestRunner.class)
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PaymentStatus;
+import net.rdrei.android.scdl2.ui.BuyAdFreeActivity.PurchaseStateChangeEvent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@RunWith(RobolectricTestRunner.class)
 public class BuyAdFreeActivityTest {
 	@Mock
 	Tracker mTracker;
@@ -39,7 +42,7 @@ public class BuyAdFreeActivityTest {
 		MockitoAnnotations.initMocks(this);
 		final ActionBar actionbarStub = new ActionBarStub();
 
-		TestRunner.overridenInjector(this, new AbstractModule() {
+		TestHelper.overridenInjector(this, new AbstractModule() {
 
 			@Override
 			protected void configure() {
@@ -52,15 +55,13 @@ public class BuyAdFreeActivityTest {
 
 	@Test
 	public void testSmokeOnCreate() {
-		final BuyAdFreeActivity activity = new BuyAdFreeActivity();
 		// Don't blow up.
-		activity.onCreate(null);
+		Robolectric.buildActivity(BuyAdFreeActivity.class).create();
 	}
 
 	@Test
 	public void shouldPropagateInventoryQuery() throws JSONException {
-		final BuyAdFreeActivity activity = new BuyAdFreeActivity();
-		activity.onCreate(null);
+		final BuyAdFreeActivity activity = Robolectric.buildActivity(BuyAdFreeActivity.class).create().get();
 
 		final IabResult result = new IabResult(
 				IabHelper.BILLING_RESPONSE_RESULT_OK, "");
@@ -71,7 +72,7 @@ public class BuyAdFreeActivityTest {
 				purchases);
 
 		PurchaseChangeSubscriber subscriber = new PurchaseChangeSubscriber();
-		Bus bus = TestRunner.getInjector().getInstance(Bus.class);
+		Bus bus = TestHelper.getInjector().getInstance(Bus.class);
 		bus.register(subscriber);
 
 		activity.onQueryInventoryFinished(result, inv);
@@ -81,7 +82,7 @@ public class BuyAdFreeActivityTest {
 
 	public class MyInventory extends Inventory {
 		public MyInventory(Map<String, SkuDetails> details,
-				Map<String, Purchase> purchases) {
+		                   Map<String, Purchase> purchases) {
 			super(details, purchases);
 		}
 	}
@@ -90,7 +91,8 @@ public class BuyAdFreeActivityTest {
 
 		public AdfreePurchase(String jsonPurchaseInfo, String signature)
 				throws JSONException {
-			super(jsonPurchaseInfo, signature);
+
+			super("ITEM_TYPE_INAPP", jsonPurchaseInfo, signature);
 		}
 
 		public AdfreePurchase() throws JSONException {
@@ -98,13 +100,13 @@ public class BuyAdFreeActivityTest {
 		}
 
 		@Override
-		protected void unmarshallJSON() {
-			// NO-Op
+		public String getSku() {
+			return BuyAdFreeActivity.ADFREE_SKU;
 		}
 
 		@Override
-		public String getSku() {
-			return BuyAdFreeActivity.ADFREE_SKU;
+		protected JSONObject unmarshallJSON() throws JSONException {
+			return new JSONObject();
 		}
 	}
 

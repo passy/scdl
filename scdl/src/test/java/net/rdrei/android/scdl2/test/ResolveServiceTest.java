@@ -12,12 +12,13 @@ import net.rdrei.android.scdl2.api.service.ResolveService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.thoughtcrime.ssl.pinning.PinningTrustManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ResolveServiceTest {
 
 	@Inject
@@ -41,7 +42,7 @@ public class ResolveServiceTest {
 			}
 		};
 
-		TestRunner.overridenInjector(this, module);
+		TestHelper.overridenInjector(this, module);
 	}
 
 	@Test

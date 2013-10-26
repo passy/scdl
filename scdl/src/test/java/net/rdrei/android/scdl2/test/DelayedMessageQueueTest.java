@@ -8,12 +8,13 @@ import net.rdrei.android.mediator.DelayedMessageQueue.Handler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import android.os.Message;
 
 import com.google.inject.Inject;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class DelayedMessageQueueTest {
 	
 	@Inject
@@ -24,7 +25,7 @@ public class DelayedMessageQueueTest {
 	
 	@Before
 	public void inject() {
-		TestRunner.getInjector().injectMembers(this);
+		TestHelper.getInjector().injectMembers(this);
 	}
 	
 	@Test

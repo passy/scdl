@@ -1,17 +1,5 @@
 package net.rdrei.android.scdl2.test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import net.rdrei.android.scdl2.ApplicationPreferences;
-import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
-import net.rdrei.android.scdl2.ui.AdViewManager;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import roboguice.activity.RoboActivity;
-import roboguice.inject.ContextScope;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +7,23 @@ import android.widget.LinearLayout;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.xtremelabs.robolectric.Robolectric;
 
-@RunWith(TestRunner.class)
+import net.rdrei.android.scdl2.ApplicationPreferences;
+import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
+import net.rdrei.android.scdl2.ui.AdViewManager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+
+import roboguice.inject.ContextScope;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@RunWith(RobolectricTestRunner.class)
 public class AdViewManagerTest {
 
 	private boolean mAdFree = false;
@@ -33,7 +35,7 @@ public class AdViewManagerTest {
 
 	@Before
 	public void setUp() {
-		mActivity = new RoboActivity();
+		mActivity = Robolectric.buildActivity(Activity.class).create().get();
 
 		final ApplicationPreferences preferences = new ApplicationPreferences() {
 			@Override
@@ -55,7 +57,7 @@ public class AdViewManagerTest {
 
 		contextScope.enter(mActivity);
 		try {
-			TestRunner.overridenInjector(this, module);
+			TestHelper.overridenInjector(this, module);
 		} finally {
 			contextScope.exit(mActivity);
 		}

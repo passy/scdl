@@ -7,10 +7,11 @@ import net.rdrei.android.scdl2.ui.ApplicationPreferencesActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowPreferenceActivity;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowPreferenceActivity;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ApplicationPreferencesActivityTest {
 
 	@Test

@@ -7,12 +7,13 @@ import net.rdrei.android.mediator.MessageMediator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import android.os.Message;
 
 import com.google.inject.Inject;
 
-@RunWith(TestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class MessageMediatorTest {
 	
 	@Inject
@@ -29,7 +30,7 @@ public class MessageMediatorTest {
 	
 	@Before
 	public void inject() {
-		TestRunner.getInjector().injectMembers(this);
+		TestHelper.getInjector().injectMembers(this);
 	}
 	
 	@Test

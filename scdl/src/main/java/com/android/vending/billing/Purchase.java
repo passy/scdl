@@ -36,7 +36,7 @@ public class Purchase {
     public Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
         mItemType = itemType;
         mOriginalJson = jsonPurchaseInfo;
-        JSONObject o = new JSONObject(mOriginalJson);
+        JSONObject o = unmarshallJSON();
         mOrderId = o.optString("orderId");
         mPackageName = o.optString("packageName");
         mSku = o.optString("productId");
@@ -47,7 +47,11 @@ public class Purchase {
         mSignature = signature;
     }
 
-    public String getItemType() {
+	protected JSONObject unmarshallJSON() throws JSONException {
+		return new JSONObject(mOriginalJson);
+	}
+
+	public String getItemType() {
         return mItemType;
     }
 
