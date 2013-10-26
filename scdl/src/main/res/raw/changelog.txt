@@ -25,8 +25,9 @@
 $ 1.7.4
   % Version 1.7.4
   _ 2013-10-26
-  * Improved downloader directory chooser
-  * Fix for "Start" button crash
+  * Improved downloader directory chooser.
+  * Fix for "Start" button crash.
+  * Show a warning for playlists.
 $ 1.7.3
   % Version 1.7.3
   _ 2013-10-23
