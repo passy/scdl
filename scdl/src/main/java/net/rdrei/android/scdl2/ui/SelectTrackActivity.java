@@ -315,6 +315,8 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 				startErrorActivity(ErrorCode.UNSUPPORTED_URL);
 			} else if (e instanceof TrackNotFoundException) {
 				startErrorActivity(ErrorCode.NOT_FOUND);
+			} else if (e instanceof ShareIntentResolver.UnsupportedPlaylistUrlException) {
+				startErrorActivity(ErrorCode.PLAYLIST);
 			} else {
 				startErrorActivity(ErrorCode.NETWORK_ERROR);
 			}
