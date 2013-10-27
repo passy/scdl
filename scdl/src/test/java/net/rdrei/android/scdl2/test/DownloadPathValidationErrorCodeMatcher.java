@@ -4,10 +4,9 @@ import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationExcep
 import net.rdrei.android.scdl2.DownloadPathValidator.ErrorCode;
 
 import org.hamcrest.Description;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
-public class DownloadPathValidationErrorCodeMatcher extends
-		TypeSafeMatcher<DownloadPathValidationException> {
+public class DownloadPathValidationErrorCodeMatcher extends TypeSafeMatcher<DownloadPathValidationException> {
 
 	private final ErrorCode mErrorCode;
 
@@ -25,8 +24,7 @@ public class DownloadPathValidationErrorCodeMatcher extends
 		return exception.getErrorCode() == mErrorCode;
 	}
 
-	public static DownloadPathValidationErrorCodeMatcher hasErrorCode(
-			ErrorCode errorCode) {
+	public static DownloadPathValidationErrorCodeMatcher hasErrorCode(ErrorCode errorCode) {
 		return new DownloadPathValidationErrorCodeMatcher(errorCode);
 	}
 }
