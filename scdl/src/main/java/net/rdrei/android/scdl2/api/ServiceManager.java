@@ -1,22 +1,23 @@
 package net.rdrei.android.scdl2.api;
 
-import net.rdrei.android.scdl2.ApplicationPreferences;
-import net.rdrei.android.scdl2.api.service.DownloadService;
-import net.rdrei.android.scdl2.api.service.ResolveService;
-import net.rdrei.android.scdl2.api.service.TrackService;
-import roboguice.RoboGuice;
-import roboguice.inject.ContextSingleton;
 import android.app.Application;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import net.rdrei.android.scdl2.ApplicationPreferences;
+import net.rdrei.android.scdl2.api.service.DownloadService;
+import net.rdrei.android.scdl2.api.service.ResolveService;
+import net.rdrei.android.scdl2.api.service.TrackService;
+
+import roboguice.RoboGuice;
+import roboguice.inject.ContextSingleton;
+
 /**
- * Singleton managing creation of API services and setting them up with default
- * parameters, in case need to access APIs with authentication requirements.
- * 
+ * Singleton managing creation of API services and setting them up with default parameters, in case
+ * need to access APIs with authentication requirements.
+ *
  * @author pascal
- * 
  */
 @ContextSingleton
 public class ServiceManager {
@@ -41,15 +42,13 @@ public class ServiceManager {
 	}
 
 	public ResolveService resolveService() {
-		final ResolveService service = mInjector
-				.getInstance(ResolveService.class);
+		final ResolveService service = mInjector.getInstance(ResolveService.class);
 		setupService(service);
 		return service;
 	}
 
 	public DownloadService downloadService() {
-		final DownloadService service = mInjector
-				.getInstance(DownloadService.class);
+		final DownloadService service = mInjector.getInstance(DownloadService.class);
 		setupService(service);
 		return service;
 	}

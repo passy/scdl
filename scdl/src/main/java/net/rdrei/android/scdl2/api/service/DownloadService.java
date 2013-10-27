@@ -15,9 +15,9 @@ public class DownloadService extends SoundcloudApiService {
 	private static final String RESOURCE_URL = "/tracks/%s/download";
 
 	/**
-	 * Resolve
+	 * Resolve a an id to a download API.
 	 * 
-	 * @param source
+	 * @param id
 	 * @return
 	 * @throws APIException
 	 */
