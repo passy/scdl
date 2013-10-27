@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         versionCode 1050
-        versionName "1.7.5-rc.1"
+        versionName "1.7.5"
         minSdkVersion 14
         targetSdkVersion 18
     }

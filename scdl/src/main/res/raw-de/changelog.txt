@@ -24,7 +24,7 @@
   <body>
 $ 1.7.5
   % Version 1.7.5
-  _ 2013-10-xx
+  _ 2013-10-27
   * Anzeige des freien Speichers verbessert.
 $ 1.7.4
   % Version 1.7.4
