@@ -75,7 +75,7 @@ android {
         amazon {
             buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;", \
                 "public static final boolean PAID_BUILD = true;"
-            versionName defaultConfig.getVersionName() + "-amazon"
+            versionName defaultConfig.getVersionName()
         }
     }
 }
