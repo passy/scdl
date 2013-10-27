@@ -18,6 +18,10 @@ import net.rdrei.android.dirchooser.DirectoryChooserActivity;
 import net.rdrei.android.scdl2.*;
 import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
 import net.rdrei.android.scdl2.DownloadPathValidator.DownloadPathValidationException;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import roboguice.util.Ln;
 
 public class DownloadPreferencesDelegateImpl implements
@@ -177,6 +181,7 @@ public class DownloadPreferencesDelegateImpl implements
 	private String getExternalLabel() {
 		final double free = getFreeExternalStorage() / Math.pow(1024, 3);
 
+		// This can be -1 or some other weird value on some Samsung crap devices.
 		if (free >= 0) {
 			return String.format(mContext.getString(R.string.storage_sd_label),
 					free);
@@ -202,16 +207,35 @@ public class DownloadPreferencesDelegateImpl implements
 	public static long getFreeExternalStorage() {
 		final StatFs statFs = new StatFs(Environment
 				.getExternalStorageDirectory().getPath());
-		return statFs.getAvailableBlocks() * statFs.getBlockSize();
+		return getFreeBytesFroMStatFs(statFs);
 	}
 
 	/**
 	 * Returns the free bytes on internal storage.
 	 */
 	public static long getFreeInternalStorage() {
-		final String path = Environment.getDataDirectory().getPath();
-		final StatFs statFs = new StatFs(path);
-		return statFs.getAvailableBlocks() * statFs.getBlockSize();
+		final StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
+		return getFreeBytesFroMStatFs(statFs);
+	}
+
+	@SuppressWarnings("deprecation")
+	private static long getFreeBytesFroMStatFs(final StatFs statFs) {
+		Method getAvailableBytes = null;
+		try {
+			getAvailableBytes = statFs.getClass().getMethod("getAvailableBytes");
+		} catch (NoSuchMethodException e) {}
+
+		if (getAvailableBytes != null) {
+			try {
+				return (Long) getAvailableBytes.invoke(statFs);
+			} catch (IllegalAccessException e) {
+				return 0l;
+			} catch (InvocationTargetException e) {
+				return 0l;
+			}
+		} else {
+			return statFs.getAvailableBlocks() * statFs.getBlockSize();
+		}
 	}
 
 	@Override
