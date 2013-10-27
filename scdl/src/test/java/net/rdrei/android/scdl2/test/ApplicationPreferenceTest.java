@@ -23,12 +23,7 @@ public class ApplicationPreferenceTest {
 		final Injector injector = TestHelper.getInjector();
 		injector.injectMembers(this);
 	}
-	
-	@Test
-	public void testAdFreeDefaultsToFalse() {
-		assertThat(mPreferences.isAdFree(), is(false));
-	}
-	
+
 	@Test
 	public void testAdFreeSetTrue() {
 		mPreferences.setAdFree(true);

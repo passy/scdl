@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 @Config(shadows = {DownloadPreferencesDelegateTest.ShadowEnvironment2.class,
@@ -70,7 +71,7 @@ public class DownloadPreferencesDelegateTest {
 	@Test
 	public void testSmokeFreeExternalStorage() {
 		long storage = DownloadPreferencesDelegateImpl.getFreeExternalStorage();
-		assertThat(storage, equalTo(0l));
+		assertThat(storage, greaterThan(0l));
 	}
 
 	@Test
