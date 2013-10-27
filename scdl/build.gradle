@@ -66,6 +66,18 @@ android {
         }
     }
 
+    productFlavors {
+        play {
+            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.GOOGLE_PLAY;", \
+                "public static final boolean PAID_BUILD = false;"
+        }
+
+        amazon {
+            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;", \
+                "public static final boolean PAID_BUILD = true;"
+            versionName defaultConfig.getVersionName() + "-amazon"
+        }
+    }
 }
 
 dependencies {
