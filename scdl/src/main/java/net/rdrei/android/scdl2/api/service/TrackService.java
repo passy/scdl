@@ -25,8 +25,8 @@ public class TrackService extends SoundcloudApiService {
 
 	/**
 	 * Resolves a track based on its unique soundcloud ID.
-	 * 
-	 * @param id
+	 *
+	 * @param id Numeric ID of the song.
 	 * @return
 	 * @throws APIException
 	 */
