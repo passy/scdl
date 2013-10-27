@@ -205,37 +205,14 @@ public class DownloadPreferencesDelegateImpl implements
 	 * Returns the free bytes on external storage.
 	 */
 	public static long getFreeExternalStorage() {
-		final StatFs statFs = new StatFs(Environment
-				.getExternalStorageDirectory().getPath());
-		return getFreeBytesFroMStatFs(statFs);
+		return Environment.getExternalStorageDirectory().getUsableSpace();
 	}
 
 	/**
 	 * Returns the free bytes on internal storage.
 	 */
 	public static long getFreeInternalStorage() {
-		final StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
-		return getFreeBytesFroMStatFs(statFs);
-	}
-
-	@SuppressWarnings("deprecation")
-	private static long getFreeBytesFroMStatFs(final StatFs statFs) {
-		Method getAvailableBytes = null;
-		try {
-			getAvailableBytes = statFs.getClass().getMethod("getAvailableBytes");
-		} catch (NoSuchMethodException e) {}
-
-		if (getAvailableBytes != null) {
-			try {
-				return (Long) getAvailableBytes.invoke(statFs);
-			} catch (IllegalAccessException e) {
-				return 0l;
-			} catch (InvocationTargetException e) {
-				return 0l;
-			}
-		} else {
-			return statFs.getAvailableBlocks() * statFs.getBlockSize();
-		}
+		return Environment.getDataDirectory().getUsableSpace();
 	}
 
 	@Override
