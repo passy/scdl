@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.api.service.DownloadService;
+import net.rdrei.android.scdl2.api.service.PlaylistService;
 import net.rdrei.android.scdl2.api.service.ResolveService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 
@@ -49,6 +50,12 @@ public class ServiceManager {
 
 	public DownloadService downloadService() {
 		final DownloadService service = mInjector.getInstance(DownloadService.class);
+		setupService(service);
+		return service;
+	}
+
+	public PlaylistService playlistService() {
+		final PlaylistService service = mInjector.getInstance(PlaylistService.class);
 		setupService(service);
 		return service;
 	}
