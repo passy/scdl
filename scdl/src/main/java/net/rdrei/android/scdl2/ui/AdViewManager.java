@@ -15,14 +15,14 @@ import com.google.inject.Provider;
  * @author pascal
  */
 public class AdViewManager {
-	@Inject
 	private Provider<ApplicationPreferences> mPreferencesProvider;
-
-	@Inject
 	private ActivityLayoutInflater mInflater;
 
-	public AdViewManager() {
-		// Injectable
+	@Inject
+	public AdViewManager(Provider<ApplicationPreferences> preferencesProvider,
+			ActivityLayoutInflater inflater) {
+		this.mPreferencesProvider = preferencesProvider;
+		this.mInflater = inflater;
 	}
 
 	private View getAdView() {

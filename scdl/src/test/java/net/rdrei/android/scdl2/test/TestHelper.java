@@ -32,7 +32,6 @@ public class TestHelper  {
 	}
 
 	public static Injector getInjector() {
-        System.out.println("APP" + Robolectric.application);
 		return RoboGuice.getInjector(Robolectric.application);
 	}
 }
