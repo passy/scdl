@@ -3,9 +3,12 @@ package net.rdrei.android.scdl2.ui;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
+
+import android.view.InflateException;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -26,7 +29,13 @@ public class AdViewManager {
 	}
 
 	private View getAdView() {
-		return mInflater.inflate(R.layout.adview, null, false);
+		try {
+			return mInflater.inflate(R.layout.adview, null, false);
+		} catch (InflateException exc) {
+			Crashlytics.logException(exc);
+		}
+
+		return null;
 	}
 
 	/**
@@ -37,7 +46,10 @@ public class AdViewManager {
 	 */
 	public void addToView(final ViewGroup baseView) {
 		final View adView = getAdView();
-		baseView.addView(adView);
+
+		if (adView != null) {
+			baseView.addView(adView);
+		}
 	}
 
 	/**
