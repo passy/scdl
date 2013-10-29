@@ -256,7 +256,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		private void startPurchase() {
-			Uri uri = Uri.parse(mTrack.getPurchaseUrl().toLowerCase());
+			Uri uri = Uri.parse(mTrack.getPurchaseUrl());
 
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);

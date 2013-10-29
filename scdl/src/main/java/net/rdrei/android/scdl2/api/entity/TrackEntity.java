@@ -235,11 +235,15 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	public boolean isPurchasable() {
-		return purchaseUrl != null;
+		if (purchaseUrl != null) {
+			final String lowerUrl = purchaseUrl.toLowerCase();
+			return lowerUrl.startsWith("http://") || lowerUrl.startsWith("https://");
+		}
+		return false;
 	}
 
 	public String getPurchaseUrl() {
-		return purchaseUrl;
+		return purchaseUrl.toLowerCase();
 	}
 
 	public String getPurchaseTitle() {
