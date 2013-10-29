@@ -29,6 +29,8 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -812,6 +814,11 @@ public class IabHelper {
 
 
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
+        if (mContext == null) {
+            Crashlytics.log("Avoiding crash due to missing context during queryPurchases.");
+            return IABHELPER_UNKNOWN_ERROR;
+        }
+
         // Query purchases
         logDebug("Querying owned items, item type: " + itemType);
         logDebug("Package name: " + mContext.getPackageName());
