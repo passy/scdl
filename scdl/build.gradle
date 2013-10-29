@@ -43,8 +43,8 @@ android {
     buildToolsVersion "18.1.1"
 
     defaultConfig {
-        versionCode 1050
-        versionName "1.7.5"
+        versionCode 1051
+        versionName "1.7.6"
         minSdkVersion 14
         targetSdkVersion 18
     }
@@ -75,7 +75,6 @@ android {
         amazon {
             buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;", \
                 "public static final boolean PAID_BUILD = true;"
-            versionName defaultConfig.getVersionName()
         }
     }
 }
