@@ -46,7 +46,7 @@ import com.google.inject.Provider;
 
 public class SelectTrackActivity extends RoboFragmentActivity {
 
-	private static final String STATE_TRACK = "scdl:TRACK";
+	public static final String STATE_TRACK = "scdl:TRACK";
 	private static final String ANALYTICS_TAG = "SELECT_TRACK";
 
 	@InjectView(R.id.track_title)
@@ -256,7 +256,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		private void startPurchase() {
-			Uri uri = Uri.parse(mTrack.getPurchaseUrl());
+			Uri uri = Uri.parse(mTrack.getPurchaseUrl().toLowerCase());
 
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);

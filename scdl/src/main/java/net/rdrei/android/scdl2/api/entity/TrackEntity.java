@@ -1,25 +1,26 @@
 package net.rdrei.android.scdl2.api.entity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import net.rdrei.android.scdl2.Config;
-import net.rdrei.android.scdl2.api.SoundcloudEntity;
-import roboguice.util.Ln;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.rdrei.android.scdl2.Config;
+import net.rdrei.android.scdl2.api.SoundcloudEntity;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import roboguice.util.Ln;
+
 /**
  * Entity tracking some of the Track information.
- * 
+ * <p/>
  * TODO: Add and display user information.
- * 
+ *
  * @author pascal
- * 
  */
 public class TrackEntity implements SoundcloudEntity, Parcelable {
 	private static final long serialVersionUID = 3L;
@@ -141,7 +142,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 
 	/**
 	 * Get the download URL as string, including client id parameter.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDownloadUrl() {
@@ -188,8 +189,7 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	/**
-	 * @param originalFormat
-	 *            the originalFormat to set
+	 * @param originalFormat the originalFormat to set
 	 */
 	public void setOriginalFormat(final String originalFormat) {
 		this.originalFormat = originalFormat;
@@ -208,16 +208,14 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 	}
 
 	public String getFormattedDuration() {
-		final SimpleDateFormat formatter = new SimpleDateFormat("m:ss",
-				Locale.US);
+		final SimpleDateFormat formatter = new SimpleDateFormat("m:ss", Locale.US);
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(getDuration());
 		return formatter.format(calendar.getTime());
 	}
 
 	public String getFormattedSize() {
-		return String.format(Locale.US, "%.1fMB", this.getOriginalContentSize()
-				/ (1024f * 1024f));
+		return String.format(Locale.US, "%.1fMB", this.getOriginalContentSize() / (1024f * 1024f));
 	}
 
 	public long getOriginalContentSize() {
@@ -246,5 +244,9 @@ public class TrackEntity implements SoundcloudEntity, Parcelable {
 
 	public String getPurchaseTitle() {
 		return purchaseTitle;
+	}
+
+	public void setPurchaseUrl(String purchaseUrl) {
+		this.purchaseUrl = purchaseUrl;
 	}
 }
