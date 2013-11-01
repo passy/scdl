@@ -39,14 +39,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "18.1.1"
+    compileSdkVersion 19
+    buildToolsVersion "19.0.0"
 
     defaultConfig {
         versionCode 1052
         versionName "1.7.7"
         minSdkVersion 14
-        targetSdkVersion 18
+        targetSdkVersion 19
     }
 
     signingConfigs {
