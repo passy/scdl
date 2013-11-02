@@ -4,6 +4,7 @@ package net.rdrei.android.scdl2.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -30,7 +31,9 @@ import roboguice.inject.ContextSingleton;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class SelectTrackActivityTest {
@@ -62,14 +65,15 @@ public class SelectTrackActivityTest {
 	}
 
 	@Test
-	public void invalidPurchaseUrlRegression() {
+	public void purchaseFlow() {
 		final TrackEntity track = new TrackEntity();
 		final UserEntity user = new UserEntity();
+		final String downloadUrl = "http://3lau.to/downloadstuff";
 		user.setUsername("awesomesauce");
 
 		track.setDownloadable(false);
 		track.setUser(user);
-		track.setPurchaseUrl("Http://invalidstart.lol");
+		track.setPurchaseUrl(downloadUrl);
 
 		final Bundle bundle = new Bundle();
 		bundle.putParcelable(SelectTrackActivity.STATE_TRACK, track);
@@ -81,11 +85,38 @@ public class SelectTrackActivityTest {
 				.resume()
 				.get();
 
-		// TODO: Fire off button click for download/purchase thing.
-		activity.findViewById(R.id.btn_download).performClick();
+		final View button = activity.findViewById(R.id.btn_download);
+		assertTrue(button.isEnabled());
+		button.performClick();
 		final ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
 		final Intent nextIntent = shadowActivity.getNextStartedActivity();
 		assertThat(nextIntent.getAction(), equalTo("android.intent.action.VIEW"));
-		assertThat(nextIntent.toUri(0), startsWith("http://"));
+		assertThat(nextIntent.toUri(0), startsWith(downloadUrl));
+	}
+
+	@Test
+	public void invalidPurchaseRegression() {
+		final TrackEntity track = new TrackEntity();
+		final UserEntity user = new UserEntity();
+		// Notice capital H here.
+		final String downloadUrl = "Http://not-a-link";
+		user.setUsername("awesomesauce");
+
+		track.setDownloadable(false);
+		track.setUser(user);
+		track.setPurchaseUrl(downloadUrl);
+
+		final Bundle bundle = new Bundle();
+		bundle.putParcelable(SelectTrackActivity.STATE_TRACK, track);
+
+		final SelectTrackActivity activity = Robolectric.buildActivity(SelectTrackActivity.class)
+				.attach()
+				.create(bundle)
+				.start()
+				.resume()
+				.get();
+
+		final View button = activity.findViewById(R.id.btn_download);
+		assertFalse(button.isEnabled());
 	}
 }
