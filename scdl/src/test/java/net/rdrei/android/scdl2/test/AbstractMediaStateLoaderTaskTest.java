@@ -59,7 +59,18 @@ public class AbstractMediaStateLoaderTaskTest {
 		task.call();
 
 		verify(mTrackService).getTrack("1234");
-		verifyNoMoreInteractions(mTrackService);
 		verifyZeroInteractions(mPlaylistService);
+	}
+
+	@Test
+	public void testCallForPlayList() throws Exception {
+		final PendingDownload pendingDownload = new PendingDownload("1234",
+				MediaDownloadType.PLAYLIST);
+		final AbstractMediaStateLoaderTask task = new AbstractMediaStateLoaderTask(
+				mContext, pendingDownload);
+		task.call();
+
+		verify(mPlaylistService).getPlaylist("1234");
+		verifyZeroInteractions(mTrackService);
 	}
 }
