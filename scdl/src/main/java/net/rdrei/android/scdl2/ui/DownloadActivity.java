@@ -3,6 +3,8 @@ package net.rdrei.android.scdl2.ui;
 import android.content.Intent;
 import android.os.Bundle;
 
+import net.rdrei.android.scdl2.R;
+
 import roboguice.activity.RoboActivity;
 import roboguice.activity.RoboFragmentActivity;
 
@@ -16,5 +18,14 @@ public class DownloadActivity extends RoboFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.download);
+
+		if (savedInstanceState != null) {
+			// TODO: Load MediaState
+		} else {
+			CommonMenuFragment.injectMenu(this);
+			// TODO: Resolve MediaState
+		}
 	}
 }
