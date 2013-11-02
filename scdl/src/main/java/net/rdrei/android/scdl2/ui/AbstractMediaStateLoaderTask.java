@@ -11,16 +11,17 @@ import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.service.PlaylistService;
 import net.rdrei.android.scdl2.api.service.TrackService;
 
+import roboguice.inject.ContextScope;
 import roboguice.util.RoboAsyncTask;
 
-public abstract class AbstractMediaStateLoaderTask extends RoboAsyncTask<MediaState> {
+public class AbstractMediaStateLoaderTask extends RoboAsyncTask<MediaState> {
 	protected final PendingDownload mPendingDownload;
 
 	@Inject
 	private ServiceManager mServiceManager;
 
 	@Inject
-	private roboguice.inject.ContextScope mContextScope;
+	private ContextScope mContextScope;
 
 	public AbstractMediaStateLoaderTask(Context context, final PendingDownload download) {
 		super(context);
