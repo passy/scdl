@@ -1,12 +1,10 @@
 package net.rdrei.android.scdl2.api;
 
 public class PendingDownload {
-	public enum PendingDownloadType { PLAYLIST, TRACK };
-
 	private String mId;
-	private PendingDownloadType mType;
+	private MediaDownloadType mType;
 
-	public PendingDownload(String mId, PendingDownloadType mType) {
+	public PendingDownload(String mId, MediaDownloadType mType) {
 		this.mId = mId;
 		this.mType = mType;
 	}
@@ -19,11 +17,11 @@ public class PendingDownload {
 		mId = id;
 	}
 
-	public PendingDownloadType getType() {
+	public MediaDownloadType getType() {
 		return mType;
 	}
 
-	public void setType(PendingDownloadType type) {
+	public void setType(MediaDownloadType type) {
 		mType = type;
 	}
 

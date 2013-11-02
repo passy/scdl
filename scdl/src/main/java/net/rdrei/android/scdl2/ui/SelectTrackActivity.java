@@ -9,6 +9,7 @@ import net.rdrei.android.scdl2.ShareIntentResolver.TrackNotFoundException;
 import net.rdrei.android.scdl2.ShareIntentResolver.UnsupportedUrlException;
 import net.rdrei.android.scdl2.TrackDownloader;
 import net.rdrei.android.scdl2.TrackDownloaderFactory;
+import net.rdrei.android.scdl2.api.MediaDownloadType;
 import net.rdrei.android.scdl2.api.PendingDownload;
 import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
@@ -344,7 +345,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 		protected TrackLoaderTask(final Context context, final PendingDownload download) {
 			super(context);
-			assert download.getType() == PendingDownload.PendingDownloadType.TRACK;
+			assert download.getType() == MediaDownloadType.TRACK;
 			mId = download.getId();
 		}
 

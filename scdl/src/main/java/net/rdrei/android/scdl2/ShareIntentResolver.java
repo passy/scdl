@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.MediaDownloadType;
 import net.rdrei.android.scdl2.api.PendingDownload;
 import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.ResolveEntity;
@@ -139,7 +140,7 @@ public class ShareIntentResolver {
 					String.format("Could not parse ID from URL '%s'.", url));
 		}
 
-			return new PendingDownload(id, PendingDownload.PendingDownloadType.TRACK);
+			return new PendingDownload(id, MediaDownloadType.TRACK);
 	}
 
 	protected boolean isValidUri(final Uri uri) {
