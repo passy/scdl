@@ -21,17 +21,17 @@ public abstract class AbstractPendingDownloadResolver extends RoboAsyncTask<Pend
 	@Inject
 	private ContextScope mContextScope;
 
-	public AbstractPendingDownloadResolver(Context context, Handler handler) {
-		super(context, handler);
+	public AbstractPendingDownloadResolver(final Context context) {
+		super(context);
 	}
 
 	@Override
 	public PendingDownload call() throws Exception {
-		mContextScope.enter(context);
+		mContextScope.enter(getContext());
 		try {
 			return mShareIntentResolver.resolvePendingDownload();
 		} finally {
-			mContextScope.exit(context);
+			mContextScope.exit(getContext());
 		}
 	}
 
