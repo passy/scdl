@@ -1,5 +1,6 @@
 package net.rdrei.android.scdl2.ui;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,8 +45,20 @@ public class DownloadActivity extends RoboFragmentActivity {
 	}
 
 	protected void loadMediaFragments() {
-		Ln.w("loadMediaFragments: Not implemented.");
 		Ln.i("But we got a state now: %s", mMediaState);
+
+		final Fragment newFragment;
+
+		if (mMediaState.getType() == MediaDownloadType.TRACK) {
+			newFragment = DownloadTrackFragment.newInstance(mMediaState);
+		} else {
+			newFragment = SimpleLoadingFragment.newInstance();
+		}
+
+		getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.main_layout, newFragment)
+				.commit();
 	}
 
 	/**

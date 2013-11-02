@@ -3,14 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
+              android:id="@+id/main_layout"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <fragment
-        class="net.rdrei.android.scdl2.ui.SimpleLoadingFragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/host_fragment"
-        tools:layout="@layout/loading_fragment"/>
 
 </LinearLayout>

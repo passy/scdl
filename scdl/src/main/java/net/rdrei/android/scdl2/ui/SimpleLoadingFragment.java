@@ -14,4 +14,8 @@ public class SimpleLoadingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.loading_fragment, container, false);
 	}
+
+	public static SimpleLoadingFragment newInstance() {
+		return new SimpleLoadingFragment();
+	}
 }
