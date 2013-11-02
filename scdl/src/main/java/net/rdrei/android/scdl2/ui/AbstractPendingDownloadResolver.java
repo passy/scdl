@@ -53,8 +53,5 @@ public abstract class AbstractPendingDownloadResolver extends RoboAsyncTask<Pend
 		onErrorCode(errorCode);
 	}
 
-	protected abstract void onErrorCode(final TrackErrorActivity.ErrorCode errorCode);
-
-	@Override
-	protected abstract void onSuccess(final PendingDownload download) throws Exception;
+	protected abstract void onErrorCode(TrackErrorActivity.ErrorCode errorCode);
 }

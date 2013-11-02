@@ -97,4 +97,13 @@ public class MediaState implements Parcelable, Serializable {
 			return new MediaState[size];
 		}
 	};
+
+	@Override
+	public String toString() {
+		return "MediaState{" +
+				"mType=" + mType +
+				", mTrackOption=" + mTrackOption +
+				", mPlaylistOption=" + mPlaylistOption +
+				'}';
+	}
 }
