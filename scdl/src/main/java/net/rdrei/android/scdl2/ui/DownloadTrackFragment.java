@@ -1,6 +1,5 @@
 package net.rdrei.android.scdl2.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +17,13 @@ import net.rdrei.android.scdl2.api.entity.TrackEntity;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 /**
  * Fragment for downloading a single track, used by DownloadActivity.
  */
-public class DownloadTrackFragment extends Fragment {
+public class DownloadTrackFragment extends RoboFragment {
 
 	@InjectView(R.id.track_title)
 	private TextView mTitleView;

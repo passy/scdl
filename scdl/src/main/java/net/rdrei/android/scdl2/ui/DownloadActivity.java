@@ -1,9 +1,9 @@
 package net.rdrei.android.scdl2.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -85,7 +85,7 @@ public class DownloadActivity extends RoboFragmentActivity {
 			newFragment = SimpleLoadingFragment.newInstance();
 		}
 
-		getFragmentManager()
+		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.main_layout, newFragment, MAIN_LAYOUT_FRAGMENT)
 				.disallowAddToBackStack()
