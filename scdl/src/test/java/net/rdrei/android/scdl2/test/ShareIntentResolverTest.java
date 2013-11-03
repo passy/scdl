@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 import net.rdrei.android.scdl2.ShareIntentResolver;
 import net.rdrei.android.scdl2.ShareIntentResolver.ShareIntentResolverException;
 import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.MediaDownloadType;
+import net.rdrei.android.scdl2.api.PendingDownload;
 import net.rdrei.android.scdl2.api.entity.ResolveEntity;
 import net.rdrei.android.scdl2.api.service.ResolveService;
 
@@ -107,8 +109,9 @@ public class ShareIntentResolverTest {
 		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
-		final String result = resolver.resolveId();
-		assertThat(result, equalTo("44276907"));
+		final PendingDownload result = resolver.resolvePendingDownload();
+		assertThat(result.getId(), equalTo("44276907"));
+		assertThat(result.getType(), equalTo(MediaDownloadType.TRACK));
 	}
 
 	@Test
@@ -121,8 +124,9 @@ public class ShareIntentResolverTest {
 		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
-		final String result = resolver.resolveId();
-		assertThat(result, equalTo("44276907"));
+		final PendingDownload result = resolver.resolvePendingDownload();
+		assertThat(result.getId(), equalTo("44276907"));
+		assertThat(result.getType(), equalTo(MediaDownloadType.TRACK));
 	}
 
 	@Test(expected = ShareIntentResolverException.class)
@@ -160,6 +164,6 @@ public class ShareIntentResolverTest {
 		final ShareIntentResolver resolver = TestHelper.getInjector()
 				.getInstance(ShareIntentResolver.class);
 
-		resolver.resolveId();
+		resolver.resolvePendingDownload();
 	}
 }

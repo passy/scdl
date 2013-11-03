@@ -9,6 +9,8 @@ import net.rdrei.android.scdl2.ShareIntentResolver.TrackNotFoundException;
 import net.rdrei.android.scdl2.ShareIntentResolver.UnsupportedUrlException;
 import net.rdrei.android.scdl2.TrackDownloader;
 import net.rdrei.android.scdl2.TrackDownloaderFactory;
+import net.rdrei.android.scdl2.api.MediaDownloadType;
+import net.rdrei.android.scdl2.api.PendingDownload;
 import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.service.DownloadService;
@@ -285,7 +287,7 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 	 * @author pascal
 	 * 
 	 */
-	public class TrackResolverTask extends RoboAsyncTask<String> {
+	public class TrackResolverTask extends RoboAsyncTask<PendingDownload> {
 
 		protected TrackResolverTask(final Context context) {
 			super(context);
@@ -298,10 +300,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		private ContextScope mContextScope;
 
 		@Override
-		public String call() throws Exception {
+		public PendingDownload call() throws Exception {
 			mContextScope.enter(context);
 			try {
-				return mShareIntentResolver.resolveId();
+				return mShareIntentResolver.resolvePendingDownload();
 			} finally {
 				mContextScope.exit(context);
 			}
@@ -323,12 +325,11 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 		}
 
 		@Override
-		protected void onSuccess(final String id) throws Exception {
-			super.onSuccess(id);
+		protected void onSuccess(final PendingDownload download) throws Exception {
+			super.onSuccess(download);
 
-			Ln.d("Resolved track to id %s. Starting further API calls.", id);
-			final TrackLoaderTask trackLoaderTask = new TrackLoaderTask(
-					context, id);
+			Ln.d("Resolved track to id %s. Starting further API calls.", download);
+			final TrackLoaderTask trackLoaderTask = new TrackLoaderTask(context, download);
 			trackLoaderTask.execute();
 		}
 	}
@@ -342,9 +343,10 @@ public class SelectTrackActivity extends RoboFragmentActivity {
 
 		private final String mId;
 
-		protected TrackLoaderTask(final Context context, final String id) {
+		protected TrackLoaderTask(final Context context, final PendingDownload download) {
 			super(context);
-			mId = id;
+			assert download.getType() == MediaDownloadType.TRACK;
+			mId = download.getId();
 		}
 
 		@Override
