@@ -4,7 +4,11 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.Tracker;
+import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.api.MediaDownloadType;
@@ -12,6 +16,7 @@ import net.rdrei.android.scdl2.api.MediaState;
 import net.rdrei.android.scdl2.api.PendingDownload;
 
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 
 /**
@@ -20,8 +25,21 @@ import roboguice.util.Ln;
 public class DownloadActivity extends RoboFragmentActivity {
 	public static final String ANALYTICS_TAGS = "DOWNLOAD_ACTIVITY";
 	public static final String MEDIA_STATE_TAG = "scdl:MEDIA_STATE_TAG";
+	public static final String MAIN_LAYOUT_FRAGMENT = "MAIN_LAYOUT_FRAGMENT";
 
 	private MediaState mMediaState = MediaState.UNKNOWN;
+
+	@InjectView(R.id.main_layout)
+	private ViewGroup mMainLayout;
+
+	@InjectView(R.id.outer_layout)
+	private ViewGroup mOuterLayout;
+
+	@Inject
+	private AdViewManager mAdViewManager;
+
+	@Inject
+	private Tracker mTracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +48,7 @@ public class DownloadActivity extends RoboFragmentActivity {
 		setContentView(R.layout.download);
 
 		if (savedInstanceState != null) {
-			Ln.d("Loading previous media state.");
-			// TODO: Load previous media state. :)
+			mMediaState = savedInstanceState.getParcelable(MEDIA_STATE_TAG);
 		} else {
 			CommonMenuFragment.injectMenu(this);
 		}
@@ -42,21 +59,37 @@ public class DownloadActivity extends RoboFragmentActivity {
 			task.execute();
 		}
 
+		Ln.w("Loading fragments initially");
 		loadMediaFragments();
+		Ln.w("loading ad stuff");
+		mAdViewManager.addToViewIfRequired(mOuterLayout);
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putParcelable(MEDIA_STATE_TAG, mMediaState);
+	}
+
+	/**
+	 * Load the correct fragment based on what MediaState we currently have.
+	 */
 	protected void loadMediaFragments() {
 		final Fragment newFragment;
 
 		if (mMediaState.getType() == MediaDownloadType.TRACK) {
 			newFragment = DownloadTrackFragment.newInstance(mMediaState);
+			mTracker.sendEvent(ANALYTICS_TAGS, "loaded", "TRACK", 1l);
 		} else {
 			newFragment = SimpleLoadingFragment.newInstance();
 		}
 
+		final Fragment fragmentByTag = getFragmentManager().findFragmentByTag(
+				getString(R.string.main_fragment));
 		getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.main_layout, newFragment)
+				.replace(R.id.main_layout, newFragment, MAIN_LAYOUT_FRAGMENT)
 				.disallowAddToBackStack()
 				.commit();
 	}
@@ -72,6 +105,8 @@ public class DownloadActivity extends RoboFragmentActivity {
 		final Intent intent = new Intent(this, TrackErrorActivity.class);
 		intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
 		startActivity(intent);
+
+		mTracker.sendEvent(ANALYTICS_TAGS, "error", errorCode.toString(), 1l);
 		finish();
 	}
 
@@ -114,6 +149,7 @@ public class DownloadActivity extends RoboFragmentActivity {
 		protected void onSuccess(final MediaState state) throws Exception {
 			super.onSuccess(state);
 
+			Ln.w("onSuccess, reloading fragments.");
 			mMediaState = state;
 			loadMediaFragments();
 		}
