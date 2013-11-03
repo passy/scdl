@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.8
+  % Version 1.7.8
+  _ 2013-11-03
+  * Bessere Performance auf älteren Geräten.
 $ 1.7.6
   % Version 1.7.6
   _ 2013-10-30

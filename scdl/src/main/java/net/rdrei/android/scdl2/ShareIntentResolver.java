@@ -7,6 +7,8 @@ import android.net.Uri;
 import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.api.APIException;
+import net.rdrei.android.scdl2.api.MediaDownloadType;
+import net.rdrei.android.scdl2.api.PendingDownload;
 import net.rdrei.android.scdl2.api.ServiceManager;
 import net.rdrei.android.scdl2.api.entity.ResolveEntity;
 import net.rdrei.android.scdl2.api.service.ResolveService;
@@ -115,28 +117,30 @@ public class ShareIntentResolver {
 	}
 
 	/**
-	 * Same as resolve(), but returns the ID only.
+	 * Resolves the intent to a PendingDownload describing the ID and type of the download.
 	 *
-	 * @return ID as a String (even though it's a number, but who knows if that changes)
+	 * @return PendingDownload containing the resolved track or playlist ID together with its type.
 	 * @throws ShareIntentResolverException
 	 */
-	public String resolveId() throws ShareIntentResolverException {
+	public PendingDownload resolvePendingDownload() throws ShareIntentResolverException {
+		final String id;
 		final String url = resolve();
 		final Matcher idMatcher = URL_ID_PATTERN.matcher(url);
 		final Matcher playlistMatcher = URL_PLAYLIST_PATTERN.matcher(url);
 
-		if (playlistMatcher.find()) {
-			// For now, we don't support it.
+		if (!Config.Features.PLAYLIST_DOWNLOADS && playlistMatcher.find()) {
 			throw new UnsupportedPlaylistUrlException(
 					mActivity.getString(R.string.track_error_unsupported_playlist));
 		}
 
 		if (idMatcher.find()) {
-			return idMatcher.group(1);
+			id = idMatcher.group(1);
+		} else {
+			throw new ShareIntentResolverException(
+					String.format("Could not parse ID from URL '%s'.", url));
 		}
 
-		throw new ShareIntentResolverException(
-				String.format("Could not parse ID from URL '%s'.", url));
+			return new PendingDownload(id, MediaDownloadType.TRACK);
 	}
 
 	protected boolean isValidUri(final Uri uri) {
