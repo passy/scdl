@@ -15,6 +15,8 @@ public class MediaState implements Parcelable, Serializable {
 	private Option<TrackEntity> mTrackOption = Option.none();
 	private Option<PlaylistEntity> mPlaylistOption = Option.none();
 
+	public static MediaState UNKNOWN = unknown();
+
 	public MediaState() {
 	}
 
@@ -105,5 +107,12 @@ public class MediaState implements Parcelable, Serializable {
 				", mTrackOption=" + mTrackOption +
 				", mPlaylistOption=" + mPlaylistOption +
 				'}';
+	}
+
+	private static MediaState unknown() {
+		final MediaState state = new MediaState();
+		state.mType = MediaDownloadType.UNKNOWN;
+
+		return state;
 	}
 }

@@ -21,7 +21,7 @@ public class DownloadActivity extends RoboFragmentActivity {
 	public static final String ANALYTICS_TAGS = "DOWNLOAD_ACTIVITY";
 	public static final String MEDIA_STATE_TAG = "scdl:MEDIA_STATE_TAG";
 
-	private MediaState mMediaState;
+	private MediaState mMediaState = MediaState.UNKNOWN;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +31,21 @@ public class DownloadActivity extends RoboFragmentActivity {
 
 		if (savedInstanceState != null) {
 			Ln.d("Loading previous media state.");
+			// TODO: Load previous media state. :)
 		} else {
 			CommonMenuFragment.injectMenu(this);
 		}
 
-		if (mMediaState == null) {
+		if (mMediaState == MediaState.UNKNOWN) {
 			Ln.d("No previous state. Starting media resolver.");
 			final AbstractPendingDownloadResolver task = new PendingDownloadResolver(this);
 			task.execute();
-		} else {
-			loadMediaFragments();
 		}
+
+		loadMediaFragments();
 	}
 
 	protected void loadMediaFragments() {
-		Ln.i("But we got a state now: %s", mMediaState);
-
 		final Fragment newFragment;
 
 		if (mMediaState.getType() == MediaDownloadType.TRACK) {
@@ -58,6 +57,7 @@ public class DownloadActivity extends RoboFragmentActivity {
 		getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.main_layout, newFragment)
+				.disallowAddToBackStack()
 				.commit();
 	}
 
