@@ -85,8 +85,6 @@ public class DownloadActivity extends RoboFragmentActivity {
 			newFragment = SimpleLoadingFragment.newInstance();
 		}
 
-		final Fragment fragmentByTag = getFragmentManager().findFragmentByTag(
-				getString(R.string.main_fragment));
 		getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.main_layout, newFragment, MAIN_LAYOUT_FRAGMENT)
