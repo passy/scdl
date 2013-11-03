@@ -43,10 +43,10 @@ android {
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        versionCode 1052
-        versionName "1.7.7"
+        versionCode 1053
+        versionName "1.7.8"
         minSdkVersion 14
-        targetSdkVersion 18
+        targetSdkVersion 19
     }
 
     signingConfigs {
@@ -91,6 +91,7 @@ dependencies {
     compile 'net.rdrei.android.dirchooser:library:1.1-SNAPSHOT@aar'
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'com.squareup.picasso:picasso:2.1.+'
 
     compile files('libs/guice-3.0-no_aop.jar')
     compile('org.roboguice:roboguice:2.0') {
