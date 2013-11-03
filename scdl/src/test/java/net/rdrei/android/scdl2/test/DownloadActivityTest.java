@@ -8,16 +8,15 @@ import android.view.View;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.Provides;
 
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
+import net.rdrei.android.scdl2.api.MediaState;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 import net.rdrei.android.scdl2.api.entity.UserEntity;
 import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
 import net.rdrei.android.scdl2.ui.AdViewManager;
-import net.rdrei.android.scdl2.ui.SelectTrackActivity;
+import net.rdrei.android.scdl2.ui.DownloadActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +24,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
-
-import roboguice.inject.ContextSingleton;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -36,7 +33,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class SelectTrackActivityTest {
+public class DownloadActivityTest {
 	@Before
 	public void setUp() {
 		final AbstractModule module = new AbstractModule() {
@@ -46,7 +43,8 @@ public class SelectTrackActivityTest {
 
 				final AdViewManagerStub adViewManagerStub = new AdViewManagerStub(
 						injector.getProvider(ApplicationPreferences.class),
-						new ActivityLayoutInflater(Robolectric.buildActivity(Activity.class).create().get()));
+						new ActivityLayoutInflater(
+								Robolectric.buildActivity(Activity.class).create().get()));
 
 				this.bind(AdViewManager.class).toInstance(adViewManagerStub);
 			}
@@ -57,7 +55,7 @@ public class SelectTrackActivityTest {
 
 	@Test
 	public void smokeTestOnCreate() {
-		final SelectTrackActivity activity = Robolectric.buildActivity(SelectTrackActivity.class)
+		final DownloadActivity activity = Robolectric.buildActivity(DownloadActivity.class)
 				.attach()
 				.create()
 				.get();
@@ -75,10 +73,12 @@ public class SelectTrackActivityTest {
 		track.setUser(user);
 		track.setPurchaseUrl(downloadUrl);
 
-		final Bundle bundle = new Bundle();
-		bundle.putParcelable(SelectTrackActivity.STATE_TRACK, track);
 
-		final SelectTrackActivity activity = Robolectric.buildActivity(SelectTrackActivity.class)
+
+		final Bundle bundle = new Bundle();
+		bundle.putParcelable(DownloadActivity.MEDIA_STATE_TAG, MediaState.fromEntity(track));
+
+		final DownloadActivity activity = Robolectric.buildActivity(DownloadActivity.class)
 				.attach()
 				.create(bundle)
 				.start()
@@ -107,9 +107,9 @@ public class SelectTrackActivityTest {
 		track.setPurchaseUrl(downloadUrl);
 
 		final Bundle bundle = new Bundle();
-		bundle.putParcelable(SelectTrackActivity.STATE_TRACK, track);
+		bundle.putParcelable(DownloadActivity.MEDIA_STATE_TAG, MediaState.fromEntity(track));
 
-		final SelectTrackActivity activity = Robolectric.buildActivity(SelectTrackActivity.class)
+		final DownloadActivity activity = Robolectric.buildActivity(DownloadActivity.class)
 				.attach()
 				.create(bundle)
 				.start()
