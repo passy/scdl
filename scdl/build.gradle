@@ -68,14 +68,19 @@ android {
 
     productFlavors {
         play {
-            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.GOOGLE_PLAY;", \
-                "public static final boolean PAID_BUILD = false;"
+            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.GOOGLE_PLAY;",  \
+                 "public static final boolean PAID_BUILD = false;"
         }
 
         amazon {
-            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;", \
-                "public static final boolean PAID_BUILD = true;"
+            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;",  \
+                 "public static final boolean PAID_BUILD = true;"
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 }
 
