@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboPreferenceActivity;
+
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,15 @@ public class ApplicationPreferencesActivity extends RoboPreferenceActivity {
 			startActivity(new Intent(this, DownloadPreferencesActivity.class));
 			finish();
 		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	@Override
+	protected boolean isValidFragment(String fragmentName) {
+		if (fragmentName == "net.rdrei.android.scdl2.ui.DownloadPreferencesFragment") {
+			return true;
+		}
+		return super.isValidFragment(fragmentName);
 	}
 
 	@Override
