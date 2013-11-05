@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.9
+  % Version 1.7.9
+  _ 2013-11-05
+  * Einstellungen funktionieren unter Android KitKat.
 $ 1.7.8
   % Version 1.7.8
   _ 2013-11-03

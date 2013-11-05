@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.9
+  % Version 1.7.9
+  _ 2013-11-05
+  * Settings dialog on Android KitKat.
 $ 1.7.8
   % Version 1.7.8
   _ 2013-11-03
@@ -58,12 +62,6 @@ $ 1.7.0
   _ 2013-08-09
   * New logo
   * Updated wizard screenshots
-$ 1.6.4
-  % Version 1.6.4
-  _ 2013-04-20
-  * Preferences now show the full path where downloads are saved.
-  * Fixed one potential cause for duplicate files on SD Card. Thanks for the hint, Ugo!
-  * Fixed custom directory chooser for phones without SD Card.
 $ END_OF_CHANGE_LOG
   </body>
 </html>
