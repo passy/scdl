@@ -288,7 +288,14 @@ public class IabHelper {
         mSetupDone = false;
         if (mServiceConn != null && mService != null) {
             logDebug("Unbinding from service.");
-            if (mContext != null) mContext.unbindService(mServiceConn);
+            if (mContext != null) {
+                try {
+                    mContext.unbindService(mServiceConn);
+                } catch (final IllegalAccessError err) {
+                    // Fucking hell, srsly.
+                    Crashlytics.logException(err);
+                }
+            }
         }
         mDisposed = true;
         mContext = null;
