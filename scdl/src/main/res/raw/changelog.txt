@@ -22,6 +22,10 @@
     </style>
   </head>
   <body>
+$ 1.7.10
+  % Version 1.7.10
+  _ 2013-11-09
+  * KitKat related issues.
 $ 1.7.9
   % Version 1.7.9
   _ 2013-11-05
