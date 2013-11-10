@@ -12,11 +12,21 @@
             android:summary=""
             android:title="@string/pref_custom_folder_location" />
         
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:title="@string/pref_use_ssl"
             android:key="download_preferences_enable_ssl"
             android:summary="@string/pref_use_ssl_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+        <Preference
+            android:key="about_donate"
+            android:shouldDisableView="true"
+            android:title="Donate" />
+        <Preference
+            android:key="about_rate_app"
+            android:title="Rate App" />
     </PreferenceCategory>
 
 </PreferenceScreen>

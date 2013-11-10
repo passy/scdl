@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 import android.preference.ListPreference;
@@ -80,9 +81,27 @@ public class DownloadPreferencesDelegateImpl implements
 					}
 				});
 
+		setupAboutHandlers();
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
 		mTracker.sendEvent(ANALYTICS_TAG, "create", null, null);
+	}
+
+	private void setupAboutHandlers() {
+		final Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
+		final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
+		mPreferenceManager.findPreference(ApplicationPreferences.KEY_RATE_APP).setIntent(rateAppIntent);
+
+		final Intent donateIntent = new Intent(mContext, BuyAdFreeActivity.class);
+		final Preference donatePreference = mPreferenceManager.findPreference(ApplicationPreferences.KEY_DONATE);
+
+		if (Config.Features.NEW_DONATE) {
+			throw new IllegalStateException("New Donate isn't implemented yet, doh!");
+		} else {
+			donatePreference.setIntent(donateIntent);
+			donatePreference.setTitle(mContext.getString(R.string.remove_ads));
+			donatePreference.setEnabled(!mAppPreferences.isAdFree());
+		}
 	}
 
 	private void startDownloadDirectoryChooser() {
@@ -233,10 +252,11 @@ public class DownloadPreferencesDelegateImpl implements
 
 	private void updateCustomPath(final String directory) {
 		if (mCustomPathValidator.onPreferenceChange(mPathPreference, directory)) {
-			mPathPreference
-					.getEditor()
-					.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
-							directory).commit();
+			final SharedPreferences.Editor editor = mPathPreference.getEditor();
+			if (editor != null) {
+				editor.putString(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH, directory);
+				editor.commit();
+			}
 		}
 	}
 

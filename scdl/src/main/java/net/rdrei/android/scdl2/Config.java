@@ -4,6 +4,7 @@ public interface Config {
 	// Feature switches.
 	interface Features {
 		boolean PLAYLIST_DOWNLOADS = false;
+		boolean NEW_DONATE = false;
 	};
 
 	enum MARKETPLACE_TYPE {
