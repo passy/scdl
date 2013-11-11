@@ -22,6 +22,7 @@ public class ApplicationPreferences {
 	public static final String KEY_STORAGE_CUSTOM_PATH = "download_preferences_storage_custom_path";
 	public static final String KEY_DONATE = "about_donate";
 	public static final String KEY_RATE_APP = "about_rate_app";
+	public static final String KEY_ABOUT_ME = "about_me";
 
 	public static enum StorageType {
 		EXTERNAL, LOCAL, CUSTOM

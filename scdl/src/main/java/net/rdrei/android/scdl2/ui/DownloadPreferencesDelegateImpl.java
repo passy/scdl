@@ -92,6 +92,9 @@ public class DownloadPreferencesDelegateImpl implements
 		final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 		mPreferenceManager.findPreference(ApplicationPreferences.KEY_RATE_APP).setIntent(rateAppIntent);
 
+		final Intent aboutIntent = new Intent(mContext, AboutActivity.class);
+		mPreferenceManager.findPreference(ApplicationPreferences.KEY_ABOUT_ME).setIntent(aboutIntent);
+
 		final Intent donateIntent = new Intent(mContext, BuyAdFreeActivity.class);
 		final Preference donatePreference = mPreferenceManager.findPreference(ApplicationPreferences.KEY_DONATE);
 

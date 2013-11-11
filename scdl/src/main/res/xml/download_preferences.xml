@@ -27,6 +27,9 @@
         <Preference
             android:key="about_rate_app"
             android:title="Rate App" />
+        <Preference
+            android:key="about_me"
+            android:title="About" />
     </PreferenceCategory>
 
 </PreferenceScreen>
