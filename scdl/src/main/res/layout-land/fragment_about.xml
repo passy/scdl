@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="by Pascal Hartig"
+        android:text="@string/by_author"
         android:id="@+id/textView2"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:gravity="center"

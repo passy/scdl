@@ -78,4 +78,6 @@
     <string name="track_crouton_unavilable">Dieser Titel ist nicht zum Download verfügbar.</string>
     <string name="track_error_unsupported_playlist">Sorry, but downloading playlists isn\'t supported yet.</string>
     <string name="toast_download_started">Download gestartet.</string>
+    <string name="title_activity_about">Über Downloader for SoundCloud</string>
+    <string name="by_author">von Pascal Hartig</string>
 </resources>
