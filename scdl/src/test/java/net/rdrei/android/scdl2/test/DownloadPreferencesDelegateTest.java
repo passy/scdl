@@ -1,6 +1,7 @@
 package net.rdrei.android.scdl2.test;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -31,6 +32,7 @@ import org.robolectric.shadows.ShadowDialogPreference;
 import org.robolectric.shadows.ShadowEnvironment;
 
 import java.io.File;
+import java.lang.RuntimeException;
 import java.util.HashMap;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -62,7 +64,7 @@ public class DownloadPreferencesDelegateTest {
 				bind(Tracker.class).toInstance(mTracker);
 			}
 		});
-		mPreferenceManager = new FakePreferenceManagerWrapperImpl();
+		mPreferenceManager = new FakePreferenceManagerWrapperImpl(mActivity);
 		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH, new EditTextPreference(mActivity));
 		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_TYPE, new ListPreference(mActivity));
 		mDelegate = mDelegateFactory.create(mPreferenceManager);
@@ -84,16 +86,17 @@ public class DownloadPreferencesDelegateTest {
 	private static class FakePreferenceManagerWrapperImpl implements PreferenceManagerWrapper {
 
 		public HashMap<CharSequence, Preference> preferences;
+		private Context mContext;
 
-
-		public FakePreferenceManagerWrapperImpl() {
+		public FakePreferenceManagerWrapperImpl(Context context) {
 			this.preferences = new HashMap<CharSequence, Preference>(2);
+			this.mContext = context;
 		}
 
 		@Override
 		public Preference findPreference(CharSequence key) {
 			if (!preferences.containsKey(key)) {
-				preferences.put(key, new ListPreference(null));
+				return new ListPreference(this.mContext);
 			}
 			return preferences.get(key);
 		}

@@ -12,10 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:src="@drawable/icon_web"
-        android:layout_marginTop="64dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,25 +22,29 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/app_name"
         android:id="@+id/textView"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="v0.0.0"
         android:id="@+id/version_number"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignLeft="@+id/textView"
+        android:textAlignment="center"
+        android:gravity="center"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="by Pascal Hartig"
         android:id="@+id/textView2"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:gravity="center"
         android:layout_below="@+id/version_number"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:textAppearance="@android:style/TextAppearance.Small"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="64dp"
+        android:layout_alignLeft="@+id/version_number"/>
 </RelativeLayout>
