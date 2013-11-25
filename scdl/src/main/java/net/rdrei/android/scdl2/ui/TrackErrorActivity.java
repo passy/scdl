@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.R;
@@ -13,6 +14,8 @@ import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 
 public class TrackErrorActivity extends RoboActivity {
+
+	private static String ANALYTICS_TAG = "ERROR_ACTIVITY";
 
 	public static enum ErrorCode {
 		UNSUPPORTED_URL, NO_WRITE_PERMISSION, UNKNOWN_ERROR, NO_MARKET, NOT_FOUND, PLAYLIST, NETWORK_ERROR
@@ -32,12 +35,17 @@ public class TrackErrorActivity extends RoboActivity {
 	@Inject
 	private AdViewManager mAdViewManager;
 
+	@Inject
+	private Tracker mTracker;
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.track_error);
 		setErrorText();
+
+		mTracker.sendEvent(ANALYTICS_TAG, "error", mErrorCode.toString(), 1l);
 
 		if (savedInstanceState == null) {
 			mAdViewManager.addToViewIfRequired(mMainLayout);

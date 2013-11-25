@@ -46,7 +46,7 @@ android {
         versionCode 1055
         versionName "1.7.10"
         minSdkVersion 14
-        targetSdkVersion 18
+        targetSdkVersion 19
     }
 
     signingConfigs {
