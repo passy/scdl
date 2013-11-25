@@ -23,6 +23,7 @@ import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
 import com.android.vending.billing.IabResult;
 import com.android.vending.billing.Inventory;
 import com.android.vending.billing.Purchase;
+import com.crashlytics.android.Crashlytics;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.inject.Inject;
@@ -186,7 +187,12 @@ public class BuyAdFreeActivity extends RoboFragmentActivity implements
 		mBus.post(new IabSetupFinishedEvent(mIabSupported));
 
 		if (result.isSuccess()) {
-			mIabHelper.queryInventoryAsync(this);
+			try {
+				mIabHelper.queryInventoryAsync(this);
+			} catch (IllegalStateException e) {
+				Crashlytics.logException(e);
+				finishWithSorry();
+			}
 		} else {
 			Ln.w("Can't connect to IAB: %s", result);
 			mTracker.sendEvent(ANALYTICS_TAG, "error", result.toString(), null);

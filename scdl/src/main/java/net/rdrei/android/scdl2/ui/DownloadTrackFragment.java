@@ -240,6 +240,9 @@ public class DownloadTrackFragment extends RoboContractFragment<DownloadMediaCon
 			if (msg.what == TrackDownloader.MSG_DOWNLOAD_STORAGE_ERROR) {
 				errorCode = TrackErrorActivity.ErrorCode.NO_WRITE_PERMISSION;
 			} else {
+				mTrackerProvider.get()
+						.sendEvent(ANALYTICS_TAG, "error", "Unknown track download error",
+								Long.valueOf(msg.what));
 				errorCode = TrackErrorActivity.ErrorCode.UNKNOWN_ERROR;
 			}
 

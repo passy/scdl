@@ -24,10 +24,10 @@ public class TrackErrorActivity extends RoboActivity {
 	public static final String EXTRA_ERROR_CODE = "error_code";
 
 	@InjectView(R.id.error_message)
-	TextView mErrorTextView;
+	private TextView mErrorTextView;
 
 	@InjectView(R.id.main_layout)
-	ViewGroup mMainLayout;
+	private ViewGroup mMainLayout;
 
 	@InjectExtra(EXTRA_ERROR_CODE)
 	private ErrorCode mErrorCode;
