@@ -1,7 +1,5 @@
 package net.rdrei.android.scdl2.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.R;
 
-import roboguice.activity.RoboActivity;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.fragment.RoboFragment;
 
