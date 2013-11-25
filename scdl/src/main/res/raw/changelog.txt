@@ -22,6 +22,11 @@
     </style>
   </head>
   <body>
+$ 1.7.11
+  % Version 1.7.11
+  _ 2013-11-25
+  * Better error handling.
+  * About menu in the preferences.
 $ 1.7.10
   % Version 1.7.10
   _ 2013-11-09
