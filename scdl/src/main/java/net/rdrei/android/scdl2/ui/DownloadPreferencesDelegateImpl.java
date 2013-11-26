@@ -2,6 +2,7 @@ package net.rdrei.android.scdl2.ui;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,10 @@ public class DownloadPreferencesDelegateImpl implements
 
 	@Inject
 	private Context mContext;
+
+	@Inject
+	private PackageHelper mPackageHelper;
+
 	private ActivityStarter mActivityStarter;
 
 	@Inject
@@ -88,7 +93,7 @@ public class DownloadPreferencesDelegateImpl implements
 	}
 
 	private void setupAboutHandlers() {
-		final Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
+		final Uri uri = mPackageHelper.getMarketUri();
 		final Intent rateAppIntent = new Intent(Intent.ACTION_VIEW, uri);
 		mPreferenceManager.findPreference(ApplicationPreferences.KEY_RATE_APP).setIntent(rateAppIntent);
 
