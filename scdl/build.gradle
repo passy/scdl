@@ -93,7 +93,7 @@ dependencies {
     compile 'com.google.android.admob:admob:6.4.1'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'net.rdrei.android.dirchooser:library:1.1-SNAPSHOT@aar'
+    compile 'net.rdrei.android.dirchooser:library:1.1@aar'
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.squareup.picasso:picasso:2.1.+'
