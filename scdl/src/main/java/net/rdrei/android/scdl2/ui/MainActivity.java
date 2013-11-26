@@ -4,7 +4,6 @@ import net.rdrei.android.scdl2.R;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
-import sheetrock.panda.changelog.ChangeLog;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -45,8 +44,6 @@ public class MainActivity extends RoboFragmentActivity implements
 		mPager.setAdapter(adapter);
 		mIndicator.setViewPager(mPager);
 
-		showChangelogOnDemand();
-
 		// Only attach if this is a fresh activity (eg. not on a screen rotated
 		// onCreate call
 
@@ -79,15 +76,5 @@ public class MainActivity extends RoboFragmentActivity implements
 	public void onStartSoundcloud() {
 		Ln.d("SoundCloud launch requested.");
 		mSoundcloudLauncher.launch();
-	}
-
-	/**
-	 * Show changelog if not displayed before on this version.
-	 */
-	private void showChangelogOnDemand() {
-		final ChangeLog cl = new ChangeLog(this);
-		if (cl.firstRun()) {
-			cl.getLogDialog().show();
-		}
 	}
 }

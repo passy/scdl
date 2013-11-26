@@ -97,6 +97,7 @@ dependencies {
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.squareup.picasso:picasso:2.1.+'
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.4.0'
 
     compile files('libs/guice-3.0-no_aop.jar')
     compile('org.roboguice:roboguice:2.0') {
