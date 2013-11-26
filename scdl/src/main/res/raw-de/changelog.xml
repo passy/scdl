@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="1.7.11" changeDate="Nov xx, 2013">
+    <changelogversion versionName="1.7.12" changeDate="Nov 26, 2013">
             <changelogtext>Neuer, schicker Changelog (genau, dieser hier!)</changelogtext>
     </changelogversion>
 
