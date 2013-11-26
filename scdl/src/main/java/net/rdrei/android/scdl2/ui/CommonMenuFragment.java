@@ -2,7 +2,6 @@ package net.rdrei.android.scdl2.ui;
 
 import net.rdrei.android.scdl2.Config;
 import net.rdrei.android.scdl2.R;
-import sheetrock.panda.changelog.ChangeLog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -59,8 +58,7 @@ public class CommonMenuFragment extends Fragment {
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.changelog) {
-			final ChangeLog changeLog = new ChangeLog(this.getActivity());
-			changeLog.getFullLogDialog().show();
+			ChangelogDialog.showDialogForActivity(getActivity());
 			return true;
 		} else if (item.getItemId() == R.id.buy_adfree) {
 			final Intent intent = new Intent(this.getActivity(),
