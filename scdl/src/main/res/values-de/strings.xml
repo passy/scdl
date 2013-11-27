@@ -36,9 +36,9 @@
     <string name="download_preferences_title">Download-Einstellungen</string>
     <string name="download_preferences_storage_type_title">Speichere Tracks auf</string>
     <string name="preferences">Einstellungen</string>
-    <string name="storage_sd_label">SD Card (%.2fGB frei)</string>
+    <string name="storage_sd_label">SD Card (%s frei)</string>
     <string name="storage_sd_label_no_free">SD Card</string>
-    <string name="storage_phone_label">Telefon (%.2fGB frei)</string>
+    <string name="storage_phone_label">Telefon (%s frei)</string>
     <string name="storage_phone_label_no_free">Telefon</string>
     <string name="storage_custom_label">Eigener Pfad</string>
     <string name="storage_sd">SD Card</string>
