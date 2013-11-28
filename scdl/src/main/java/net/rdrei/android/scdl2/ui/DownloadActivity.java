@@ -28,6 +28,7 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 	public static final String MAIN_LAYOUT_FRAGMENT = "MAIN_LAYOUT_FRAGMENT";
 
 	private MediaState mMediaState = MediaState.UNKNOWN;
+	private boolean mIsPostSaveInstanceState = false;
 
 	@InjectView(R.id.outer_layout)
 	private ViewGroup mOuterLayout;
@@ -56,8 +57,15 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			task.execute();
 		}
 
-		loadMediaFragments();
 		mAdViewManager.addToViewIfRequired(mOuterLayout);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		mIsPostSaveInstanceState = false;
+		loadMediaFragments();
 	}
 
 	@Override
@@ -65,6 +73,7 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 		super.onSaveInstanceState(outState);
 
 		outState.putParcelable(MEDIA_STATE_TAG, mMediaState);
+		mIsPostSaveInstanceState = true;
 	}
 
 	/**
@@ -73,12 +82,20 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 	protected void loadMediaFragments() {
 		final Fragment newFragment;
 
+		if (mIsPostSaveInstanceState) {
+			Ln.i("Skipping fragment loading since Activity has already been saved.");
+			return;
+		}
+
 		if (mMediaState.getType() == MediaDownloadType.TRACK) {
 			newFragment = DownloadTrackFragment.newInstance(mMediaState);
 			mTracker.sendEvent(ANALYTICS_TAGS, "loaded", "TRACK", 1l);
 		} else {
 			newFragment = SimpleLoadingFragment.newInstance();
 		}
+
+		newFragment.setRetainInstance(true);
+		Ln.d("Loading fragment %s", newFragment.getClass().toString());
 
 		getSupportFragmentManager()
 				.beginTransaction()
