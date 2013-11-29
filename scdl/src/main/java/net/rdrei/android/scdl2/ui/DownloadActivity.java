@@ -1,7 +1,9 @@
 package net.rdrei.android.scdl2.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -95,18 +97,14 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 		}
 
 		newFragment.setRetainInstance(true);
-		Ln.d("Loading fragment %s", newFragment.getClass().toString());
-
-		getSupportFragmentManager()
-				.beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.main_layout, newFragment, MAIN_LAYOUT_FRAGMENT)
 				.disallowAddToBackStack()
 				.commit();
 	}
 
 	/**
-	 * Show error activity with the given error code and exit the current
-	 * activity.
+	 * Show error activity with the given error code and exit the current activity.
 	 *
 	 * @param errorCode
 	 */
@@ -129,14 +127,44 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			super(context);
 		}
 
+		/**
+		 * Workaround for Android KitKat where the we might take the place of a default app for
+		 * http/https which we really fucking don't want to be.
+		 *
+		 * @return whether the Url has been handled by this
+		 */
+		private boolean handleUnknownUrl() {
+			if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+				return false;
+			}
+
+			Ln.i("KitKat workaround for unknown URIs");
+			final Intent intent = new Intent(Intent.ACTION_VIEW, getIntent().getData());
+			try {
+				startActivity(intent);
+			} catch (ActivityNotFoundException err) {
+				return false;
+			}
+
+			finish();
+			return true;
+		}
+
 		@Override
 		protected void onErrorCode(TrackErrorActivity.ErrorCode errorCode) {
+			if (errorCode == TrackErrorActivity.ErrorCode.UNSUPPORTED_URL) {
+				if (handleUnknownUrl()) {
+					return;
+				}
+			}
+
 			startErrorActivity(errorCode);
 		}
 
 		@Override
 		protected void onSuccess(PendingDownload download) throws Exception {
-			final AbstractMediaStateLoaderTask task = new MediaStateLoaderTask(getContext(), download);
+			final AbstractMediaStateLoaderTask task = new MediaStateLoaderTask(getContext(),
+					download);
 			task.execute();
 		}
 	}
