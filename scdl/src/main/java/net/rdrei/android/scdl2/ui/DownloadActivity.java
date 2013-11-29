@@ -72,10 +72,10 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		mIsPostSaveInstanceState = true;
 		super.onSaveInstanceState(outState);
 
 		outState.putParcelable(MEDIA_STATE_TAG, mMediaState);
-		mIsPostSaveInstanceState = true;
 	}
 
 	/**
