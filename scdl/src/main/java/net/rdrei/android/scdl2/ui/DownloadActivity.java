@@ -71,8 +71,15 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onPause() {
+		super.onPause();
+
+		// Apparently, it's safer to do this here.
 		mIsPostSaveInstanceState = true;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		outState.putParcelable(MEDIA_STATE_TAG, mMediaState);
