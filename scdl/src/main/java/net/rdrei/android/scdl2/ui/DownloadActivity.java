@@ -63,8 +63,8 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onResumeFragments() {
+		super.onResumeFragments();
 
 		mIsPostSaveInstanceState = false;
 		loadMediaFragments();
@@ -149,9 +149,6 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 
 			final Intent intent = Intent.createChooser(getIntent(), null);
 			intent.setAction(Intent.ACTION_VIEW);
-
-			// Try to get rid of it even though it prolly won't work.
-			getPackageManager().clearPackagePreferredActivities(getPackageName());
 
 			try {
 				startActivity(intent);
