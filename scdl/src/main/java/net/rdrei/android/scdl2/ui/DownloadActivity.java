@@ -141,6 +141,7 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 		 * @return whether the Url has been handled by this
 		 */
 		private boolean handleUnknownUrl() {
+			// Let's hope the next release will fix it ...
 			if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
 				return false;
 			}
@@ -148,7 +149,7 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			Ln.i("KitKat workaround for unknown URIs");
 
 			final Intent intent = Intent.createChooser(getIntent(), null);
-			intent.setAction(Intent.ACTION_VIEW);
+			intent.setAction(Intent.ACTION_SEND);
 
 			try {
 				startActivity(intent);
