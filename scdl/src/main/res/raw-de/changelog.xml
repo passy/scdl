@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
-    <changelogversion versionName="1.7.13" changeDate="Nov 29, 2013">
+    <changelogversion versionName="1.7.13" changeDate="Dec 4, 2013">
         <changelogtext>Workaround für KitKat, wenn DfS als Standardanwendung für SoundCloud-Links gesetzt wurde.</changelogtext>
+        <changelogtext>Bugfixes</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="1.7.12" changeDate="Nov 26, 2013">
