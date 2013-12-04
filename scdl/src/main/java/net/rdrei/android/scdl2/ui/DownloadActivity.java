@@ -146,13 +146,20 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			}
 
 			Ln.i("KitKat workaround for unknown URIs");
+
+			final Intent intent = Intent.createChooser(getIntent(), null);
+			intent.setAction(Intent.ACTION_VIEW);
+
+			// Try to get rid of it even though it prolly won't work.
+			getPackageManager().clearPackagePreferredActivities(getPackageName());
+
 			try {
-				startActivity(getIntent());
+				startActivity(intent);
+				finish();
 			} catch (ActivityNotFoundException err) {
 				return false;
 			}
 
-			finish();
 			return true;
 		}
 
