@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
+    <changelogversion versionName="1.7.14" changeDate="Jan 8, 2014">
+        <changelogtext>Happy new year!</changelogtext>
+        <changelogtext>Performance improvements on startup</changelogtext>
+        <changelogtext>Bugfixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.7.13" changeDate="Dec 4, 2013">
         <changelogtext>Workaround for KitKat when setting DfS as default application for SoundCloud links.</changelogtext>
         <changelogtext>Bugfixes</changelogtext>

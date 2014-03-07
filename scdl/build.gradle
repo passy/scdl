@@ -7,7 +7,7 @@ buildscript {
         maven { url 'http://download.crashlytics.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
         classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
     }
@@ -30,6 +30,10 @@ repositories {
     }
 
     maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+
+    maven {
         url 'https://oss.sonatype.org/content/groups/staging/'
     }
 
@@ -40,11 +44,11 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
-        versionCode 1060
-        versionName "1.7.13"
+        versionCode 1061
+        versionName "1.7.14"
         minSdkVersion 14
         targetSdkVersion 19
     }
@@ -68,13 +72,15 @@ android {
 
     productFlavors {
         play {
-            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.GOOGLE_PLAY;",  \
-                 "public static final boolean PAID_BUILD = false;"
+            buildConfigField "net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE",
+                "STORE", "net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.GOOGLE_PLAY"
+            buildConfigField "boolean", "PAID_BUILD", "false"
         }
 
         amazon {
-            buildConfig "public static final net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE STORE = net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON;",  \
-                 "public static final boolean PAID_BUILD = true;"
+            buildConfigField "net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE",
+                "STORE", "net.rdrei.android.scdl2.Config.MARKETPLACE_TYPE.AMAZON"
+            buildConfigField "boolean", "PAID_BUILD", "true"
         }
     }
 
@@ -89,15 +95,16 @@ dependencies {
     compile 'com.android.support:support-v13:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.viewpagerindicator:library:2.4.2-SNAPSHOT'
-    compile 'com.google.analytics:tracking:2.0beta5'
+    compile 'com.google.analytics:tracking:2.0beta6'
     compile 'com.google.android.admob:admob:6.4.1'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'net.rdrei.android.dirchooser:library:1.1@aar'
+    compile 'net.rdrei.android.dirchooser:library:1.2@aar'
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.squareup.picasso:picasso:2.1.+'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.4.0'
+    compile 'com.google.code.findbugs:jsr305:2.0.2'
 
     compile files('libs/guice-3.0-no_aop.jar')
     compile('org.roboguice:roboguice:2.0') {
