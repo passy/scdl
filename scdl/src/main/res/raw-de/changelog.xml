@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
+    <changelogversion versionName="1.7.15" changeDate="Mar 8, 2014">
+        <changelogtext>Bibliothek-Updates</changelogtext>
+        <changelogtext>Download-Zuverlässigkeit verbessert</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.7.14" changeDate="Jan 8, 2014">
         <changelogtext>Frohes Neues!</changelogtext>
         <changelogtext>Verbesserte Startzeiten</changelogtext>
