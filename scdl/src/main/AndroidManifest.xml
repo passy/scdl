@@ -12,10 +12,6 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
-
     <application
         android:name="net.rdrei.android.scdl2.SCDLApplication"
         android:allowBackup="true"
