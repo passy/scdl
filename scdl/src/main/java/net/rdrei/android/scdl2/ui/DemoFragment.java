@@ -71,22 +71,10 @@ public class DemoFragment extends
 	}
 
 	private void bindStartButton(final View startButton) {
-		startButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				getContract().onStartSoundcloud();
-			}
-		});
+		startButton.setOnClickListener(v -> getContract().onStartSoundcloud());
 	}
 
 	private void bindNextButton(final View nextButton) {
-		nextButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				getContract().onNextPage();
-			}
-		});
+		nextButton.setOnClickListener(v -> getContract().onNextPage());
 	}
 }

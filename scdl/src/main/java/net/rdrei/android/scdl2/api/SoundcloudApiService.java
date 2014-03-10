@@ -57,7 +57,7 @@ public class SoundcloudApiService {
 		strUrl.append(resource);
 
 		if (parameters == null) {
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<>();
 		}
 
 		parameters.put(CLIENT_ID_PARAMETER, Config.API_CONSUMER_KEY);
