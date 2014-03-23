@@ -70,11 +70,17 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	 */
 	public static boolean checkAndCreateTypePath(final File path) {
 		if (!path.exists()) {
+			Ln.i("Path %s doesn't exist, creating...", path.toString());
 			if (!path.mkdirs()) {
+				Ln.w("Creating directory failed!");
 				return false;
 			}
 		}
 
+		if (BuildConfig.DEBUG) {
+			Ln.d("checkAndCreateTypePath isDirectory:" + path.isDirectory());
+			Ln.d("checkAndCreateTypePath canWrite:" + path.canWrite());
+		}
 		return path.isDirectory() && path.canWrite();
 	}
 
