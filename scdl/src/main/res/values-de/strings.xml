@@ -72,12 +72,15 @@
     <string name="menu_changelog">Änderungen</string>
     <string name="menu_remove_ads">Werbung entfernen</string>
     <string name="pref_custom_folder_location">Pfad zum eigenen Verzeichnis</string>
-    <string name="pref_use_ssl">Verwende SSL</string>
+    <string name="pref_use_ssl">SSL verwenden</string>
     <string name="pref_use_ssl_summary">Verwende verschlüsselte Netzwerkkommunikation</string>
     <string name="track_crouton_unavilable_purchase">Dieser Track kann nicht direkt heruntergeladen werden.</string>
     <string name="track_crouton_unavilable">Dieser Titel ist nicht zum Download verfügbar.</string>
-    <string name="track_error_unsupported_playlist">Sorry, but downloading playlists isn\'t supported yet.</string>
+    <string name="track_error_unsupported_playlist">Entschuldigung, Playlists werden noch nicht unterstützt.</string>
     <string name="toast_download_started">Download gestartet.</string>
     <string name="title_activity_about">Über Downloader for SoundCloud</string>
     <string name="by_author">von Pascal Hartig</string>
+    <string name="error_download_fail_title">Dein Download ist fehlgeschlagen :(</string>
+    <string name="error_download_fail_msg">Versuche ein anderes Verzeichnis oder SSL zu deaktivieren. Falls das Problem bestehen bleibt, versuche ein anderes Netwerk.</string>
+    <string name="error_download_fail_confirm">Manno</string>
 </resources>

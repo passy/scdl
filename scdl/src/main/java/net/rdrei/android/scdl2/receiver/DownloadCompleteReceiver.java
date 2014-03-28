@@ -84,6 +84,7 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 	 * Create a notification indicating a download error.
 	 *
 	 * @param context
+	 *            Activity context.
 	 * @param reason
 	 *            The error code provided by {@link DownloadManager}
 	 */
@@ -286,6 +287,8 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			if (t.getStatus() == DownloadManager.STATUS_FAILED) {
 				Ln.e("Download of '%s' failed with reason %d", t.getTitle(),
 						t.getReason());
+				mTrackerProvider.get()
+						.sendEvent(ANALYTICS_TAG, "error", "Download Error " + t.getReason(), null);
 				showErrorNotification(context, t.getReason(), t.getTitle());
 				return;
 			}

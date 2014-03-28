@@ -28,6 +28,9 @@ public class DownloadPreferencesActivity extends RoboPreferenceActivity {
 	@Inject
 	private PreferenceManagerWrapperFactory mPreferenceManagerFactory;
 
+	@Inject
+	private DownloadPreferenceErrorAlertDialogFactory mDownloadPreferenceErrorAlertDialogFactory;
+
 	@InjectExtra(optional = true, value = EXTRA_DOWNLOAD_ERROR)
 	private Integer mExtraDownloadError;
 
@@ -44,11 +47,7 @@ public class DownloadPreferencesActivity extends RoboPreferenceActivity {
 		mDelegate.onCreate(new ActivityStarter(this));
 
 		if (mExtraDownloadError != null) {
-			new AlertDialog.Builder(this)
-					.setTitle("Your Download failed :(")
-					.setMessage(
-							"Try a different download location or disabling SSL. If the problem persists, send an email to phartig@rdrei.net!")
-					.create().show();
+			mDownloadPreferenceErrorAlertDialogFactory.newInstance().show();
 		}
 	}
 
