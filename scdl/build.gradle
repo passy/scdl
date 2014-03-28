@@ -5,18 +5,17 @@ buildscript {
         mavenCentral()
         mavenLocal()
         maven { url 'http://download.crashlytics.com/maven' }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.9.+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
-        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
+        classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
         classpath 'me.tatarka:gradle-retrolambda:1.3.0'
     }
 }
 
 apply plugin: 'android'
-apply plugin: 'robolectric'
+apply plugin: 'android-test'
 apply plugin: 'retrolambda'
 apply plugin: 'crashlytics'
 
@@ -120,12 +119,19 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
 
-    // Test dependencies
+    // Test dependencies (for the IDE)
     androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
+
+    // Test dependencies (for the tests - sigh)
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'com.squareup:fest-android:1.0.+'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+    testCompile 'org.mockito:mockito-core:1.9.5'
 }
 
 // prevent the "superClassName is empty" error for classes not annotated as tests
