@@ -81,4 +81,6 @@
     <string name="toast_download_started">Download started.</string>
     <string name="title_activity_about">About Downloader for SoundCloud</string>
     <string name="by_author">by Pascal Hartig</string>
+    <string name="error_download_fail_title">Your Download failed :(</string>
+    <string name="error_download_fail_msg">Try a different download location or disabling SSL. If the problem persists, try again in a more stable network!</string>
 </resources>
