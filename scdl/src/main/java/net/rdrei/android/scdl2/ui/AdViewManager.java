@@ -74,17 +74,7 @@ public class AdViewManager {
 	 */
 	public void addToView(final ViewGroup baseView) {
 		final Option<View> adView = getAdView(baseView);
-		adView.flatMap(new Function<View, Option<View>>() {
-			@Override
-			public Option<View> apply(View v) {
-				return setupView(v);
-			}
-		}).foreach(new UnitFunction<View>() {
-			@Override
-			public void apply(View x) {
-				baseView.addView(x);
-			}
-		});
+		adView.flatMap((v) -> setupView(v)).foreach(baseView::addView);
 	}
 
 	/**
