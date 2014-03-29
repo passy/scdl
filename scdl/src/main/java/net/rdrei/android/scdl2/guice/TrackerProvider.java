@@ -2,10 +2,14 @@ package net.rdrei.android.scdl2.guice;
 
 import android.content.Context;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import net.rdrei.android.scdl2.R;
+
+import roboguice.util.Ln;
 
 public class TrackerProvider implements Provider<Tracker> {
 	
@@ -14,8 +18,9 @@ public class TrackerProvider implements Provider<Tracker> {
 
 	@Override
 	public Tracker get() {
-		EasyTracker.getInstance().setContext(mContext);
-		return EasyTracker.getTracker();
+		Ln.w("I CAN HAZ SINGLETONE?!?!?");
+
+		return GoogleAnalytics.getInstance(mContext).newTracker(R.xml.google_analytics);
 	}
 
 }

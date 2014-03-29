@@ -1,12 +1,5 @@
 package net.rdrei.android.scdl2;
 
-import java.io.File;
-import java.io.IOException;
-
-import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
-import net.rdrei.android.scdl2.api.entity.TrackEntity;
-import roboguice.util.Ln;
-import roboguice.util.SafeAsyncTask;
 import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
@@ -16,15 +9,24 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import net.rdrei.android.scdl2.ApplicationPreferences.StorageType;
+import net.rdrei.android.scdl2.api.entity.TrackEntity;
+
+import java.io.File;
+import java.io.IOException;
+
+import roboguice.util.Ln;
+import roboguice.util.SafeAsyncTask;
+
 /**
  * Class for handling the downloading of tracks.
- * 
+ *
  * @author pascal
- * 
  */
 public class TrackDownloaderImpl implements TrackDownloader {
 
@@ -45,8 +47,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	private final Handler mHandler;
 
 	@Inject
-	public TrackDownloaderImpl(@Assisted final Uri mUri,
-			@Assisted final TrackEntity mTrack, @Assisted final Handler handler) {
+	public TrackDownloaderImpl(@Assisted final Uri mUri, @Assisted final TrackEntity mTrack,
+			@Assisted final Handler handler) {
 		super();
 		this.mUri = mUri;
 		this.mTrack = mTrack;
@@ -60,8 +62,7 @@ public class TrackDownloaderImpl implements TrackDownloader {
 	 */
 	@Override
 	public void enqueue() throws IOException {
-		final StartDownloadTask startDownloadTask = new StartDownloadTask(
-				mHandler);
+		final StartDownloadTask startDownloadTask = new StartDownloadTask(mHandler);
 		startDownloadTask.execute();
 	}
 
@@ -86,21 +87,18 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 	/**
 	 * Creates a new download manager request based on the given uri.
-	 * 
+	 *
 	 * @param uri
 	 * @return
-	 * @throws IOException
-	 *             If directory can't be used for saving the file.
+	 * @throws IOException If directory can't be used for saving the file.
 	 */
 	@TargetApi(11)
-	private DownloadManager.Request createDownloadRequest(final Uri uri)
-			throws IOException {
+	private DownloadManager.Request createDownloadRequest(final Uri uri) throws IOException {
 		final Request request = new Request(uri);
 
 		setRequestStorage(request);
 		request.setTitle(mTrack.getTitle());
-		request.setDescription(mContext
-				.getString(R.string.download_description));
+		request.setDescription(mContext.getString(R.string.download_description));
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// We have an audio file, please scan it!
@@ -122,12 +120,11 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		// The preferences panel already tries to create the path, but it could
 		// have been removed in the meantime, so we rather double-check.
 		if (!checkAndCreateTypePath(typePath)) {
-			throw new IOException(String.format(
-					"Can't open directory %s to write.", typePath.toString()));
+			throw new IOException(
+					String.format("Can't open directory %s to write.", typePath.toString()));
 		}
 
-		final Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath),
-				filename);
+		final Uri destinationUri = Uri.withAppendedPath(Uri.fromFile(typePath), filename);
 		Ln.d("Local destination URI: %s", destinationUri.toString());
 		request.setDestinationUri(destinationUri);
 	}
@@ -149,8 +146,8 @@ public class TrackDownloaderImpl implements TrackDownloader {
 		}
 
 		/**
-		 * Catches exceptions during the creation of the download request and
-		 * bubbles them up using the provided handler.
+		 * Catches exceptions during the creation of the download request and bubbles them up using
+		 * the provided handler.
 		 */
 		@Override
 		protected void onException(final Exception e) throws RuntimeException {
@@ -159,18 +156,28 @@ public class TrackDownloaderImpl implements TrackDownloader {
 
 			Ln.i("Track download exception encountered.", e);
 			if (handler == null) {
-				mTracker.sendException("DOWNLOAD_HANDLER_ERROR", e, false);
+				trackDownloadError("DOWNLOAD_HANDLER_ERROR");
 				return;
 			}
 
 			if (e instanceof IOException) {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_STORAGE_ERROR);
+				trackDownloadError("DOWNLOAD_STORAGE_ERROR");
 			} else {
 				msg = handler.obtainMessage(MSG_DOWNLOAD_ERROR);
-				mTracker.sendException("DOWNLOAD_REQUEST_ERROR", e, false);
+				trackDownloadError("DOWNLOAD_REQUEST_ERROR");
 			}
 
 			handler.sendMessage(msg);
+		}
+
+		private void trackDownloadError(final String description) {
+			mTracker.send(
+					new HitBuilders.ExceptionBuilder()
+							.setDescription(description)
+							.setFatal(false)
+							.build()
+			);
 		}
 	}
 }
