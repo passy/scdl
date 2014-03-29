@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.inject.Inject;
 
 /**
@@ -113,8 +115,11 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 								preferencesIntent, 0)).getNotification();
 
 		mNotificationManager.notify(0, notification);
-		mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
-				String.format("code:%d", reason), null);
+		mTrackerProvider.get().send(new HitBuilders.ExceptionBuilder().setFatal(false)
+						.setDescription("Download Receiver Error")
+						.set("CODE", String.valueOf(reason))
+						.build()
+		);
 	}
 
 	private String getDownloadErrorMessage(final Context context,
@@ -279,16 +284,20 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 			super.onSuccess(t);
 
 			if (t == null) {
-				mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error", "Received null-pointer in " +
-						"DownloadCompleteReceiver.onSuccess()", null);
-				return;
+				mTrackerProvider.get().send(new HitBuilders.ExceptionBuilder()
+						.setFatal(false)
+						.setDescription("Null-pointer in DownloadCompleteReceiver.onSuccess()")
+						.build()
+				);
 			}
 
 			if (t.getStatus() == DownloadManager.STATUS_FAILED) {
-				Ln.e("Download of '%s' failed with reason %d", t.getTitle(),
-						t.getReason());
-				mTrackerProvider.get()
-						.sendEvent(ANALYTICS_TAG, "error", "Download Error " + t.getReason(), null);
+				Ln.e("Download of '%s' failed with reason %d", t.getTitle(), t.getReason());
+				mTrackerProvider.get().send(new HitBuilders.ExceptionBuilder().setFatal(false)
+								.setDescription("Download Receiver Download Error")
+								.set("CODE", String.valueOf(t.getReason()))
+								.build()
+				);
 				showErrorNotification(context, t.getReason(), t.getTitle());
 				return;
 			}
@@ -333,8 +342,15 @@ public class DownloadCompleteReceiver extends RoboBroadcastReceiver {
 				IOUtil.copyFile(path, newPath);
 			} catch (final IOException err) {
 				Ln.w(err, "Failed to rename download.");
-				mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error",
-						"Failed to rename download: " + err.toString(), null);
+
+				mTrackerProvider.get().send(new HitBuilders.ExceptionBuilder()
+						.setFatal(false)
+						.setDescription("Download Receiver Rename Error: " +
+								new StandardExceptionParser(context, null)
+								.getDescription(Thread.currentThread().getName(), err)
+						)
+						.build()
+				);
 				return;
 			}
 

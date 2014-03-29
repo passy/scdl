@@ -9,7 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 
 import net.rdrei.android.scdl2.R;
@@ -25,7 +27,7 @@ import roboguice.util.Ln;
  * Dispatches a download request to either the single download or playlist download fragment.
  */
 public class DownloadActivity extends RoboFragmentActivity implements DownloadMediaContract {
-	public static final String ANALYTICS_TAGS = "DOWNLOAD_ACTIVITY";
+	public static final String ANALYTICS_TAG = "DOWNLOAD_TRACK";
 	public static final String MEDIA_STATE_TAG = "scdl:MEDIA_STATE_TAG";
 	public static final String MAIN_LAYOUT_FRAGMENT = "MAIN_LAYOUT_FRAGMENT";
 
@@ -98,7 +100,10 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 
 		if (mMediaState.getType() == MediaDownloadType.TRACK) {
 			newFragment = DownloadTrackFragment.newInstance(mMediaState);
-			mTracker.sendEvent(ANALYTICS_TAGS, "loaded", "TRACK", 1l);
+			mTracker.send(new HitBuilders.EventBuilder().setCategory(ANALYTICS_TAG)
+							.setAction("LOADED")
+							.build()
+			);
 		} else {
 			newFragment = SimpleLoadingFragment.newInstance();
 		}
@@ -118,9 +123,13 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 	public void startErrorActivity(final TrackErrorActivity.ErrorCode errorCode) {
 		final Intent intent = new Intent(this, TrackErrorActivity.class);
 		intent.putExtra(TrackErrorActivity.EXTRA_ERROR_CODE, errorCode);
-		startActivity(intent);
 
-		mTracker.sendEvent(ANALYTICS_TAGS, "error", errorCode.toString(), 1l);
+		mTracker.send(new HitBuilders.ExceptionBuilder().setFatal(false)
+						.setDescription(String.format("trackLoadError: %s", errorCode))
+						.build()
+		);
+
+		startActivity(intent);
 		finish();
 	}
 
@@ -147,6 +156,11 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			}
 
 			Ln.i("KitKat workaround for unknown URIs");
+			mTracker.send(new HitBuilders.EventBuilder()
+					.setCategory(ANALYTICS_TAG)
+					.setAction("KITKAT_WORKAROUND")
+					.build()
+			);
 
 			final Intent intent = Intent.createChooser(getIntent(), null);
 			intent.setAction(Intent.ACTION_SEND);
@@ -194,6 +208,16 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 		protected void onException(final Exception e) throws RuntimeException {
 			super.onException(e);
 			Ln.e("Error while resolving track: %s", e.toString());
+
+			final StandardExceptionParser exceptionParser = new StandardExceptionParser(
+					DownloadActivity.this, null);
+
+			mTracker.send(new HitBuilders.ExceptionBuilder()
+							.setFatal(false)
+							.setDescription("MediaStateLoaderTask: "
+									+ exceptionParser.getDescription(Thread.currentThread().getName(), e))
+							.build()
+			);
 
 			Toast.makeText(getContext(), "ERROR: " + e.toString(), Toast.LENGTH_LONG).show();
 		}

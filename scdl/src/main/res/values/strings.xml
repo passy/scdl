@@ -84,4 +84,5 @@
     <string name="error_download_fail_title">Your Download failed :(</string>
     <string name="error_download_fail_msg">Try a different download location or disabling SSL. If the problem persists, try again in a more stable network!</string>
     <string name="error_download_fail_confirm">Aw, man</string>
+    <string name="error_iab_connect_message">There was an error connecting to the Play Store. I\'m really sorry about that. Would you mind trying again?</string>
 </resources>

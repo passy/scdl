@@ -13,7 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.squareup.picasso.Picasso;
@@ -240,13 +241,16 @@ public class DownloadTrackFragment extends RoboContractFragment<DownloadMediaCon
 			if (msg.what == TrackDownloader.MSG_DOWNLOAD_STORAGE_ERROR) {
 				errorCode = TrackErrorActivity.ErrorCode.NO_WRITE_PERMISSION;
 			} else {
-				mTrackerProvider.get()
-						.sendEvent(ANALYTICS_TAG, "error", "Unknown track download error",
-								Long.valueOf(msg.what));
 				errorCode = TrackErrorActivity.ErrorCode.UNKNOWN_ERROR;
 			}
 
-			mTrackerProvider.get().sendEvent(ANALYTICS_TAG, "error", errorCode.toString(), null);
+			mTrackerProvider.get()
+					.send(new HitBuilders.ExceptionBuilder()
+									.setDescription("Track Download Error")
+									.setFatal(false)
+									.set("WHAT", String.valueOf(msg.what))
+									.build()
+					);
 
 			getContract().handleFatalError(errorCode);
 			return true;
@@ -257,17 +261,32 @@ public class DownloadTrackFragment extends RoboContractFragment<DownloadMediaCon
 		private void startDownload() {
 			final DownloadTask task = new DownloadTask(String.valueOf(mTrack.getId()));
 			task.execute();
+
 			mTrackerProvider.get()
-					.sendEvent(ANALYTICS_TAG, "download", mTrack.getTitle(), mTrack.getId());
+					.send(new HitBuilders.EventBuilder()
+							.setCategory(ANALYTICS_TAG)
+							.setAction("DOWNLOAD")
+							.setLabel(mTrack.getTitle())
+							.set("ID", String.valueOf(mTrack.getId()))
+							.build()
+					);
 		}
 
 		private void startPurchase() {
 			Uri uri = Uri.parse(mTrack.getPurchaseUrl());
 
+			mTrackerProvider.get()
+					.send(new HitBuilders.EventBuilder()
+									.setCategory(ANALYTICS_TAG)
+									.setAction("PURCHASE")
+									.setLabel(mTrack.getTitle())
+									.set("ID", String.valueOf(mTrack.getId()))
+									.set("URI", uri.toString())
+									.build()
+					);
+
 			final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
-			mTrackerProvider.get()
-					.sendEvent(ANALYTICS_TAG, "purchase", uri.toString(), mTrack.getId());
 		}
 
 		@Override
