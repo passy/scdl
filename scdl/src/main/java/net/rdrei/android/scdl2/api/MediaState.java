@@ -1,17 +1,14 @@
 package net.rdrei.android.scdl2.api;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import net.rdrei.android.option.Option;
+import com.gu.option.Option;
+
 import net.rdrei.android.scdl2.api.entity.PlaylistEntity;
 import net.rdrei.android.scdl2.api.entity.TrackEntity;
 
-import java.io.Serializable;
-
-public class MediaState implements Parcelable, Serializable {
-	private static final long serialVersionUID = 1L;
+public class MediaState implements Parcelable {
 	private MediaDownloadType mType = MediaDownloadType.UNKNOWN;
 	private Option<TrackEntity> mTrackOption = Option.none();
 	private Option<PlaylistEntity> mPlaylistOption = Option.none();

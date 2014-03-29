@@ -9,8 +9,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.gu.option.Function;
+import com.gu.option.Option;
+import com.gu.option.UnitFunction;
 
-import net.rdrei.android.option.Option;
 import net.rdrei.android.scdl2.ApplicationPreferences;
 import net.rdrei.android.scdl2.R;
 import net.rdrei.android.scdl2.guice.ActivityLayoutInflater;
@@ -72,9 +74,17 @@ public class AdViewManager {
 	 */
 	public void addToView(final ViewGroup baseView) {
 		final Option<View> adView = getAdView(baseView);
-		adView
-			.flatMap(this::setupView)
-			.call(baseView::addView);
+		adView.flatMap(new Function<View, Option<View>>() {
+			@Override
+			public Option<View> apply(View v) {
+				return setupView(v);
+			}
+		}).foreach(new UnitFunction<View>() {
+			@Override
+			public void apply(View x) {
+				baseView.addView(x);
+			}
+		});
 	}
 
 	/**
