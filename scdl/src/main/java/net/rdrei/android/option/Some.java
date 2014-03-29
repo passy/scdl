@@ -14,10 +14,17 @@ public class Some<A> extends Option<A> {
 	}
 
 	@Override
+	public Option<A> call(Consumer1<A> f) {
+		f.accept(value);
+		return this;
+	}
+
+	@Override
 	public <B> Option<B> flatMap(Func1<A, Option<B>> f) {
 		return f.apply(value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Option<A> filter(Predicate<? super A> predicate) {
 		if (predicate.test(value)) {

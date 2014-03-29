@@ -13,6 +13,11 @@ public class None<A> extends Option<A> {
 	}
 
 	@Override
+	public Option<A> call(Consumer1<A> f) {
+		return this;
+	}
+
+	@Override
 	public <B> Option<B> flatMap(Func1<A, Option<B>> f) {
 		return NONE;
 	}

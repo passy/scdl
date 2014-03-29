@@ -7,6 +7,8 @@ public abstract class Option<A> {
 
 	public abstract <B> Option<B> map(Func1<A, B> f);
 
+	public abstract Option<A> call(Consumer1<A> f);
+
 	public abstract <B> Option<B> flatMap(Func1<A, Option<B>> f);
 
 	public abstract Option<A> filter(Predicate<? super A> predicate);
@@ -17,10 +19,12 @@ public abstract class Option<A> {
 
 	public abstract A get();
 
+	@SuppressWarnings("unchecked")
 	public static <A> Some<A> some(A value) {
 		return new Some(value);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <A> None<A> none() {
 		return NONE;
 	}
