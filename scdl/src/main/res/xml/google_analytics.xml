@@ -3,6 +3,5 @@
     <bool name="ga_autoActivityTracking">true</bool>
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
-    <string name="ga_logLevel">verbose</string>
     <string name="ga_trackingId" tools:ignore="TypographyDashes">UA-587894-12</string>
 </resources>
