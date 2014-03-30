@@ -8,7 +8,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.widget.EditText;
 
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
@@ -32,15 +32,12 @@ import org.robolectric.shadows.ShadowDialogPreference;
 import org.robolectric.shadows.ShadowEnvironment;
 
 import java.io.File;
-import java.lang.RuntimeException;
 import java.util.HashMap;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
-@Config(shadows = {DownloadPreferencesDelegateTest.ShadowEnvironment2.class,
-		DownloadPreferencesDelegateTest.ShadowEditTextPreference.class})
+@Config(shadows = {DownloadPreferencesDelegateTest.ShadowEnvironment2.class, DownloadPreferencesDelegateTest.ShadowEditTextPreference.class})
 @RunWith(RobolectricTestRunner.class)
 public class DownloadPreferencesDelegateTest {
 	@Inject
@@ -65,8 +62,10 @@ public class DownloadPreferencesDelegateTest {
 			}
 		});
 		mPreferenceManager = new FakePreferenceManagerWrapperImpl(mActivity);
-		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH, new EditTextPreference(mActivity));
-		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_TYPE, new ListPreference(mActivity));
+		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_CUSTOM_PATH,
+				new EditTextPreference(mActivity));
+		mPreferenceManager.preferences.put(ApplicationPreferences.KEY_STORAGE_TYPE,
+				new ListPreference(mActivity));
 		mDelegate = mDelegateFactory.create(mPreferenceManager);
 	}
 

@@ -7,7 +7,7 @@ import com.android.vending.billing.IabResult;
 import com.android.vending.billing.Inventory;
 import com.android.vending.billing.Purchase;
 import com.android.vending.billing.SkuDetails;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.AbstractModule;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -61,15 +61,15 @@ public class BuyAdFreeActivityTest {
 
 	@Test
 	public void shouldPropagateInventoryQuery() throws JSONException {
-		final BuyAdFreeActivity activity = Robolectric.buildActivity(BuyAdFreeActivity.class).create().get();
+		final BuyAdFreeActivity activity = Robolectric.buildActivity(BuyAdFreeActivity.class)
+				.create()
+				.get();
 
-		final IabResult result = new IabResult(
-				IabHelper.BILLING_RESPONSE_RESULT_OK, "");
+		final IabResult result = new IabResult(IabHelper.BILLING_RESPONSE_RESULT_OK, "");
 
 		final HashMap<String, Purchase> purchases = new HashMap<>();
 		purchases.put(BuyAdFreeActivity.ADFREE_SKU, new AdfreePurchase());
-		Inventory inv = new MyInventory(new HashMap<String, SkuDetails>(),
-				purchases);
+		Inventory inv = new MyInventory(new HashMap<String, SkuDetails>(), purchases);
 
 		PurchaseChangeSubscriber subscriber = new PurchaseChangeSubscriber();
 		Bus bus = TestHelper.getInjector().getInstance(Bus.class);
@@ -81,16 +81,14 @@ public class BuyAdFreeActivityTest {
 	}
 
 	public class MyInventory extends Inventory {
-		public MyInventory(Map<String, SkuDetails> details,
-		                   Map<String, Purchase> purchases) {
+		public MyInventory(Map<String, SkuDetails> details, Map<String, Purchase> purchases) {
 			super(details, purchases);
 		}
 	}
 
 	public class AdfreePurchase extends Purchase {
 
-		public AdfreePurchase(String jsonPurchaseInfo, String signature)
-				throws JSONException {
+		public AdfreePurchase(String jsonPurchaseInfo, String signature) throws JSONException {
 
 			super("ITEM_TYPE_INAPP", jsonPurchaseInfo, signature);
 		}

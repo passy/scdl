@@ -18,7 +18,7 @@ public abstract class ContractFragment<T> extends RoboFragment {
 			mContract = (T) activity;
 		} catch (final ClassCastException e) {
 			throw new IllegalStateException(activity.getClass().getSimpleName()
-					+ " does not implement " + getClass().getSimpleName()
+					+ " does not implement " + ((Object) this).getClass().getSimpleName()
 					+ "'s contract interface.", e);
 		}
 		super.onAttach(activity);
