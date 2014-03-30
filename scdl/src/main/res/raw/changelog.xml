@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
+    <changelogversion versionName="1.8.0" changeDate="March 30, 2014">
+        <changelogtext>Sorry, no visible changes.</changelogtext>
+        <changelogtext>Hopefully massively improved stability and memory usage for Non-AdFree users.</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.7.15" changeDate="Mar 8, 2014">
         <changelogtext>Library updates</changelogtext>
         <changelogtext>Download reliability improvements</changelogtext>

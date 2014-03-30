@@ -13,7 +13,8 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.text.format.Formatter;
 
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -90,7 +91,6 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 		setupAboutHandlers();
 		loadStorageTypeOptions();
 		mActivityStarter = activityStarter;
-		mTracker.sendEvent(ANALYTICS_TAG, "create", null, null);
 	}
 
 	private void setupAboutHandlers() {
@@ -165,7 +165,13 @@ public class DownloadPreferencesDelegateImpl implements OnSharedPreferenceChange
 		}
 
 		if (value != null) {
-			mTracker.sendEvent(ANALYTICS_TAG, "change", String.format("%s:%s", key, value), null);
+			mTracker.send(new HitBuilders.EventBuilder()
+					.setCategory(ANALYTICS_TAG)
+					.setAction("CHANGE")
+					.setLabel(key)
+					.set("PREFERENCE", String.format("%s:%s", key, value))
+					.build()
+			);
 		}
 	}
 

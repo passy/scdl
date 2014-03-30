@@ -104,13 +104,12 @@
         </receiver>
 
         <!-- Used for install referrer tracking -->
-        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
-
+        <service android:name="com.google.android.gms.tagmanager.InstallReferrerService"/>
         <receiver
-            android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
+            android:name="com.google.android.gms.tagmanager.InstallReferrerReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 

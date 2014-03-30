@@ -42,6 +42,6 @@ public class DownloadPreferenceErrorAlertDialogFactoryTest {
 
 		// Maybe too precise, but I want to have a clear indicator that the dialog was
 		// actually shown.
-		assertThat(shadowAlertDialog.getTitle()).isEqualTo("Your download failed :(");
+		assertThat(shadowAlertDialog.getTitle()).isEqualTo("Your Download failed :(");
 	}
 }

@@ -1,26 +1,33 @@
 package net.rdrei.android.scdl2.ui;
 
-import net.rdrei.android.scdl2.R;
-import roboguice.activity.RoboFragmentActivity;
-import roboguice.inject.InjectView;
-import roboguice.util.Ln;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class MainActivity extends RoboFragmentActivity implements
-		DemoFragment.DemoActionListenerContract {
+import net.rdrei.android.scdl2.R;
+
+import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
+import roboguice.util.Ln;
+
+public class MainActivity extends RoboFragmentActivity implements DemoFragment.DemoActionListenerContract {
+
+	private static final String ANALYTICS_TAG = "DEMO";
 
 	@Inject
 	private FragmentManager mFragmentManager;
-	
+
 	@Inject
 	private SoundcloudLauncher mSoundcloudLauncher;
+
+	@Inject
+	private Tracker mTracker;
 
 	@InjectView(R.id.pager)
 	private ViewPager mPager;
@@ -28,19 +35,16 @@ public class MainActivity extends RoboFragmentActivity implements
 	@InjectView(R.id.indicator)
 	private CirclePageIndicator mIndicator;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// Load default settings once.
-		PreferenceManager.setDefaultValues(this, R.xml.download_preferences,
-				false);
+		PreferenceManager.setDefaultValues(this, R.xml.download_preferences, false);
 
 		setContentView(R.layout.demo);
 
-		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(
-				mFragmentManager);
+		final DemoFragmentAdapter adapter = new DemoFragmentAdapter(mFragmentManager);
 		mPager.setAdapter(adapter);
 		mIndicator.setViewPager(mPager);
 
@@ -53,28 +57,25 @@ public class MainActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		
-		EasyTracker.getInstance().activityStart(this);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		
-		EasyTracker.getInstance().activityStart(this);
-	}
-
-	@Override
 	public void onNextPage() {
 		Ln.d("Next page requested.");
+		mTracker.send(new HitBuilders.EventBuilder()
+						.setCategory(ANALYTICS_TAG)
+						.setAction("NEXT_PAGE_CLICK")
+						.setValue(mPager.getCurrentItem())
+						.build()
+		);
 		mPager.setCurrentItem(mPager.getCurrentItem() + 1);
 	}
 
 	@Override
 	public void onStartSoundcloud() {
 		Ln.d("SoundCloud launch requested.");
+		mTracker.send(new HitBuilders.EventBuilder()
+						.setCategory(ANALYTICS_TAG)
+						.setAction("SOUNDCLOUD_LAUNCH")
+						.build()
+		);
 		mSoundcloudLauncher.launch();
 	}
 }
