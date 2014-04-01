@@ -13,4 +13,12 @@
         <item name="android:background">@drawable/buy_button</item>
     </style>
 
+    <style name="Container">
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
 </resources>

@@ -2,11 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dip"
-    android:layout_weight="0.9"
-    tools:ignore="UselessParent,InefficientWeight">
+    android:layout_weight="0.9">
 
     <ImageView
         android:id="@+id/img_artwork"
@@ -39,7 +38,7 @@
         android:background="#99000000"
         android:padding="2dp"
         android:textColor="#fff"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:visibility="gone"/>
 
     <ProgressBar

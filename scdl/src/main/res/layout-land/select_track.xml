@@ -5,10 +5,11 @@ tablet configurations, that will not use hard-coded image sizes.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:baselineAligned="false" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,13 +21,13 @@ tablet configurations, that will not use hard-coded image sizes.
 
         <ImageView
             android:id="@+id/img_artwork"
-            android:layout_width="100px"
-            android:layout_height="100px"
+            android:layout_width="72dip"
+            android:layout_height="72dip"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:contentDescription="SoundCloud"
             android:src="@drawable/soundcloud_logo_100"
-            tools:ignore="PxUsage,HardcodedText" />
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/track_title"
@@ -49,17 +50,16 @@ tablet configurations, that will not use hard-coded image sizes.
             android:background="#99000000"
             android:padding="2dp"
             android:textColor="#fff"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="100px"
-            android:layout_height="100px"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            tools:ignore="PxUsage" />
+            android:layout_alignParentTop="true" />
 
         <ScrollView
             android:layout_width="match_parent"
