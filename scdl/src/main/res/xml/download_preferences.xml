@@ -13,6 +13,7 @@
             android:title="@string/pref_custom_folder_location" />
         
         <SwitchPreference
+
             android:defaultValue="true"
             android:title="@string/pref_use_ssl"
             android:key="download_preferences_enable_ssl"

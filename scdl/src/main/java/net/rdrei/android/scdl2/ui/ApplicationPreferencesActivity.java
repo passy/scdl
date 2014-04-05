@@ -30,11 +30,9 @@ public class ApplicationPreferencesActivity extends RoboPreferenceActivity {
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@Override
-	protected boolean isValidFragment(String fragmentName) {
-		if (fragmentName == "net.rdrei.android.scdl2.ui.DownloadPreferencesFragment") {
-			return true;
-		}
-		return super.isValidFragment(fragmentName);
+	protected boolean isValidFragment(final String fragmentName) {
+		return fragmentName.equals("net.rdrei.android.scdl2.ui.DownloadPreferencesFragment") ||
+				super.isValidFragment(fragmentName);
 	}
 
 	@Override
