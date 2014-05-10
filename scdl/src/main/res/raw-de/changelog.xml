@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
+    <changelogversion versionName="1.8.3" changeDate="May 10, 2014">
+        <changelogtext>Bugfixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.8.2" changeDate="Apr 14, 2014">
         <changelogtext>Verbindungs-Probleme behoben, die durch Heartbleed zustande kamen</changelogtext>
     </changelogversion>

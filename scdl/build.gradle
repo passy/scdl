@@ -53,8 +53,8 @@ android {
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        versionCode 1065
-        versionName "1.8.2"
+        versionCode 1067
+        versionName "1.8.3"
         minSdkVersion 14
         targetSdkVersion 19
     }
@@ -98,18 +98,18 @@ android {
 
 dependencies {
     // Prod dependencies
-    compile 'com.android.support:support-v13:+'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v13:19.0.1'
+    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.viewpagerindicator:library:2.4.2-SNAPSHOT'
     compile 'com.google.android.gms:play-services:4.3.23'
     compile 'com.squareup:otto:1.3.4'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'net.rdrei.android.dirchooser:library:2.0@aar'
+    compile 'net.rdrei.android.dirchooser:library:2.1@aar'
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
-    compile 'com.squareup.picasso:picasso:2.1.+'
+    compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.4.0'
-    compile 'com.google.code.findbugs:jsr305:2.0.2'
+    compile 'com.google.code.findbugs:jsr305:2.0.3'
     compile 'com.gu:option:1.3'
 
     compile files('libs/guice-3.0-no_aop.jar')
