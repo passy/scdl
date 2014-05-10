@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -29,11 +30,17 @@ public class MainActivity extends RoboFragmentActivity implements DemoFragment.D
 	@Inject
 	private Tracker mTracker;
 
+	@Inject
+	private AdViewManager mAdViewManager;
+
 	@InjectView(R.id.pager)
 	private ViewPager mPager;
 
 	@InjectView(R.id.indicator)
 	private CirclePageIndicator mIndicator;
+
+	@InjectView(R.id.main)
+	private ViewGroup mMainLayout;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -54,6 +61,8 @@ public class MainActivity extends RoboFragmentActivity implements DemoFragment.D
 		if (savedInstanceState == null) {
 			CommonMenuFragment.injectMenu(this);
 		}
+
+		mAdViewManager.addToViewIfRequired(mMainLayout);
 	}
 
 	@Override
