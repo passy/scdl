@@ -60,7 +60,14 @@ public class AdViewManager {
 			final AdRequest adRequest = new AdRequest.Builder()
 					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 					.build();
-			adView.loadAd(adRequest);
+
+			// http://crashes.to/s/a45228d86d4
+			try {
+				adView.loadAd(adRequest);
+			} catch (OutOfMemoryError err) {
+				return Option.none();
+			}
+
 			return Option.some(adView);
 		}
 
