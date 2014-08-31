@@ -41,7 +41,7 @@ repositories {
     }
 
     maven {
-        url 'http://guardian.github.com/maven/repo-releases'
+        url 'https://guardian.github.com/maven/repo-releases'
     }
 }
 
@@ -95,7 +95,6 @@ android {
 
 dependencies {
     // Prod dependencies
-    // compile 'com.android.support:support-v13:19.+'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'net.rdrei.android.viewpagerindicator:library:2.5.0-SNAPSHOT@aar'
     compile 'com.google.android.gms:play-services:5.2.08'

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.inject.Inject;
-import com.viewpagerindicator.CirclePageIndicator;
+import net.rdrei.android.viewpagerindicator.CirclePageIndicator;
 
 import net.rdrei.android.scdl2.R;
 
