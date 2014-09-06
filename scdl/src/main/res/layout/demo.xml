@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.viewpagerindicator.CirclePageIndicator
+    <net.rdrei.android.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

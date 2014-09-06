@@ -1,28 +1,22 @@
-version "2.0"
-
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
         maven { url 'http://download.crashlytics.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
-        classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
-        classpath 'me.tatarka:gradle-retrolambda:1.3.0'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.5.+'
+        classpath 'me.tatarka:gradle-retrolambda:1.3.3'
     }
 }
 
-apply plugin: 'android'
-apply plugin: 'android-test'
 apply plugin: 'retrolambda'
 apply plugin: 'crashlytics'
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
 
 repositories {
-    mavenCentral()
-    mavenLocal()
-
     maven {
         url 'https://github.com/dahlgren/vpi-aar/raw/master'
     }
@@ -44,13 +38,13 @@ repositories {
     }
 
     maven {
-        url 'http://guardian.github.com/maven/repo-releases'
+        url 'https://guardian.github.com/maven/repo-releases'
     }
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 20
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         versionCode 1068
@@ -96,19 +90,20 @@ android {
     }
 }
 
+apply plugin: 'android-unit-test'
+
 dependencies {
     // Prod dependencies
-    compile 'com.android.support:support-v13:19.0.1'
     compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.viewpagerindicator:library:2.4.2-SNAPSHOT'
-    compile 'com.google.android.gms:play-services:4.3.23'
-    compile 'com.squareup:otto:1.3.4'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'net.rdrei.android.viewpagerindicator:library:2.5.0-SNAPSHOT@aar'
+    compile 'com.google.android.gms:play-services:5.2.08'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.google.code.gson:gson:2.3'
     compile 'net.rdrei.android.dirchooser:library:2.1@aar'
     compile 'javax.inject:javax.inject:1'
     compile 'com.crashlytics.android:crashlytics:1.+'
-    compile 'com.squareup.picasso:picasso:2.2.0'
-    compile 'com.github.gabrielemariotti.changeloglib:library:1.4.0'
+    compile 'com.squareup.picasso:picasso:2.3.4'
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'com.google.code.findbugs:jsr305:2.0.3'
     compile 'com.gu:option:1.3'
 
@@ -125,15 +120,14 @@ dependencies {
 
     // Test dependencies (for the IDE)
     androidTestCompile 'junit:junit:4.11'
-    androidTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile 'org.robolectric:robolectric:2.3'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
 
-    // Test dependencies (for the tests - sigh)
     testCompile 'junit:junit:4.11'
-    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    testCompile 'com.squareup:fest-android:1.0.+'
+    testCompile 'org.robolectric:robolectric:2.3'
+    testCompile 'com.squareup:fest-android:1.0.8'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile 'org.mockito:mockito-core:1.9.5'
 }
@@ -144,27 +138,6 @@ tasks.withType(Test) {
     include "**/*Test.*" // whatever Ant pattern matches your test class files
 }
 
-task addTest {
-    def src = ['src/test/java']
-    def file = file('scdl-scdl.iml')
-
-    doLast {
-        def parsedXml = (new XmlParser()).parse(file)
-        def node = parsedXml.component[1].content[0]
-        src.each {
-            def path = 'file://$MODULE_DIR$/' + "${it}"
-            def set = node.find { it.@url == path }
-            if (set == null) {
-                new Node(node, 'sourceFolder', ['url': 'file://$MODULE_DIR$/' + "${it}", 'isTestSource': "true"])
-                def writer = new StringWriter()
-                new XmlNodePrinter(new PrintWriter(writer)).print(parsedXml)
-                file.text = writer.toString()
-            }
-        }
-    }
-}
-
-// always do the addtest on prebuild
-gradle.projectsEvaluated {
-    preBuild.dependsOn(addTest)
-}
+project.ext['src.java.dir'] = ['src/test/java']
+project.ext['module.iml.file'] = "scdl-scdl.iml"
+apply from: "../gradle-android-add-dir.gradle"

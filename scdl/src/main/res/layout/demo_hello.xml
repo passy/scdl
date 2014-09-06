@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:layout_margin="8dip"
     android:orientation="vertical" >
 
     <ImageView
@@ -42,9 +43,9 @@
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ImageView1"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="8dip"
+        android:layout_alignLeft="@+id/textView1"
         android:paddingLeft="24dip"
         android:paddingRight="24dip"
         android:text="@string/start" />

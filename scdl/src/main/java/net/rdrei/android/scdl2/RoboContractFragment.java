@@ -8,13 +8,15 @@ import roboguice.fragment.RoboFragment;
 public abstract class RoboContractFragment<T> extends RoboFragment {
 	private T mContract;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onAttach(Activity activity) {
 		try {
 			mContract = (T) activity;
 		} catch (ClassCastException e) {
 			throw new IllegalStateException(activity.getClass()
-					.getSimpleName() + " does not implement " + getClass().getSimpleName() +
+					.getSimpleName() + " does not implement " +
+					((Object)this).getClass().getSimpleName() +
 					"'s contract interface.", e);
 		}
 		super.onAttach(activity);

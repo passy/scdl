@@ -46,7 +46,7 @@ public class AdViewManager {
 		return Option.none();
 	}
 
-	private Option<View> setupView(final View view) {
+	private Option<AdView> setupView(final View view) {
 		AdView adView;
 
 		try {
