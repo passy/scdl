@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
+    <changelogversion versionName="1.8.5" changeDate="Sep 6, 2014">
+        <changelogtext>Bug fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.8.4" changeDate="May 18, 2014">
         <changelogtext>Involuntary rebranding for Google Play :(</changelogtext>
     </changelogversion>
