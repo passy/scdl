@@ -17,6 +17,8 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 
 repositories {
+    mavenLocal()
+
     maven {
         url 'https://github.com/dahlgren/vpi-aar/raw/master'
     }
@@ -43,14 +45,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         versionCode 1069
         versionName "1.8.5"
         minSdkVersion 14
-        targetSdkVersion 20
+        targetSdkVersion 19
     }
 
     signingConfigs {
@@ -120,13 +122,13 @@ dependencies {
 
     // Test dependencies (for the IDE)
     androidTestCompile 'junit:junit:4.11'
-    androidTestCompile 'org.robolectric:robolectric:2.3'
+    androidTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     androidTestCompile 'com.squareup:fest-android:1.0.8'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
 
     testCompile 'junit:junit:4.11'
-    testCompile 'org.robolectric:robolectric:2.3'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     testCompile 'com.squareup:fest-android:1.0.8'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile 'org.mockito:mockito-core:1.9.5'

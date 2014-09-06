@@ -1,9 +1,7 @@
 package net.rdrei.android.scdl2.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -143,46 +141,8 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 			super(context);
 		}
 
-		/**
-		 * Workaround for Android KitKat where the we might take the place of a default app for
-		 * http/https which we really fucking don't want to be.
-		 *
-		 * @return whether the Url has been handled by this
-		 */
-		private boolean handleUnknownUrl() {
-			// Let's hope the next release will fix it ...
-			if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-				return false;
-			}
-
-			Ln.i("KitKat workaround for unknown URIs");
-			mTracker.send(new HitBuilders.EventBuilder()
-					.setCategory(ANALYTICS_TAG)
-					.setAction("KITKAT_WORKAROUND")
-					.build()
-			);
-
-			final Intent intent = Intent.createChooser(getIntent(), null);
-			intent.setAction(Intent.ACTION_SEND);
-
-			try {
-				startActivity(intent);
-				finish();
-			} catch (ActivityNotFoundException err) {
-				return false;
-			}
-
-			return true;
-		}
-
 		@Override
 		protected void onErrorCode(TrackErrorActivity.ErrorCode errorCode) {
-			if (errorCode == TrackErrorActivity.ErrorCode.UNSUPPORTED_URL) {
-				if (handleUnknownUrl()) {
-					return;
-				}
-			}
-
 			startErrorActivity(errorCode);
 		}
 
