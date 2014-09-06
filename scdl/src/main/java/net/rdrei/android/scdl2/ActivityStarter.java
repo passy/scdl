@@ -3,6 +3,7 @@ package net.rdrei.android.scdl2;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.google.inject.Inject;
 

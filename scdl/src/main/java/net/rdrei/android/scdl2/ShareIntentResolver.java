@@ -3,8 +3,10 @@ package net.rdrei.android.scdl2;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.google.inject.Inject;
+import com.gu.option.Option;
 
 import net.rdrei.android.scdl2.api.APIException;
 import net.rdrei.android.scdl2.api.MediaDownloadType;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
 
 public class ShareIntentResolver {
 
+	public static final String SOUNDCLOUD_SCHEME = "soundcloud";
 	@Inject
 	private Activity mActivity;
 
@@ -94,6 +97,13 @@ public class ShareIntentResolver {
 			uri = intent.getData();
 		}
 
+		if (isDataUri(uri)) {
+			final Option<String> maybeDataUrl = convertDataToWebUri(uri);
+			if (maybeDataUrl.isDefined()) {
+				return maybeDataUrl.get();
+			}
+		}
+
 		if (isValidUri(uri)) {
 			try {
 				return resolveUri(uri);
@@ -114,6 +124,30 @@ public class ShareIntentResolver {
 		throw new UnsupportedUrlException(
 				String.format("Given URL '%s' is not a valid soundcloud URL.",
 						(uri == null) ? "unknown" : uri.toString()));
+	}
+
+	private Option<String> convertDataToWebUri(Uri uri) {
+		try {
+			final Long id = Long.parseLong(uri.getLastPathSegment());
+			return Option.some(String.format("https://api.soundcloud.com/tracks/%d.json", id));
+		} catch (NumberFormatException err) {
+			return Option.none();
+		}
+	}
+
+	/**
+	 * Check whether a given URI looks like an internal URI.
+	 *
+	 * @param uri The URI to parse
+	 * @return True if the given URI is a SoundCloud app link.
+	 */
+	private boolean isDataUri(@Nullable Uri uri) {
+		if (uri != null && SOUNDCLOUD_SCHEME.equals(uri.getScheme()) &&
+				"tracks".equals(uri.getHost())) {
+			final String path = uri.getPath();
+			return path != null && path.matches("^/\\d+$");
+		}
+		return false;
 	}
 
 	/**
