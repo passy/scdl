@@ -8,3 +8,4 @@ out/
 build/
 com_crashlytics_export_strings.xml
 local.properties
+crashlytics-build.properties
