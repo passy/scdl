@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
     <changelogversion versionName="1.8.5" changeDate="Sep 6, 2014">
+        <changelogtext>soundcloud:// URLs werden nun unterstützt</changelogtext>
         <changelogtext>Bugfixes</changelogtext>
     </changelogversion>
 
