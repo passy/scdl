@@ -34,7 +34,7 @@ public class ShareIntentResolver {
 
 	public static final String SOUNDCLOUD_URI_SCHEME = "soundcloud";
 	public static final String SOUNDCLOUD_URI_HOST = "tracks";
-	public static final String SOUNDCLOUD_URI_PATH_RE =  "^/\\d+$";
+	public static final String SOUNDCLOUD_URI_PATH_RE = "^/\\d+$";
 
 	private static final String[] ALLOWED_HOSTS = {"soundcloud.com", "snd.sc", "m.soundcloud.com"};
 
