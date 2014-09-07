@@ -20,8 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ShareIntentResolver {
-
-	public static final String SOUNDCLOUD_SCHEME = "soundcloud";
 	@Inject
 	private Activity mActivity;
 
@@ -32,7 +30,11 @@ public class ShareIntentResolver {
 			"^https?://api.soundcloud.com/tracks/(\\d+)\\.json");
 
 	public static final Pattern URL_PLAYLIST_PATTERN = Pattern.compile(
-			"https?://api.soundcloud.com/playlists/(\\d+)\\.json");
+			"^https?://api.soundcloud.com/playlists/(\\d+)\\.json");
+
+	public static final String SOUNDCLOUD_URI_SCHEME = "soundcloud";
+	public static final String SOUNDCLOUD_URI_HOST = "tracks";
+	public static final String SOUNDCLOUD_URI_PATH_RE =  "^/\\d+$";
 
 	private static final String[] ALLOWED_HOSTS = {"soundcloud.com", "snd.sc", "m.soundcloud.com"};
 
@@ -142,10 +144,10 @@ public class ShareIntentResolver {
 	 * @return True if the given URI is a SoundCloud app link.
 	 */
 	private boolean isDataUri(@Nullable Uri uri) {
-		if (uri != null && SOUNDCLOUD_SCHEME.equals(uri.getScheme()) &&
-				"tracks".equals(uri.getHost())) {
+		if (uri != null && SOUNDCLOUD_URI_SCHEME.equals(uri.getScheme()) &&
+				SOUNDCLOUD_URI_HOST.equals(uri.getHost())) {
 			final String path = uri.getPath();
-			return path != null && path.matches("^/\\d+$");
+			return path != null && path.matches(SOUNDCLOUD_URI_PATH_RE);
 		}
 		return false;
 	}
