@@ -115,8 +115,6 @@ public class DownloadActivity extends RoboFragmentActivity implements DownloadMe
 
 	/**
 	 * Show error activity with the given error code and exit the current activity.
-	 *
-	 * @param errorCode
 	 */
 	public void startErrorActivity(final TrackErrorActivity.ErrorCode errorCode) {
 		final Intent intent = new Intent(this, TrackErrorActivity.class);

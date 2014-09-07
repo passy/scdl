@@ -1,7 +1,11 @@
 package net.rdrei.android.scdl2.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+
+import com.google.inject.AbstractModule;
+
 import net.rdrei.android.scdl2.ShareIntentResolver;
 import net.rdrei.android.scdl2.ShareIntentResolver.ShareIntentResolverException;
 import net.rdrei.android.scdl2.api.APIException;
@@ -13,15 +17,12 @@ import net.rdrei.android.scdl2.api.service.ResolveService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-
-import com.google.inject.AbstractModule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowIntent;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 public class ShareIntentResolverTest {
@@ -111,6 +112,21 @@ public class ShareIntentResolverTest {
 
 		final PendingDownload result = resolver.resolvePendingDownload();
 		assertThat(result.getId(), equalTo("44276907"));
+		assertThat(result.getType(), equalTo(MediaDownloadType.TRACK));
+	}
+
+	@Test
+	public void testResolveSoundcloudDataUrlToId() throws ShareIntentResolverException {
+
+		ShadowIntent intent = Robolectric.shadowOf(mIntent);
+		intent.setData(Uri
+				.parse("soundcloud://tracks/76738498"));
+
+		final ShareIntentResolver resolver = TestHelper.getInjector()
+				.getInstance(ShareIntentResolver.class);
+
+		final PendingDownload result = resolver.resolvePendingDownload();
+		assertThat(result.getId(), equalTo("76738498"));
 		assertThat(result.getType(), equalTo(MediaDownloadType.TRACK));
 	}
 

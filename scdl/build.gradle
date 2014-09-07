@@ -106,8 +106,8 @@ dependencies {
     compile 'com.crashlytics.android:crashlytics:1.+'
     compile 'com.squareup.picasso:picasso:2.3.4'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
-    compile 'com.google.code.findbugs:jsr305:2.0.3'
     compile 'com.gu:option:1.3'
+    compile 'com.android.support:support-annotations:+'
 
     compile files('libs/guice-3.0-no_aop.jar')
     compile('org.roboguice:roboguice:2.0') {
