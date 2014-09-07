@@ -12,9 +12,9 @@ buildscript {
 }
 
 apply plugin: 'retrolambda'
-apply plugin: 'crashlytics'
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
+apply plugin: 'crashlytics'
 
 repositories {
     mavenLocal()
