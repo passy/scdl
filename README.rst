@@ -42,3 +42,13 @@ FAQ:
 » Please contact me via EMail, Twitter or Google+. DONT leave them in the reviews.
 
 DOWNLOADER FOR SOUNDCLOUD IS NOT AFFILIATED WITH OR ENDORSED BY SOUNDCLOUD.
+
+License
+=======
+
+Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+
+> Why the fuck GPL?
+
+This app depends on moxie's fantastic https://github.com/moxie0/AndroidPinning
+library and I didn't want to reimplement it just to get around the license.
