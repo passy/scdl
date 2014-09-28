@@ -4,12 +4,6 @@ Downloader for SoundCloud
 
 Lade SoundCloud-Tracks auf dein Smartphone herunter.
 
-Stand
-=====
-
-Es funktioniert ziemlich gut. Hol es dir auf `Google Play
-<https://play.google.com/store/apps/details?id=net.rdrei.android.scdl>`_!
-
 Google Play
 ===========
 

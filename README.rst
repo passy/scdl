@@ -7,8 +7,10 @@ App for downloading SoundCloud tracks onto your phone.
 State
 =====
 
-This is working pretty well. Get it on `Google Play
-<https://play.google.com/store/apps/details?id=net.rdrei.android.scdl>`_!
+Due to changes that SoundCloud made to their Terms of Use for the API, this kind
+of app can no longer be published on an app store. Over the course of pretty
+much exactly two years, the app had 2,571,289 installs on the Play Store with
+99.9% crash-free users according to Crashlytics.
 
 Google Play
 ===========
@@ -20,7 +22,7 @@ Description
 
 Download songs from SoundCloud to your phone. Enjoy all your favorite songs
 offline. No more laggy streams or exceeding your data plan. Just "share" your
-song from the SoundCloud app and start the download from your wifi at home.
+song from the SoundCloud app and start the download from your WiFi at home.
 
 FAQ:
 
