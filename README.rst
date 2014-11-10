@@ -2,6 +2,8 @@
 Downloader for SoundCloud
 =========================
 
+.. image:: https://camo.githubusercontent.com/ea45dc815ebc639ae1a28952318b0552ecc3e378/68747470733a2f2f643233663668356a706a323678752e636c6f756466726f6e742e6e65742f746977306572706e616c6c6d6c615f736d616c6c2e706e67
+
 `2.5 Million Installs Later, R.I.P. Downloader for SoundCloud <http://passy.svbtle.com/25-million-installs-later-rip-downloader-for-soundcloud>`_
 
 App for downloading SoundCloud tracks onto your phone.
