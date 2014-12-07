@@ -14,7 +14,7 @@ public interface Config {
 
 	// Get your SoundCloud API key from
 	// https://developers.soundcloud.com/docs/api/guide
-	String API_CONSUMER_KEY = "CONSUMER_KEY";
+	String API_CONSUMER_KEY = "b45b1aa10f1ac2941910a7f0d10f8e28";
 	// The SSL PIN can be extracted via `contrib/pin.py`
 	String API_SSL_PIN_HASH = "e9fe522cd8dd960dacc046380f2ad6b7e979f687";
 	String TMP_DOWNLOAD_POSTFIX = ".tmp";
